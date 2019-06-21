@@ -1,0 +1,2862 @@
+---
+title: "Other outcomes DataSchema"
+output: html_document
+---
+# Connecting with Opal data server
+## Login to server and assign study data
+```{r, echo=FALSE}
+#Load Opal R library
+library(opal)
+library(tidyverse)
+library(epiDisplay)
+# Create an opal object with the login information
+erasmus_opal <- opal.login()
+#Login to Opal server and assign the content of the HUNT table(s) to your RStudio environment
+# HUNT1
+opal.assign.table.tibble(erasmus_opal, 'HUNT1','HUNT.HUNT1', variables = list('BPMedEv_NT1BLQ1','CarAngEv_NT1BLQ1','CarInfEv_NT1BLQ1','ApoplEv_NT1BLQ1','DiaEv_NT1BLQ1','Bmi_NT1BLM','Bmi_NT1BLM','Wei_NT1BLM','Hei_NT1BLM','Healt_NT1BLQ1','Sex')) 
+HUNT1 <- opal.execute(erasmus_opal,'HUNT1')
+# HUNT2
+opal.assign.table.tibble(erasmus_opal, 'HUNT2', 'HUNT.HUNT2', variables = list('BPMedCu_NT2BLQ1','CarAngEv_NT2BLQ1','CarInfEv_NT2BLQ1','ApoplEv_NT2BLQ1','ApoplAg_NT2BLQ1','DiaEv_NT2BLQ1','DiaAg_NT2BLQ1','Bmi_NT2BLM','Wei_NT2BLM','Hei_NT2BLM','WaistCirc_NT2BLM','Healt_NT2BLQ1','CarInfAg_NT2BLQ1','Sex')) 
+HUNT2 <- opal.execute(erasmus_opal,'HUNT2')
+# HUNT3
+opal.assign.table.tibble(erasmus_opal, 'HUNT3', 'HUNT.HUNT3', variables = list('BPMedEv_NT3BLQ1','CarAngEv_NT3BLQ1','CarInfEv_NT3BLQ1','ApoplEv_NT3BLQ1','ApoplAg_NT3BLQ1','DiaAg_NT3BLQ1','DiaEv_NT3BLQ1','Bmi_NT3BLM','Wei_NT3BLM','Hei_NT3BLM','WaistCirc_NT3BLM','Healt_NT3BLQ1','CarInfAg_NT3BLQ1','Sex')) 
+HUNT3 <- opal.execute(erasmus_opal,'HUNT3')
+```
+## Assign participant id as first column of your harmonized dataframes
+```{r, echo=FALSE}
+oth_HUNT_0 <- data.frame(id = HUNT1$id)
+oth_HUNT_1 <- data.frame(id = HUNT2$id)
+oth_HUNT_2 <- data.frame(id = HUNT3$id)
+```
+## When you are done with your work, logout of Opal server
+```{r, echo=FALSE}
+opal.logout(erasmus_opal)
+```
+# Table of Contents
+1. [Hypertension subdomain](#hypertension-subdomain)
+2. [Angina subdomain](#angina-subdomain)
+3. [Myocardial infarction subdomain](#myocardial-infarction-subdomain)
+4. [Stroke subdomain](#stroke-subdomain)
+5. [Diabetes subdomain](#diabetes-subdomain)
+6. [BMI subdomain](#bmi-subdomain)
+7. [General perception of health subdomain](#general-perception-of-health-subdomain)
+8. [Disability subdomain](#disability-subdomain)
+
+# Hypertension subdomain
+
+### **Variable label**: Lifetime occurrence of high blood pressure or hypertension    
+**Variable name**: dis_hbp_ever_0  
+**Variable description**:  Occurrence of high blood pressure or hypertension at any point during the life of the participant.   
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding:**  
+  
+**Code**   | **Category Label**    
+-----------| -------------  
+0          |  Never had high blood pressure or hypertension  
+1          |  Ever had high blood pressure or hypertension  
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:  incompatible, BPMedEv_NT1BLQ1: Are you taking or have you taken medicine for high blood pressure?  
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**: Lifetime occurrence of high blood pressure or hypertension    
+**Variable name**: dis_hbp_ever_1  
+**Variable description**:  Occurrence of high blood pressure or hypertension at any point during the life of the participant.   
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding:**  
+  
+**Code**   | **Category Label**    
+-----------| -------------  
+0          |  Never had high blood pressure or hypertension  
+1          |  Ever had high blood pressure or hypertension  
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   incompatible, BPMedCu_NT2BLQ1: Are you taking or have you taken medicine for high blood pressure?  
+**R script**:  
+```{r, echo=TRUE}
+
+``` 
+### **Variable label**: Medication for high blood pressure or hypertension    
+**Variable name**:  dis_hbp_med_0  
+**Variable description**:  Indicator of whether the participant has ever taken medication for high blood pressure or hypertension.  
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+  
+**Code** | **Category Label**
+---------| -----------------------------------------------------
+0        |  Never taken medication for high blood pressure or hypertension  
+1        |  Ever taken medication  for high blood pressure or hypertension  
+
+
+**Harmonization status**:  complete  
+**Harmonization comment**:  
+**R script**:  
+```{r, echo=TRUE}
+MyMerge <- function(x,y){
+  merge(x,y, by= c("id"),all=TRUE)
+}
+med_table_hunt <- Reduce(MyMerge, list(HUNT1,HUNT2,HUNT3))
+
+#HBP med
+med_table_hunt$dis_hbp_med_0 <- as.integer(med_table_hunt$BPMedEv_NT1BLQ1)
+#Direct mapping to harmonized tables keeping correct participants for each wave
+oth_HUNT_0<-merge(oth_HUNT_0,med_table_hunt[,c("id","dis_hbp_med_0")],by="id",all.x=TRUE)
+```  
+### **Variable label**: Medication for high blood pressure or hypertension  
+**Variable name**:  dis_hbp_med_1  
+**Variable description**:  Indicator of whether the participant has ever taken medication for high blood pressure or hypertension.  
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+  
+**Code** | **Category Label**
+---------| -----------------------------------------------------
+0        |  Never taken medication for high blood pressure or hypertension  
+1        |  Ever taken medication  for high blood pressure or hypertension    
+
+
+**Harmonization status**:  complete  
+**Harmonization comment**:  
+**R script**:  
+```{r, echo=TRUE}
+#HBP med
+med_table_hunt$dis_hbp_med_1<- ifelse(med_table_hunt$dis_hbp_med_0==0 & as.integer(med_table_hunt$BPMedCu_NT2BLQ1)=='3',0L,
+                               ifelse(med_table_hunt$dis_hbp_med_0==1| 
+                                      as.integer(med_table_hunt$BPMedCu_NT2BLQ1)=='1' | 
+                                      as.integer(med_table_hunt$BPMedCu_NT2BLQ1)=='2',1L,NA))
+#Direct mapping to harmonized tables keeping correct participants for each wave
+oth_HUNT_1<-merge(oth_HUNT_1,med_table_hunt[,c("id","dis_hbp_med_1")],by="id",all.x=TRUE)
+```  
+### **Variable label**: Medication for high blood pressure or hypertension    
+**Variable name**:  dis_hbp_med_2  
+**Variable description**:  Indicator of whether the participant has ever taken medication for high blood pressure or hypertension.  
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+  
+**Code** | **Category Label**
+---------| -----------------------------------------------------
+0        |  Never taken medication for high blood pressure or hypertension  
+1        |  Ever taken medication  for high blood pressure or hypertension    
+
+
+**Harmonization status**:  complete  
+**Harmonization comment**:  
+**R script**:  
+```{r, echo=TRUE}
+#HBP med
+med_table_hunt$dis_hbp_med_2<- ifelse(med_table_hunt$dis_hbp_med_1==0 & as.integer(med_table_hunt$BPMedEv_NT3BLQ1)==0,0L,
+                           ifelse(med_table_hunt$dis_hbp_med_1==1 |as.integer(med_table_hunt$BPMedEv_NT3BLQ1)==1,1L,NA))
+#Direct mapping to harmonized tables keeping correct participants for each wave
+oth_HUNT_2<-merge(oth_HUNT_2,med_table_hunt[,c("id","dis_hbp_med_2")],by="id",all.x=TRUE)
+```  
+### **Variable label**: Medication for high blood pressure or hypertension    
+**Variable name**:  dis_hbp_med_3    
+**Variable description**:  Indicator of whether the participant has ever taken medication for high blood pressure or hypertension.  
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+  
+**Code** | **Category Label**
+---------| -----------------------------------------------------
+0        |  Never taken medication for high blood pressure or hypertension  
+1        |  Ever taken medication  for high blood pressure or hypertension    
+
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:  
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**: Medication for high blood pressure or hypertension    
+**Variable name**:  dis_hbp_med_4  
+**Variable description**:  Indicator of whether the participant has ever taken medication for high blood pressure or hypertension.  
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+  
+**Code** | **Category Label**
+---------| -----------------------------------------------------
+0        |  Never taken medication for high blood pressure
+1        |  Ever taken medication  for high blood pressure  
+
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:  
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**: Medication for high blood pressure or hypertension    
+**Variable name**:  dis_hbp_med_5  
+**Variable description**:  Indicator of whether the participant has ever taken medication for high blood pressure or hypertension.  
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+  
+**Code** | **Category Label**
+---------| -----------------------------------------------------
+0        |  Never taken medication for high blood pressure
+1        |  Ever taken medication  for high blood pressure  
+
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:  
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+# Angina subdomain
+
+### **Variable label**: Lifetime occurrence of angina  
+**Variable name**:  dis_angina_ever_0  
+**Variable description**:  Occurrence of angina (pain or discomfort in chest) at any point during the life of the participant.    
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+  
+**Code** | **Category Label**  
+---------|---------------  
+0        |  Never had angina
+1        |  Ever had angina  
+  
+**Harmonization status**:  complete  
+**Harmonization comment**:  Missing was set as No (Value 0) if the participant also had answered No to having the same illness in HUNT2 and/or HUNT3.
+A few Yes (value 1) was corrected to No (value 0) if the participants had answered No to the same disease in both HUNT2 and HUNT3 and not reported age first time of the disease.
+**R script**:  
+```{r, echo=TRUE}
+#angina
+med_table_hunt$dis_angina_ever_0<- as.integer(med_table_hunt$CarAngEv_NT1BLQ1)
+#Direct mapping to harmonized tables keeping correct participants for each wave
+oth_HUNT_0<-merge(oth_HUNT_0,med_table_hunt[,c("id","dis_angina_ever_0")],by="id",all.x=TRUE)
+```  
+### **Variable label**: Lifetime occurrence of angina 
+**Variable name**:  dis_angina_ever_1    
+**Variable description**:  Occurrence of angina (pain or discomfort in chest) at any point during the life of the participant.    
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+  
+**Code** | **Category Label**  
+---------|---------------  
+0        |  Never had angina
+1        |  Ever had angina  
+  
+**Harmonization status**:  complete  
+**Harmonization comment**:  Missing was set as No if the participant also had answered No to having the same disease in HUNT3. Missing was corrected to Yes if the participant had answered Yes to the same disease in HUNT1. No was corrected to Yes if the participant had answered Yes to the same disease in HUNT1 and HUNT3 or only in HUNT3 and reported age at first time having the disease before partAge in HUNT2. A few Yes was corrected to No (value 0) if the participants had answered No to the same disease in both HUNT1 and HUNT3 and not reported the AGE first time having the disease in HUNT3.  
+**R script**:  
+```{r, echo=TRUE}
+#angina
+med_table_hunt$dis_angina_ever_1<- ifelse(med_table_hunt$dis_angina_ever_0==0 & as.integer(med_table_hunt$CarAngEv_NT2BLQ1)==0,0L,
+                                    ifelse(med_table_hunt$dis_angina_ever_0==1 | as.integer(med_table_hunt$CarAngEv_NT2BLQ1)==1,1L,NA))
+#Direct mapping to harmonized tables keeping correct participants for each wave
+oth_HUNT_1<-merge(oth_HUNT_1,med_table_hunt[,c("id","dis_angina_ever_1")],by="id",all.x=TRUE)
+```  
+### **Variable label**: Lifetime occurrence of angina 
+**Variable name**:  dis_angina_ever_2  
+**Variable description**:  Occurrence of angina (pain or discomfort in chest) any point during the life of the participant.    
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+  
+**Code** | **Category Label**  
+---------|---------------  
+0        |  Never had angina
+1        |  Ever had angina  
+  
+**Harmonization status**:  complete  
+**Harmonization comment**:  No was corrected to Yes if the participant had: 1) reported Yes to the same disease in HUNT2 and reported age first time having the the disease in HUNT2 and/or HUNT3,
+2) reported Yes at both HUNT2 and at CVD follow-up in HUNT3 or 3) reported Yes at the CVD follow-up in HUNT3 and reported age at first time having the disease. 
+A few Yes was corrected to No (value 0) if the participants had answered No to the same disease at the CVD follow-up and in HUNT1 and/or HUNT2 and not reported the age at first time having the disease in HUNT3.  
+**R script**:  
+```{r, echo=TRUE}
+#angina
+med_table_hunt$dis_angina_ever_2<- ifelse(med_table_hunt$dis_angina_ever_1==0 & as.integer(med_table_hunt$CarAngEv_NT3BLQ1)==0,0L,
+                                  ifelse(med_table_hunt$dis_angina_ever_1==1 | as.integer(med_table_hunt$CarAngEv_NT3BLQ1)==1, 1L, NA))
+#Direct mapping to harmonized tables keeping correct participants for each wave
+oth_HUNT_2<-merge(oth_HUNT_2,med_table_hunt[,c("id","dis_angina_ever_2")],by="id",all.x=TRUE)  
+```  
+### **Variable label**: Lifetime occurrence of angina 
+**Variable name**:  dis_angina_ever_3  
+**Variable description**:  Occurrence of angina (pain or discomfort in chest) at any point during the life of the participant.    
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+  
+**Code** | **Category Label**  
+---------|---------------  
+0        |  Never had angina
+1        |  Ever had angina  
+  
+**Harmonization status**:  impossible  
+**Harmonization comment**:  
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**: Lifetime occurrence of angina 
+**Variable name**:  dis_angina_ever_4  
+**Variable description**:  Occurrence of angina (pain or discomfort in chest) at any point during the life of the participant.    
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+  
+**Code** | **Category Label**  
+---------|---------------  
+0        |  Never had angina
+1        |  Ever had angina  
+  
+**Harmonization status**:  impossible  
+**Harmonization comment**:  
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+
+# Myocardial infarction subdomain
+
+### **Variable label**: Lifetime occurrence of myocardial infarction    
+**Variable name**:  dis_mi_ever_0  
+**Variable description**:  Occurrence of myocardial infarction (heart attack) at any point during the life of the participant.    
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+---------| -------------  
+0        |   Never had myocardial infarction
+1        |   Ever had myocardial infarction  
+
+**Harmonization status**:  complete  
+**Harmonization comment**:  Missing was set as No (Value 0) if the participant also had answered No to having the same illness in HUNT2 and/or HUNT3. A few Yes (value 1) was corrected to No (value 0) if the participants had answered No to the same disease in both HUNT2 and HUNT3 and not reported age first time of the disease.  
+**R script**:  
+```{r, echo=TRUE}
+#mi
+med_table_hunt$dis_mi_ever_0<-as.integer(med_table_hunt$CarInfEv_NT1BLQ1)
+#Direct mapping to harmonized tables keeping correct participants for each wave
+oth_HUNT_0<-merge(oth_HUNT_0,med_table_hunt[,c("id","dis_mi_ever_0")],by="id",all.x=TRUE)
+```  
+### **Variable label**: Lifetime occurrence of myocardial infarction    
+**Variable name**:  dis_mi_ever_1  
+**Variable description**:  Occurrence of myocardial infarction (heart attack) at any point during the life of the participant.    
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+---------| -------------  
+0        |   Never had myocardial infarction
+1        |   Ever had myocardial infarction  
+
+**Harmonization status**:  complete  
+**Harmonization comment**:  Missing was set as No if the participant also had answered No to having the same disease in HUNT3. Missing was corrected to Yes if the participant had answered Yes to the same disease in HUNT1. No was corrected to Yes if the participant had answered Yes to the same disease in HUNT1 and HUNT3 or only in HUNT3 and reported age at first time having the disease before partAge in HUNT2. A few Yes was corrected to No (value 0) if the participants had answered No to the same disease in both HUNT1 and HUNT3 and not reported the AGE first time having the disease in HUNT3.  
+**R script**:  
+```{r, echo=TRUE}
+#mi
+med_table_hunt$dis_mi_ever_1<- ifelse(med_table_hunt$dis_mi_ever_0==0 & as.integer(med_table_hunt$CarInfEv_NT2BLQ1)==0,0L,
+                               ifelse(med_table_hunt$dis_mi_ever_0==1 | as.integer(med_table_hunt$CarInfEv_NT2BLQ1)==1,1,NA))
+#Direct mapping to harmonized tables keeping correct participants for each wave
+oth_HUNT_1<-merge(oth_HUNT_1,med_table_hunt[,c("id","dis_mi_ever_1")],by="id",all.x=TRUE)
+```  
+### **Variable label**: Lifetime occurrence of myocardial infarction    
+**Variable name**:  dis_mi_ever_2  
+**Variable description**:  Occurrence of myocardial infarction (heart attack) at any point during the life of the participant.    
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+---------| -------------  
+0        |   Never had myocardial infarction
+1        |   Ever had myocardial infarction  
+
+**Harmonization status**:  complete  
+**Harmonization comment**:  No was corrected to Yes if the participant had: 1) reported Yes to the same disease in HUNT2 and reported age first time having the the disease in HUNT2 and/or HUNT3,
+2) reported Yes at both HUNT2 and at CVD follow-up in HUNT3 or 3) reported Yes at the CVD follow-up in HUNT3 and reported age at first time having the disease. 
+A few Yes was corrected to No (value 0) if the participants had answered No to the same disease at the CVD follow-up and in HUNT1 and/or HUNT2 and not reported the age at first time having the disease in HUNT3.  
+**R script**:  
+```{r, echo=TRUE}
+#mi
+med_table_hunt$dis_mi_ever_2<- ifelse(med_table_hunt$dis_mi_ever_1==0 & as.integer(med_table_hunt$CarInfEv_NT3BLQ1)==0,0L,
+                               ifelse(med_table_hunt$dis_mi_ever_1==1 | as.integer(med_table_hunt$CarInfEv_NT3BLQ1)==1,1,NA))
+#Direct mapping to harmonized tables keeping correct participants for each wave
+oth_HUNT_2<-merge(oth_HUNT_2,med_table_hunt[,c("id","dis_mi_ever_2")],by="id",all.x=TRUE) 
+```  
+
+### **Variable label**: Age at first Myocardial infarction  
+**Variable name**:  dis_mi_age_0  
+**Variable description**:  Age of the participant at time of first myocardial infarction.  
+**Value type**:  integer  
+**Variable unit**:  years  
+**Category coding**: N/A  
+         
+**Harmonization status**:  impossible    
+**Harmonization comment**:  
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**: Age at first Myocardial infarction  
+**Variable name**:  dis_mi_age_1  
+**Variable description**:  Age of the participant at time of first myocardial infarction.  
+**Value type**:  integer  
+**Variable unit**:  years  
+**Category coding**: N/A  
+         
+**Harmonization status**:  complete  
+**Harmonization comment**:  There are som errors regarding reported age. Mainly they have reported the correct age, however some have reported the year at onset, and others number of year since onset. Inconsistencies were checked, and if possible corrected based on probability and reported age in questionnaire from HUNT3. If the reported age was unlikely to be true the age was set to missing.
+There are also som missing (they had not reported age at onset). If possible missing was set equal to reported age in HUNT3 if age was before partAge in HUNT2.  
+**R script**:  
+```{r, echo=TRUE}
+oth_HUNT_1$dis_mi_age_1<- as.numeric(HUNT2$CarInfAg_NT2BLQ1)
+```  
+### **Variable label**: Age at first Myocardial infarction  
+**Variable name**:  dis_mi_age_2  
+**Variable description**:  Age of the participant at time of first myocardial infarction.  
+**Value type**:  integer  
+**Variable unit**:  years  
+**Category coding**: N/A  
+         
+**Harmonization status**:  complete  
+**Harmonization comment**:  There are som errors regarding reported age. Mainly they have reported the correct age, however some have reported the year at onset, and others number of year since onset. Inconsistencies were checked, and if possible corrected based on probability and reported age in questionnaire from HUNT2. If the reported age was unlikely to be true the age was set to missing.
+There are also som missing (they had not reported age at onset) and if possible missing was set equal to reported age in HUNT2.  
+**R script**:  
+```{r, echo=TRUE}
+oth_HUNT_2$dis_mi_age_2<- as.numeric(HUNT3$CarInfAg_NT3BLQ1)
+
+```  
+# Stroke subdomain
+
+### **Variable label**: Lifetime occurrence of stroke or CVA  
+**Variable name**:  dis_stroke_ever_0  
+**Variable description**:  Occurrence of stroke or cerebrovascular accident (CVA) at any point during the life of the participant.   
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+  
+**Code** | **Category Label**  
+-------- | -------------  
+0        |   Never had stroke or CVA  
+1        |   Ever had stroke or CVA  
+
+**Harmonization status**:  complete  
+**Harmonization comment**:  Answers were compared between the same questions in the baseline questionnaire (Q1) at HUNT1, HUNT2 and HUNT3 and corrected if possible. Missing was set as No (Value 0) if the participant also had answered No to having the same illness in HUNT2 and/or HUNT3.
+A few Yes (value 1) was corrected to No (value 0) if the participants had answered No to the same disease in both HUNT2 and HUNT3 and not reported age first time of the disease.  
+**R script**:  
+```{r, echo=TRUE}
+#stroke
+med_table_hunt$dis_stroke_ever_0<- as.integer(med_table_hunt$ApoplEv_NT1BLQ1)
+#Direct mapping to harmonized tables keeping correct participants for each wave
+oth_HUNT_0<-merge(oth_HUNT_0,med_table_hunt[,c("id","dis_stroke_ever_0")],by="id",all.x=TRUE)
+```  
+### **Variable label**: Lifetime occurrence of stroke or CVA  
+**Variable name**:  dis_stroke_ever_1  
+**Variable description**:  Occurrence of stroke or cerebrovascular accident (CVA) at any point during the life of the participant.   
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+  
+**Code** | **Category Label**  
+-------- | -------------  
+0        |   Never had stroke or CVA  
+1        |   Ever had stroke or CVA  
+
+**Harmonization status**:  complete  
+**Harmonization comment**:  Missing was set as No if the participant also had answered No to having the same disease in HUNT3. Missing was corrected to Yes if the participant had answered Yes to the same disease in HUNT1. No was corrected to Yes if the participant had answered Yes to the same disease in HUNT1 and HUNT3 or only in HUNT3 and reported age at first time having the disease before partAge in HUNT2. A few Yes was corrected to No (value 0) if the participants had answered No to the same disease in both HUNT1 and HUNT3 and not reported the AGE first time having the disease in HUNT3.  
+**R script**:  
+```{r, echo=TRUE}
+#stroke
+med_table_hunt$dis_stroke_ever_1<- ifelse(med_table_hunt$dis_stroke_ever_0==0 & as.integer(med_table_hunt$ApoplEv_NT2BLQ1)==0,0L,
+                                   ifelse(med_table_hunt$dis_stroke_ever_0==1 | as.integer(med_table_hunt$ApoplEv_NT2BLQ1)==1,1L,NA))
+#Direct mapping to harmonized tables keeping correct participants for each wave
+oth_HUNT_1<-merge(oth_HUNT_1,med_table_hunt[,c("id","dis_stroke_ever_1")],by="id",all.x=TRUE)
+```  
+### **Variable label**: Lifetime occurrence of stroke or CVA  
+**Variable name**:  dis_stroke_ever_2  
+**Variable description**:  Occurrence of stroke or cerebrovascular accident (CVA) at any point during the life of the participant.   
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+  
+**Code** | **Category Label**  
+-------- | -------------  
+0        |   Never had stroke or CVA  
+1        |   Ever had stroke or CVA  
+
+**Harmonization status**:  complete  
+**Harmonization comment**:  No was corrected to Yes if the participant had: 1) reported Yes to the same disease in HUNT2 and reported age first time having the the disease in HUNT2 and/or HUNT3, 2) reported Yes at both HUNT2 and at CVD follow-up in HUNT3 or 3) reported Yes at the CVD follow-up in HUNT3 and reported age at first time having the disease.  A few Yes was corrected to No (value 0) if the participants had answered No to the same disease at the CVD follow-up and in HUNT1 and/or HUNT2 and not reported the age at first time having the disease in HUNT3.  
+**R script**:  
+```{r, echo=TRUE}
+#stroke
+med_table_hunt$dis_stroke_ever_2<- ifelse(med_table_hunt$dis_stroke_ever_1==0 & as.integer(med_table_hunt$ApoplEv_NT3BLQ1)==0,0L,
+                                   ifelse(med_table_hunt$dis_stroke_ever_1==1 | as.integer(med_table_hunt$ApoplEv_NT3BLQ1)==1,1L,NA))
+#Direct mapping to harmonized tables keeping correct participants for each wave
+oth_HUNT_2<-merge(oth_HUNT_2,med_table_hunt[,c("id","dis_stroke_ever_2")],by="id",all.x=TRUE)
+```  
+### **Variable label**: Age at first stroke or CVA  
+**Variable name**:  dis_stroke_age_0  
+**Variable description**:  Age of the participant at time of first stroke or cerebrovascular accident (CVA).      
+**Value type**:  integer  
+**Variable unit**:  years  
+**Category coding**: N/A  
+         
+**Harmonization status**:  impossible  
+**Harmonization comment**:  
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**: Age at first stroke or CVA  
+**Variable name**:  dis_stroke_age_1  
+**Variable description**:  Age of the participant at time of first stroke or cerebrovascular accident (CVA).      
+**Value type**:  integer  
+**Variable unit**:  years  
+**Category coding**: N/A  
+         
+**Harmonization status**:  complete  
+**Harmonization comment**:  There are som errors regarding reported age. Mainly they have reported the correct age, however some have reported the year at onset, and others number of year since onset. Inconsistencies were checked, and if possible corrected based on probability and reported age in questionnaire from HUNT3. If the reported age was unlikely to be true the age was set to missing.
+There are also som missing (they had not reported age at onset). If possible missing was set equal to reported age in HUNT3 if age was before partAge in HUNT2.  
+**R script**:  
+```{r, echo=TRUE}
+oth_HUNT_1$dis_stroke_age_1<- as.numeric(HUNT2$ApoplAg_NT2BLQ1)
+```  
+### **Variable label**: Age at first stroke or CVA  
+**Variable name**:  dis_stroke_age_2  
+**Variable description**:  Age of the participant at time of first stroke or cerebrovascular accident (CVA).      
+**Value type**:  integer  
+**Variable unit**:  years  
+**Category coding**: N/A  
+         
+**Harmonization status**:  complete  
+**Harmonization comment**:  There are som errors regarding reported age. Mainly they have reported the correct age, however some have reported the year at onset, and others number of year since onset. Inconsistencies were checked, and if possible corrected based on probability and reported age in questionnaire from HUNT2. If the reported age was unlikely to be true the age was set to missing.
+There are also som missing (they had not reported age at onset) and if possible missing was set equal to reported age in HUNT2.  
+**R script**:  
+```{r, echo=TRUE}
+oth_HUNT_2$dis_stroke_age_2<- as.numeric(HUNT3$ApoplAg_NT3BLQ1)
+
+```  
+
+
+# Diabetes subdomain  
+
+### **Variable label**: Lifetime occurrence of diabetes, borderline diabetes, or high blood sugar  
+**Variable name**: dis_diab_ever_0  
+**Variable description**:  Occurrence of diabetes, borderline diabetes, or high blood sugar, at any point during the life of the participant.    
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding:**
+
+**Code**   | **Category Label**
+-----------| ---------------------------  
+0          |  Never had diabetes  
+1          |  Ever had diabetes  
+
+**Harmonization status**:  complete  
+**Harmonization comment**:  
+**R script**:  
+```{r, echo=TRUE}  
+#diabetes
+med_table_hunt$dis_diab_ever_0<- as.integer(med_table_hunt$DiaEv_NT1BLQ1)
+#Direct mapping to harmonized tables keeping correct participants for each wave
+oth_HUNT_2<-merge(oth_HUNT_2,med_table_hunt[,c("id","dis_diab_ever_2")],by="id",all.x=TRUE)
+```  
+### **Variable label**: Lifetime occurrence of diabetes, borderline diabetes or high blood sugar     
+**Variable name**: dis_diab_ever_1  
+**Variable description**:  Occurrence of diabetes, borderline diabetes, or high blood sugar, at any point during the life of the participant.      
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding:**
+
+**Code**   | **Category Label**
+-----------| ---------------------------  
+0          |  Never had diabetes  
+1          |  Ever had diabetes  
+
+**Harmonization status**:  complete  
+**Harmonization comment**:  
+**R script**:  
+```{r, echo=TRUE}  
+#diabetes
+med_table_hunt$dis_diab_ever_1<- ifelse(med_table_hunt$dis_diab_ever_0==0 & as.integer(med_table_hunt$DiaEv_NT2BLQ1)==0,0L,
+                                 ifelse(med_table_hunt$dis_diab_ever_0==1 | as.integer(med_table_hunt$DiaEv_NT2BLQ1)==1,1L,NA))
+#Direct mapping to harmonized tables keeping correct participants for each wave
+oth_HUNT_1<-merge(oth_HUNT_1,med_table_hunt[,c("id","dis_diab_ever_1")],by="id",all.x=TRUE)
+```  
+### **Variable label**: Lifetime occurrence of diabetes, borderline diabetes, or high blood sugar     
+**Variable name**: dis_diab_ever_2  
+**Variable description**:  Occurrence of diabetes, borderline diabetes, or high blood sugar, at any point during the life of the participant.    
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding:**
+
+**Code**   | **Category Label**
+-----------| ---------------------------  
+0          |  Never had diabetes  
+1          |  Ever had diabetes  
+
+**Harmonization status**:  complete  
+**Harmonization comment**:  
+**R script**:  
+```{r, echo=TRUE}  
+#diabetes
+med_table_hunt$dis_diab_ever_2<- ifelse(med_table_hunt$dis_diab_ever_1==0 & as.integer(med_table_hunt$DiaEv_NT3BLQ1)==0,0L,
+                                 ifelse(med_table_hunt$dis_diab_ever_1==1 | as.integer(med_table_hunt$DiaEv_NT3BLQ1)==1,1L,NA))
+#Direct mapping to harmonized tables keeping correct participants for each wave
+oth_HUNT_2<-merge(oth_HUNT_2,med_table_hunt[,c("id","dis_diab_ever_2")],by="id",all.x=TRUE)
+```  
+### **Variable label**: Lifetime occurrence of diabetes, borderline diabetes or high blood sugar     
+**Variable name**: dis_diab_ever_3  
+**Variable description**:  Occurrence of diabetes, borderline diabetes, or high blood sugar, at any point during the life of the participant.      
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding:**
+
+**Code**   | **Category Label**
+-----------| ---------------------------  
+0          |  Never had diabetes  
+1          |  Ever had diabetes  
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:  
+**R script**:  
+```{r, echo=TRUE}  
+
+```  
+### **Variable label**: Lifetime occurrence of diabetes, borderline diabetes, or high blood sugar     
+**Variable name**: dis_diab_ever_4  
+**Variable description**:  Occurrence of diabetes, borderline diabetes, or high blood sugar, at any point during the life of the participant.      
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding:**
+
+**Code**   | **Category Label**
+-----------| ---------------------------  
+0          |  Never had diabetes  
+1          |  Ever had diabetes  
+
+**Harmonization status**:  impossible   
+**Harmonization comment**:  
+**R script**:  
+```{r, echo=TRUE}  
+
+```  
+### **Variable label**: Lifetime occurrence of diabetes, borderline diabetes, or high blood sugar     
+**Variable name**: dis_diab_ever_5  
+**Variable description**:  Occurrence of diabetes, borderline diabetes, or high blood sugar, at any point during the life of the participant.      
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding:**
+
+**Code**   | **Category Label**
+-----------| ---------------------------  
+0          |  Never had diabetes  
+1          |  Ever had diabetes  
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:  
+**R script**:  
+```{r, echo=TRUE}  
+
+```  
+### **Variable label**: Age at diagnosis of diabetes, borderline diabetes, or high blood sugar  
+**Variable name**:  dis_diab_age_0    
+**Variable description**: Age of the participant at first diagnosis of diabetes, borderline diabetes, or high blood sugar.    
+**Value type**:  integer  
+**Variable unit**:  years  
+**Category coding**: N/A
+
+**Hamonization status**:  impossible  
+**Harmonization comment**:  
+**R script**:  
+```{r, echo=TRUE}  
+
+```  
+### **Variable label**: Age at diagnosis of diabetes, borderline diabetes, or high blood sugar  
+**Variable name**:  dis_diab_age_1    
+**Variable description**: Age of the participant at first diagnosis of diabetes, borderline diabetes, or high blood sugar.    
+**Value type**:  integer  
+**Variable unit**:  years  
+**Category coding**: N/A
+
+**Hamonization status**:  complete  
+**Harmonization comment**:  There are som errors regarding reported age. Mainly they have reported the correct age, however some have reported the year at onset, and others number of year since onset. Inconsistencies were checked, and if possible corrected based on probability and reported age at interview (attendance day) or questionnaire in HUNT1, HUNT2 and HUNT3. If the reported age was unlikely to be true the age was set to missing. There are also som missing (they had not reported age at onset). If possible missing was set equal to reported age in HUNT1.  
+**R script**:  
+```{r, echo=TRUE}  
+oth_HUNT_1$dis_diab_age_1<- as.numeric(HUNT2$DiaAg_NT2BLQ1)
+
+```  
+### **Variable label**: Age at diagnosis of diabetes, borderline diabetes, or high blood sugar  
+**Variable name**:  dis_diab_age_2    
+**Variable description**: Age of the participant at first diagnosis of diabetes, borderline diabetes, or high blood sugar.    
+**Value type**:  integer  
+**Variable unit**:  years  
+**Category coding**: N/A
+
+**Hamonization status**:  complete  
+**Harmonization comment**:  There are som errors regarding reported age. Mainly they have reported the correct age at onset, however some have reported the year at onsett, and others number of year since onset. Inconsistencies were checked, and if possible corrected based on probability and reported age at interview (attendance day) or questionnaire in HUNT1, HUNT2 and HUNT3. If the reported age was unlikely to be true the age was set to missing. There are also som missing (they had not reported age at onset). If possible missing was set equal to reported age in HUNT1 and/or HUNT2 if age at onset was befor participation date.  
+**R script**:  
+```{r, echo=TRUE}  
+oth_HUNT_2$dis_diab_age_2<- as.numeric(HUNT3$DiaAg_NT3BLQ1)
+```  
+### **Variable label**: Age at diagnosis of diabetes, borderline diabetes, or high blood sugar  
+**Variable name**:  dis_diab_age_3    
+**Variable description**: Age of the participant at first diagnosis of diabetes, borderline diabetes, or high blood sugar.    
+**Value type**:  integer  
+**Variable unit**:  years  
+**Category coding**: N/A
+
+**Hamonization status**:  impossible  
+**Harmonization comment**:  
+**R script**:  
+```{r, echo=TRUE}  
+
+```  
+### **Variable label**: Age at diagnosis of diabetes, borderline diabetes, or high blood sugar  
+**Variable name**:  dis_diab_age_4    
+**Variable description**: Age of the participant at first diagnosis of diabetes, borderline diabetes, or high blood sugar.    
+**Value type**:  integer  
+**Variable unit**:  years  
+**Category coding**: N/A
+
+**Hamonization status**:  impossible  
+**Harmonization comment**:  
+**R script**:  
+```{r, echo=TRUE}  
+
+
+```  
+### **Variable label**: Age at diagnosis of diabetes, borderline diabetes, or high blood sugar  
+**Variable name**:  dis_diab_age_5    
+**Variable description**: Age of the participant at first diagnosis of diabetes, borderline diabetes, or high blood sugar.    
+**Value type**:  integer  
+**Variable unit**:  years  
+**Category coding**: N/A
+
+**Hamonization status**:  impossible  
+**Harmonization comment**:  
+**R script**:  
+```{r, echo=TRUE}  
+
+```  
+
+### **Variable label**: Currently under treatment for diabetes  
+**Variable name**:  dis_diab_tx_0  
+**Variable description**:  Indicator of whether the participant is currently under treatment for diabetes.    
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+---------| -------------------------------------  
+0        | Not currently under treatment for diabetes  
+1        | Currently under treatment for diabetes  
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:  
+**R script**:
+```{r, echo=TRUE}
+
+```  
+### **Variable label**: Currently under treatment for diabetes  
+**Variable name**:  dis_diab_tx_1  
+**Variable description**:  Indicator of whether the participant is currently under treatment for diabetes.    
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+---------| -------------------------------------  
+0        | Not currently under treatment for diabetes  
+1        | Currently under treatment for diabetes  
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:  
+**R script**:
+```{r, echo=TRUE}
+
+```  
+### **Variable label**: Currently under treatment for diabetes  
+**Variable name**:  dis_diab_tx_2  
+**Variable description**:  Indicator of whether the participant is currently under treatment for diabetes.    
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+---------| -------------------------------------  
+0        | Not currently under treatment for diabetes  
+1        | Currently under treatment for diabetes  
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:  
+**R script**:
+```{r, echo=TRUE}
+
+```  
+### **Variable label**: Currently under treatment for diabetes  
+**Variable name**:  dis_diab_tx_3  
+**Variable description**:  Indicator of whether the participant is currently under treatment for diabetes.    
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+---------| -------------------------------------  
+0        | Not currently under treatment for diabetes  
+1        | Currently under treatment for diabetes  
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:  
+**R script**:
+```{r, echo=TRUE}
+
+```  
+### **Variable label**: Currently under treatment for diabetes  
+**Variable name**:  dis_diab_tx_4  
+**Variable description**:  Indicator of whether the participant is currently under treatment for diabetes.    
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+---------| -------------------------------------  
+0        | Not currently under treatment for diabetes  
+1        | Currently under treatment for diabetes  
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:  
+**R script**:
+```{r, echo=TRUE}
+
+```  
+### **Variable label**: Currently under treatment for diabetes  
+**Variable name**:  dis_diab_tx_5  
+**Variable description**:  Indicator of whether the participant is currently under treatment for diabetes.    
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+---------| -------------------------------------  
+0        | Not currently under treatment for diabetes  
+1        | Currently under treatment for diabetes  
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:  
+**R script**:
+```{r, echo=TRUE}
+
+```  
+### **Variable label**: Currently use insulin for diabetes  
+**Variable name**:  dis_diab_ins_0  
+**Variable description**:  Indicator of whether the participant uses insulin for diabetes treatment.  
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+---------| ---------------------------------------------  
+0        | Currently does not use insulin for diabetes treatment  
+1        | Currently has used insulin for diabetes treatment  
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:  
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**: Currently use insulin for diabetes  
+**Variable name**:  dis_diab_ins_1  
+**Variable description**:  Indicator of whether the participant uses insulin for diabetes treatment.  
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+---------| ---------------------------------------------  
+0        | Currently does not use insulin for diabetes treatment  
+1        | Currently has used insulin for diabetes treatment  
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:  
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**: Currently use insulin for diabetes  
+**Variable name**:  dis_diab_ins_2  
+**Variable description**:  Indicator of whether the participant uses insulin for diabetes treatment.  
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+---------| ---------------------------------------------  
+0        | Currently does not use insulin for diabetes treatment  
+1        | Currently has used insulin for diabetes treatment  
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:  
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+# BMI subdomain
+
+### **Variable label**: Weight in kg - measured 
+**Variable name**: phy_weight_ms_0  
+**Variable description**: Weight of the participant in kilograms - measured.  
+**Value type**: decimal  
+**Variable unit**: kg   
+**Category coding**: N/A
+
+**Harmonization status**:  complete  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+oth_HUNT_0$phy_weight_ms_0<- HUNT1$Wei_NT1BLM
+```  
+### **Variable label**: Weight in kg - measured 
+**Variable name**: phy_weight_ms_1  
+**Variable description**: Weight of the participant in kilograms - measured.  
+**Value type**: decimal  
+**Variable unit**: kg   
+**Category coding**: N/A
+
+**Harmonization status**:  complete  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+oth_HUNT_1$phy_weight_ms_1<- HUNT2$Wei_NT2BLM
+
+```  
+### **Variable label**: Weight in kg - measured 
+**Variable name**: phy_weight_ms_2  
+**Variable description**: Weight of the participant in kilograms - measured.  
+**Value type**: decimal  
+**Variable unit**: kg   
+**Category coding**: N/A
+
+**Harmonization status**:  complete  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+oth_HUNT_2$phy_weight_ms_2<- HUNT3$Wei_NT3BLM
+```  
+### **Variable label**: Weight in kg - measured 
+**Variable name**: phy_weight_ms_3  
+**Variable description**: Weight of the participant in kilograms - measured.  
+**Value type**: decimal  
+**Variable unit**: kg   
+**Category coding**: N/A
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**: Weight in kg - measured 
+**Variable name**: phy_weight_ms_4  
+**Variable description**: Weight of the participant in kilograms - measured.  
+**Value type**: decimal  
+**Variable unit**: kg   
+**Category coding**: N/A
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**: Weight in kg - measured 
+**Variable name**: phy_weight_ms_5  
+**Variable description**: Weight of the participant in kilograms - measured.  
+**Value type**: decimal  
+**Variable unit**: kg   
+**Category coding**: N/A
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**: Weight in kg - measured 
+**Variable name**: phy_weight_ms_6  
+**Variable description**: Weight of the participant in kilograms - measured.  
+**Value type**: decimal  
+**Variable unit**: kg   
+**Category coding**: N/A
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**: Weight in kg - self-reported 
+**Variable name**: phy_weight_sr_0    
+**Variable description**: Weight of the participant in kilograms - self-reported.  
+**Value type**: decimal  
+**Variable unit**: kg   
+**Category coding**: N/A
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**: Weight in kg - self-reported 
+**Variable name**: phy_weight_sr_1    
+**Variable description**: Weight of the participant in kilograms - self-reported.  
+**Value type**: decimal  
+**Variable unit**: kg   
+**Category coding**: N/A
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**: Weight in kg - self-reported 
+**Variable name**: phy_weight_sr_2    
+**Variable description**: Weight of the participant in kilograms - self-reported.  
+**Value type**: decimal  
+**Variable unit**: kg   
+**Category coding**: N/A
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**: Weight in kg - self-reported 
+**Variable name**: phy_weight_sr_3    
+**Variable description**: Weight of the participant in kilograms - self-reported.  
+**Value type**: decimal  
+**Variable unit**: kg   
+**Category coding**: N/A
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**: Weight in kg - self-reported 
+**Variable name**: phy_weight_sr_4    
+**Variable description**: Weight of the participant in kilograms - self-reported.  
+**Value type**: decimal  
+**Variable unit**: kg   
+**Category coding**: N/A
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**: Weight in kg - self-reported 
+**Variable name**: phy_weight_sr_5    
+**Variable description**: Weight of the participant in kilograms - self-reported.  
+**Value type**: decimal  
+**Variable unit**: kg   
+**Category coding**: N/A
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**: Weight in kg - self-reported 
+**Variable name**: phy_weight_sr_6    
+**Variable description**: Weight of the participant in kilograms - self-reported.  
+**Value type**: decimal  
+**Variable unit**: kg   
+**Category coding**: N/A
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**: Weight in kg - measured and self-reported combined
+**Variable name**: phy_weight_all_0      
+**Variable description**: Weight of the participant in kilograms - measured and self-reported combined. If both measured and self-reported weight were collected, measured weight was taken.   
+**Value type**: decimal  
+**Variable unit**: kg   
+**Category coding**: N/A  
+
+**Harmonization status**:  complete  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+oth_HUNT_0$phy_weight_all_0<- HUNT1$Wei_NT1BLM
+```  
+
+### **Variable label**: Weight in kg - measured and self-reported combined
+**Variable name**: phy_weight_all_1    
+**Variable description**: Weight of the participant in kilograms - measured and self-reported combined. If both measured and self-reported weight were collected, measured weight was taken.   
+**Value type**: decimal  
+**Variable unit**: kg   
+**Category coding**: N/A  
+
+**Harmonization status**:  complete  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+oth_HUNT_1$phy_weight_all_1<- HUNT2$Wei_NT2BLM
+```  
+### **Variable label**: Weight in kg - measured and self-reported combined  
+**Variable name**: phy_weight_all_2    
+**Variable description**: Weight of the participant in kilograms - measured and self-reported combined. If both measured and self-reported weight were collected, measured weight was taken.    
+**Value type**: decimal  
+**Variable unit**: kg   
+**Category coding**: N/A  
+
+**Harmonization status**:  complete  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+oth_HUNT_2$phy_weight_all_2<- HUNT3$Wei_NT3BLM
+```  
+### **Variable label**: Weight in kg - measured and self-reported combined  
+**Variable name**: phy_weight_all_3     
+**Variable description**: Weight of the participant in kilograms - measured and self-reported combined. If both measured and self-reported weight were collected, measured weight was taken.   
+**Value type**: decimal   
+**Variable unit**: kg    
+**Category coding**: N/A  
+
+**Harmonization status**: impossible   
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**: Weight in kg - self-reported and measured combined  
+**Variable name**: phy_weight_all_4    
+**Variable description**: Weight of the participant in kilograms - measured and self-reported combined. If both measured and self-reported weight were collected, measured weight was taken.   
+**Value type**: decimal  
+**Variable unit**: kg   
+**Category coding**: N/A  
+
+**Harmonization status**:  impossible    
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**: Weight in kg - self-reported and measured combined  
+**Variable name**: phy_weight_all_5    
+**Variable description**: Weight of the participant in kilograms - measured and self-reported combined. If both measured and self-reported weight were collected, measured weight was taken.   
+**Value type**: decimal  
+**Variable unit**: kg   
+**Category coding**: N/A  
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**: Weight in kg - self-reported and measured combined  
+**Variable name**: phy_weight_all_6    
+**Variable description**: Weight of the participant in kilograms - measured and self-reported combined. If both measured and self-reported weight were collected, measured weight was taken.   
+**Value type**: decimal  
+**Variable unit**: kg   
+**Category coding**: N/A  
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**: Height in cm - measured  
+**Variable name**: phy_height_ms_0  
+**Variable description**: Height of the participant in centimeters - measured.  
+**Value type**: decimal  
+**Variable unit**: cm  
+**Category coding**: N/A
+
+**Harmonization status**:  complete  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+oth_HUNT_0$phy_height_ms_0<- as.numeric(HUNT1$Hei_NT1BLM)
+```  
+### **Variable label**: Height in cm - measured  
+**Variable name**: phy_height_ms_1  
+**Variable description**: Height of the participant in centimeters - measured.  
+**Value type**: decimal  
+**Variable unit**: cm  
+**Category coding**: N/A
+
+**Harmonization status**: complete   
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+oth_HUNT_1$phy_height_ms_1<- as.numeric(HUNT2$Hei_NT2BLM)
+```  
+### **Variable label**: Height in cm - measured  
+**Variable name**: phy_height_ms_2  
+**Variable description**: Height of the participant in centimeters - measured.  
+**Value type**: decimal  
+**Variable unit**: cm  
+**Category coding**: N/A
+
+**Harmonization status**:  complete  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+oth_HUNT_2$phy_height_ms_2<- HUNT3$Hei_NT3BLM
+```  
+### **Variable label**: Height in cm - measured  
+**Variable name**: phy_height_ms_3  
+**Variable description**: Height of the participant in centimeters - measured.  
+**Value type**: decimal  
+**Variable unit**: cm    
+**Category coding**: N/A
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**: Height in cm - measured  
+**Variable name**: phy_height_ms_4  
+**Variable description**: Height of the participant in centimeters - measured.  
+**Value type**: decimal  
+**Variable unit**: cm  
+**Category coding**: N/A
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**: Height in cm - measured  
+**Variable name**: phy_height_ms_5  
+**Variable description**: Height of the participant in centimeters - measured.  
+**Value type**: decimal  
+**Variable unit**: cm  
+**Category coding**: N/A
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**: Height in cm - measured  
+**Variable name**: phy_height_ms_6  
+**Variable description**: Height of the participant in centimeters - measured.  
+**Value type**: decimal  
+**Variable unit**: cm  
+**Category coding**: N/A
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+
+### **Variable label**: Height in cm - self-reported  
+**Variable name**: phy_height_sr_0  
+**Variable description**: Height of the participant in centimeters - self-reported.  
+**Value type**: decimal  
+**Variable unit**: cm  
+**Category coding**: N/A
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**: Height in cm - self-reported  
+**Variable name**: phy_height_sr_1  
+**Variable description**: Height of the participant in centimeters - self-reported.  
+**Value type**: decimal  
+**Variable unit**: cm  
+**Category coding**: N/A
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**: Height in cm - self-reported  
+**Variable name**: phy_height_sr_2  
+**Variable description**: Height of the participant in centimeters - self-reported.  
+**Value type**: decimal  
+**Variable unit**: cm  
+**Category coding**: N/A
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**: Height in cm - self-reported  
+**Variable name**: phy_height_sr_3  
+**Variable description**: Height of the participant in centimeters - self-reported.  
+**Value type**: decimal  
+**Variable unit**: cm  
+**Category coding**: N/A
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**: Height in cm - self-reported  
+**Variable name**: phy_height_sr_4  
+**Variable description**: Height of the participant in centimeters - self-reported.  
+**Value type**: decimal  
+**Variable unit**: cm  
+**Category coding**: N/A
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**: Height in cm - self-reported  
+**Variable name**: phy_height_sr_5  
+**Variable description**: Height of the participant in centimeters - self-reported.  
+**Value type**: decimal  
+**Variable unit**: cm  
+**Category coding**: N/A
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**: Height in cm - self-reported  
+**Variable name**: phy_height_sr_6  
+**Variable description**: Height of the participant in centimeters - self-reported.  
+**Value type**: decimal  
+**Variable unit**: cm  
+**Category coding**: N/A
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+
+### **Variable label**: Height in cm - measured and self-reported combined  
+**Variable name**: phy_height_all_0    
+**Variable description**: Height of the participant in centimeters - measured  and self-reported combined. If both measured and self-reported height were collected, measured height was taken.   
+**Value type**: decimal  
+**Variable unit**: cm  
+**Category coding**: N/A
+
+**Harmonization status**:  complete    
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+oth_HUNT_0$phy_height_all_0<- as.numeric(HUNT1$Hei_NT1BLM)
+```  
+### **Variable label**: Height in cm - measured and self-reported combined  
+**Variable name**: phy_height_all_1    
+**Variable description**: Height of the participant in centimeters - measured  and self-reported combined. If both measured and self-reported height were collected, measured height was taken.   
+**Value type**: decimal  
+**Variable unit**: cm  
+**Category coding**: N/A
+
+**Harmonization status**:  complete  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+oth_HUNT_1$phy_height_all_1<- as.numeric(HUNT2$Hei_NT2BLM)
+```  
+### **Variable label**: Height in cm - measured and self-reported combined    
+**Variable name**: phy_height_all_2    
+**Variable description**: Height of the participant in centimeters - measured  and self-reported combined. If both measured and self-reported height were collected, measured height was taken.   
+**Value type**: decimal  
+**Variable unit**: cm  
+**Category coding**: N/A
+
+**Harmonization status**:  complete    
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+oth_HUNT_2$phy_height_all_2<- HUNT3$Hei_NT3BLM
+```  
+### **Variable label**: Height in cm - measured and self-reported combined  
+**Variable name**: phy_height_all_3    
+**Variable description**: Height of the participant in centimeters - measured  and self-reported combined. If both measured and self-reported height were collected, measured height was taken.   
+**Value type**: decimal  
+**Variable unit**: cm  
+**Category coding**: N/A
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**: Height in cm - measured and self-reported combined  
+**Variable name**: phy_height_all_4    
+**Variable description**: Height of the participant in centimeters - measured  and self-reported combined. If both measured and self-reported height were collected, measured height was taken.   
+**Value type**: decimal  
+**Variable unit**: cm  
+**Category coding**: N/A
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**: Height in cm - measured and self-reported combined  
+**Variable name**: phy_height_all_5    
+**Variable description**: Height of the participant in centimeters - measured  and self-reported combined. If both measured and self-reported height were collected, measured height was taken.   
+**Value type**: decimal  
+**Variable unit**: cm  
+**Category coding**: N/A
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**: Height in cm - measured and self-reported combined  
+**Variable name**: phy_height_all_6    
+**Variable description**: Height of the participant in centimeters - measured  and self-reported combined. If both measured and self-reported height were collected, measured height was taken.   
+**Value type**: decimal  
+**Variable unit**: cm  
+**Category coding**: N/A
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+
+### **Variable label**: Body mass index (BMI) - measured  
+**Variable name**: phy_bmi_ms_0  
+**Variable description**: Weight (in kg) divided by height (in m) squared - measured.  
+**Value type**: decimal  
+**Variable unit**: kg/m2  
+**Category coding**: N/A
+
+**Harmonization status**:  complete  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+oth_HUNT_0$phy_bmi_ms_0<- HUNT1$Bmi_NT1BLM
+```  
+### **Variable label**: Body mass index (BMI) - measured  
+**Variable name**: phy_bmi_ms_1  
+**Variable description**: Weight (in kg) divided by height (in m) squared - measured.    
+**Value type**: decimal  
+**Variable unit**: kg/m2  
+**Category coding**: N/A
+
+**Harmonization status**:  complete  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+oth_HUNT_1$phy_bmi_ms_1<- HUNT2$Bmi_NT2BLM
+
+```  
+### **Variable label**: Body mass index (BMI) - measured  
+**Variable name**: phy_bmi_ms_2  
+**Variable description**: Weight (in kg) divided by height (in m) squared - measured.   
+**Value type**: decimal  
+**Variable unit**: kg/m2  
+**Category coding**: N/A
+
+**Harmonization status**:  complete  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+oth_HUNT_2$phy_bmi_ms_2<- HUNT3$Bmi_NT3BLM
+```  
+### **Variable label**: Body mass index (BMI) - measured  
+**Variable name**: phy_bmi_ms_3  
+**Variable description**: Weight (in kg) divided by height (in m) squared - measured.    
+**Value type**: decimal  
+**Variable unit**: kg/m2  
+**Category coding**: N/A
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**: Body mass index (BMI) - measured  
+**Variable name**: phy_bmi_ms_4  
+**Variable description**: Weight (in kg) divided by height (in m) squared - measured.   
+**Value type**: decimal  
+**Variable unit**: kg/m2  
+**Category coding**: N/A
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**: Body mass index (BMI) - measured  
+**Variable name**: phy_bmi_ms_5  
+**Variable description**: Weight (in kg) divided by height (in m) squared - measured.    
+**Value type**: decimal  
+**Variable unit**: kg/m2  
+**Category coding**: N/A
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**: Body mass index (BMI) - measured  
+**Variable name**: phy_bmi_ms_6  
+**Variable description**: Weight (in kg) divided by height (in m) squared - measured.    
+**Value type**: decimal  
+**Variable unit**: kg/m2  
+**Category coding**: N/A
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+
+### **Variable label**: Body mass index (BMI) - self-reported  
+**Variable name**: phy_bmi_sr_0  
+**Variable description**: Weight (in kg) divided by height (in m) squared - self-reported.  
+**Value type**: decimal  
+**Variable unit**: kg/m2  
+**Category coding**: N/A
+
+**Harmonization status**:  impossible    
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**: Body mass index (BMI) - self-reported  
+**Variable name**: phy_bmi_sr_1  
+**Variable description**: Weight (in kg) divided by height (in m) squared - self-reported.  
+**Value type**: decimal  
+**Variable unit**: kg/m2  
+**Category coding**: N/A
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**: Body mass index (BMI) - self-reported  
+**Variable name**: phy_bmi_sr_2  
+**Variable description**: Weight (in kg) divided by height (in m) squared - self-reported.    
+**Value type**: decimal  
+**Variable unit**: kg/m2  
+**Category coding**: N/A
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**: Body mass index (BMI) - self-reported  
+**Variable name**: phy_bmi_sr_3  
+**Variable description**: Weight (in kg) divided by height (in m) squared - self-reported.    
+**Value type**: decimal  
+**Variable unit**: kg/m2  
+**Category coding**: N/A
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**: Body mass index (BMI) - self-reported  
+**Variable name**: phy_bmi_sr_4  
+**Variable description**: Weight (in kg) divided by height (in m) squared - self-reported.    
+**Value type**: decimal  
+**Variable unit**: kg/m2  
+**Category coding**: N/A
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**: Body mass index (BMI) - self-reported  
+**Variable name**: phy_bmi_sr_5  
+**Variable description**: Weight (in kg) divided by height (in m) squared - self-reported.    
+**Value type**: decimal  
+**Variable unit**: kg/m2  
+**Category coding**: N/A
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**: Body mass index (BMI) - self-reported  
+**Variable name**: phy_bmi_sr_6  
+**Variable description**: Weight (in kg) divided by height (in m) squared - self-reported.    
+**Value type**: decimal  
+**Variable unit**: kg/m2  
+**Category coding**: N/A
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```   
+
+### **Variable label**: Body mass index (BMI) - measured and self-reported combined  
+**Variable name**: phy_bmi_all_0  
+**Variable description**: Weight (in kg) divided by height (in m) squared - measured and self-reported combined. If both measured and self-reported weight and height were collected, measured values were taken.    
+**Value type**: decimal  
+**Variable unit**: kg/m2  
+**Category coding**: N/A
+
+**Harmonization status**:  complete  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+oth_HUNT_0$phy_bmi_all_0<- HUNT1$Bmi_NT1BLM
+```  
+### **Variable label**: Body mass index (BMI) - measured and self-reported combined  
+**Variable name**: phy_bmi_all_1  
+**Variable description**: Weight (in kg) divided by height (in m) squared - measured and self-reported combined. If both measured and self-reported weight and height were collected, measured values were taken.    
+**Value type**: decimal  
+**Variable unit**: kg/m2  
+**Category coding**: N/A
+
+**Harmonization status**:  complete  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+oth_HUNT_1$phy_bmi_all_1<- HUNT2$Bmi_NT2BLM
+```  
+### **Variable label**: Body mass index (BMI) - measured and self-reported combined  
+**Variable name**: phy_bmi_all_2  
+**Variable description**: Weight (in kg) divided by height (in m) squared - measured and self-reported combined. If both measured and self-reported weight and height were collected, measured values were taken.    
+**Value type**: decimal  
+**Variable unit**: kg/m2  
+**Category coding**: N/A
+
+**Harmonization status**:  complete  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+oth_HUNT_2$phy_bmi_all_2<- HUNT3$Bmi_NT3BLM
+```  
+### **Variable label**: Body mass index (BMI) - measured and self-reported combined  
+**Variable name**: phy_bmi_all_3  
+**Variable description**: Weight (in kg) divided by height (in m) squared - measured and self-reported combined. If both measured and self-reported weight and height were collected, measured values were taken.    
+**Value type**: decimal  
+**Variable unit**: kg/m2  
+**Category coding**: N/A
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**: Body mass index (BMI) - measured and self-reported combined  
+**Variable name**: phy_bmi_all_4  
+**Variable description**: Weight (in kg) divided by height (in m) squared - measured and self-reported combined. If both measured and self-reported weight and height were collected, measured values were taken.    
+**Value type**: decimal  
+**Variable unit**: kg/m2  
+**Category coding**: N/A
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**: Body mass index (BMI) - measured and self-reported combined  
+**Variable name**: phy_bmi_all_5  
+**Variable description**: Weight (in kg) divided by height (in m) squared - measured and self-reported combined. If both measured and self-reported weight and height were collected, measured values were taken.    
+**Value type**: decimal  
+**Variable unit**: kg/m2  
+**Category coding**: N/A
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**: Body mass index (BMI) - measured and self-reported combined  
+**Variable name**: phy_bmi_all_6  
+**Variable description**: Weight (in kg) divided by height (in m) squared - measured and self-reported combined. If both measured and self-reported weight and height were collected, measured values were taken.    
+**Value type**: decimal  
+**Variable unit**: kg/m2  
+**Category coding**: N/A
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+
+### **Variable label**:  Body mass index (BMI) - categories - measured  
+**Variable name**: phy_bmi_cat_ms_0  
+**Variable description**: Body mass index in categories - underweight (<18.5 kg/m2), normal (18.5-24.99 kg/m2), overweight (25 to 29.99 kg/m2), obese ( ≥30 kg/m2) - measured.    
+**Value type**: integer  
+**Variable unit**: N/A  
+**Category coding**: 
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 | Underweight - BMI <18.5  
+1 | Normal weight - BMI 18.5-24.99  
+2 | Overweight - BMI 25-29.99  
+3 | Obese - BMI >=30  
+
+**Harmonization status**:  complete  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+oth_HUNT_0$phy_bmi_cat_ms_0<- ifelse(oth_HUNT_0$phy_bmi_ms_0<18.5,0L,
+                              ifelse(oth_HUNT_0$phy_bmi_ms_0>=18.5 & oth_HUNT_0$phy_bmi_ms_0<25,1L,
+                              ifelse(oth_HUNT_0$phy_bmi_ms_0>=25 & oth_HUNT_0$phy_bmi_ms_0<30,2L,
+                              ifelse(oth_HUNT_0$phy_bmi_ms_0>=30,3L,NA))))
+
+```  
+### **Variable label**:  Body mass index (BMI) - categories - measured  
+**Variable name**: phy_bmi_cat_ms_1  
+**Variable description**: Body mass index in categories - underweight (<18.5 kg/m2), normal (18.5-24.99 kg/m2), overweight (25 to 29.99 kg/m2), obese ( ≥30 kg/m2) - measured.  
+**Value type**: integer  
+**Variable unit**: N/A  
+**Category coding**: 
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 | Underweight - BMI <18.5  
+1 | Normal weight - BMI 18.5-24.99  
+2 | Overweight - BMI 25-29.99  
+3 | Obese - BMI >=30  
+
+**Harmonization status**:  complete  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+oth_HUNT_1$phy_bmi_cat_ms_1<- ifelse(oth_HUNT_1$phy_bmi_ms_1<18.5,0L,
+                              ifelse(oth_HUNT_1$phy_bmi_ms_1>=18.5 & oth_HUNT_1$phy_bmi_ms_1<25,1L,
+                              ifelse(oth_HUNT_1$phy_bmi_ms_1>=25 & oth_HUNT_1$phy_bmi_ms_1<30,2L,
+                              ifelse(oth_HUNT_1$phy_bmi_ms_1>=30,3L,NA))))
+
+```  
+### **Variable label**:  Body mass index (BMI) - categories - measured  
+**Variable name**: phy_bmi_cat_ms_2  
+**Variable description**: Body mass index in categories - underweight (<18.5 kg/m2), normal (18.5-24.99 kg/m2), overweight (25 to 29.99 kg/m2), obese ( ≥30 kg/m2) - measured.    
+**Value type**: integer  
+**Variable unit**: N/A  
+**Category coding**: 
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 | Underweight - BMI <18.5  
+1 | Normal weight - BMI 18.5-24.99  
+2 | Overweight - BMI 25-29.99  
+3 | Obese - BMI >=30  
+
+**Harmonization status**:  complete  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+oth_HUNT_2$phy_bmi_cat_ms_2<- ifelse(oth_HUNT_2$phy_bmi_ms_2<18.5,0L,
+                              ifelse(oth_HUNT_2$phy_bmi_ms_2>=18.5 & oth_HUNT_2$phy_bmi_ms_2<25,1L,
+                              ifelse(oth_HUNT_2$phy_bmi_ms_2>=25 & oth_HUNT_2$phy_bmi_ms_2<30,2L,
+                              ifelse(oth_HUNT_2$phy_bmi_ms_2>=30,3L,NA))))
+```  
+### **Variable label**:  Body mass index (BMI) - categories - measured  
+**Variable name**: phy_bmi_cat_ms_3  
+**Variable description**: Body mass index in categories - underweight (<18.5 kg/m2), normal (18.5-24.99 kg/m2), overweight (25 to 29.99 kg/m2), obese ( ≥30 kg/m2) - measured.    
+**Value type**: integer  
+**Variable unit**: N/A  
+**Category coding**: 
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 | Underweight - BMI <18.5  
+1 | Normal weight - BMI 18.5-24.99  
+2 | Overweight - BMI 25-29.99  
+3 | Obese - BMI >=30  
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**:  Body mass index (BMI) - categories - measured  
+**Variable name**: phy_bmi_cat_ms_4  
+**Variable description**: Body mass index in categories - underweight (<18.5 kg/m2), normal (18.5-24.99 kg/m2), overweight (25 to 29.99 kg/m2), obese ( ≥30 kg/m2) - measured.    
+**Value type**: integer  
+**Variable unit**: N/A  
+**Category coding**: 
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 | Underweight - BMI <18.5  
+1 | Normal weight - BMI 18.5-24.99  
+2 | Overweight - BMI 25-29.99  
+3 | Obese - BMI >=30  
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**:  Body mass index (BMI) - categories - measured  
+**Variable name**: phy_bmi_cat_ms_5  
+**Variable description**: Body mass index in categories - underweight (<18.5 kg/m2), normal (18.5-24.99 kg/m2), overweight (25 to 29.99 kg/m2), obese ( ≥30 kg/m2) - measured.  
+**Value type**: integer  
+**Variable unit**: N/A  
+**Category coding**: 
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 | Underweight - BMI <18.5  
+1 | Normal weight - BMI 18.5-24.99  
+2 | Overweight - BMI 25-29.99  
+3 | Obese - BMI >=30  
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**:  Body mass index (BMI) - categories - measured  
+**Variable name**: phy_bmi_cat_ms_6  
+**Variable description**: Body mass index in categories - underweight (<18.5 kg/m2), normal (18.5-24.99 kg/m2), overweight (25 to 29.99 kg/m2), obese ( ≥30 kg/m2) - measured.  
+**Value type**: integer  
+**Variable unit**: N/A  
+**Category coding**: 
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 | Underweight - BMI <18.5  
+1 | Normal weight - BMI 18.5-24.99  
+2 | Overweight - BMI 25-29.99  
+3 | Obese - BMI >=30  
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+
+### **Variable label**:  Body mass index (BMI) - categories - self-reported  
+**Variable name**: phy_bmi_cat_sr_0    
+**Variable description**: Body mass index in categories - underweight (<18.5 kg/m2), normal (18.5-24.99 kg/m2), overweight (25 to 29.99 kg/m2), obese ( ≥30 kg/m2) - self-reported.  
+**Value type**: integer  
+**Variable unit**: N/A  
+**Category coding**: 
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 | Underweight - BMI <18.5  
+1 | Normal weight - BMI 18.5-24.99  
+2 | Overweight - BMI 25-29.99  
+3 | Obese - BMI >=30  
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**:  Body mass index (BMI) - categories - self-reported  
+**Variable name**: phy_bmi_cat_sr_1    
+**Variable description**: Body mass index in categories - underweight (<18.5 kg/m2), normal (18.5-24.99 kg/m2), overweight (25 to 29.99 kg/m2), obese ( ≥30 kg/m2) - self-reported.  
+**Value type**: integer  
+**Variable unit**: N/A  
+**Category coding**: 
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 | Underweight - BMI <18.5  
+1 | Normal weight - BMI 18.5-24.99  
+2 | Overweight - BMI 25-29.99  
+3 | Obese - BMI >=30  
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**:  Body mass index (BMI) - categories - self-reported  
+**Variable name**: phy_bmi_cat_sr_2    
+**Variable description**: Body mass index in categories - underweight (<18.5 kg/m2), normal (18.5-24.99 kg/m2), overweight (25 to 29.99 kg/m2), obese ( ≥30 kg/m2) - self-reported.
+**Value type**: integer  
+**Variable unit**: N/A  
+**Category coding**: 
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 | Underweight - BMI <18.5  
+1 | Normal weight - BMI 18.5-24.99  
+2 | Overweight - BMI 25-29.99  
+3 | Obese - BMI >=30  
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**:  Body mass index (BMI) - categories - self-reported  
+**Variable name**: phy_bmi_cat_sr_3    
+**Variable description**: Body mass index in categories - underweight (<18.5 kg/m2), normal (18.5-24.99 kg/m2), overweight (25 to 29.99 kg/m2), obese ( ≥30 kg/m2) - self-reported.  
+**Value type**: integer  
+**Variable unit**: N/A  
+**Category coding**: 
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 | Underweight - BMI <18.5  
+1 | Normal weight - BMI 18.5-24.99  
+2 | Overweight - BMI 25-29.99  
+3 | Obese - BMI >=30  
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**:  Body mass index (BMI) - categories - self-reported  
+**Variable name**: phy_bmi_cat_sr_4    
+**Variable description**: Body mass index in categories - underweight (<18.5 kg/m2), normal (18.5-24.99 kg/m2), overweight (25 to 29.99 kg/m2), obese ( ≥30 kg/m2) - self-reported.  
+**Value type**: integer  
+**Variable unit**: N/A  
+**Category coding**: 
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 | Underweight - BMI <18.5  
+1 | Normal weight - BMI 18.5-24.99  
+2 | Overweight - BMI 25-29.99  
+3 | Obese - BMI >=30  
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**:  Body mass index (BMI) - categories - self-reported  
+**Variable name**: phy_bmi_cat_sr_5    
+**Variable description**: Body mass index in categories - underweight (<18.5 kg/m2), normal (18.5-24.99 kg/m2), overweight (25 to 29.99 kg/m2), obese ( ≥30 kg/m2) - self-reported.  
+**Value type**: integer  
+**Variable unit**: N/A  
+**Category coding**: 
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 | Underweight - BMI <18.5  
+1 | Normal weight - BMI 18.5-24.99  
+2 | Overweight - BMI 25-29.99  
+3 | Obese - BMI >=30  
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**:  Body mass index (BMI) - categories - self-reported  
+**Variable name**: phy_bmi_cat_sr_6    
+**Variable description**: Body mass index in categories - underweight (<18.5 kg/m2), normal (18.5-24.99 kg/m2), overweight (25 to 29.99 kg/m2), obese ( ≥30 kg/m2) - self-reported.  
+**Value type**: integer  
+**Variable unit**: N/A  
+**Category coding**: 
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 | Underweight - BMI <18.5  
+1 | Normal weight - BMI 18.5-24.99  
+2 | Overweight - BMI 25-29.99  
+3 | Obese - BMI >=30  
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+
+### **Variable label**:  Body mass index (BMI) - categories - measured and self-reported combined  
+**Variable name**: phy_bmi_cat_all_0    
+**Variable description**: Body mass index in categories - underweight (<18.5 kg/m2), normal (18.5-24.99 kg/m2), overweight (25 to 29.99 kg/m2), obese ( ≥30 kg/m2) - measured and self-reported combined. If both measured and self-reported weight and height were collected, measured values were taken.      
+**Value type**: integer  
+**Variable unit**: N/A  
+**Category coding**: 
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 | Underweight - BMI <18.5  
+1 | Normal weight - BMI 18.5-24.99  
+2 | Overweight - BMI 25-29.99  
+3 | Obese - BMI >=30  
+
+**Harmonization status**:  complete  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+oth_HUNT_0$phy_bmi_cat_all_0<-ifelse(oth_HUNT_0$phy_bmi_ms_0<18.5,0L,
+                              ifelse(oth_HUNT_0$phy_bmi_ms_0>=18.5 & oth_HUNT_0$phy_bmi_ms_0<25,1L,
+                              ifelse(oth_HUNT_0$phy_bmi_ms_0>=25 & oth_HUNT_0$phy_bmi_ms_0<30,2L,
+                              ifelse(oth_HUNT_0$phy_bmi_ms_0>=30,3L,NA))))
+```  
+### **Variable label**:  Body mass index (BMI) - categories - measured and self-reported combined  
+**Variable name**: phy_bmi_cat_all_1    
+**Variable description**: Body mass index in categories - underweight (<18.5 kg/m2), normal (18.5-24.99 kg/m2), overweight (25 to 29.99 kg/m2), obese ( ≥30 kg/m2) - measured and self-reported combined. If both measured and self-reported weight and height were collected, measured values were taken.      
+**Value type**: integer  
+**Variable unit**: N/A  
+**Category coding**: 
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 | Underweight - BMI <18.5  
+1 | Normal weight - BMI 18.5-24.99  
+2 | Overweight - BMI 25-29.99  
+3 | Obese - BMI >=30  
+
+**Harmonization status**:  complete  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+oth_HUNT_1$phy_bmi_cat_all_1<-ifelse(oth_HUNT_1$phy_bmi_ms_1<18.5,0L,
+                              ifelse(oth_HUNT_1$phy_bmi_ms_1>=18.5 & oth_HUNT_1$phy_bmi_ms_1<25,1L,
+                              ifelse(oth_HUNT_1$phy_bmi_ms_1>=25 & oth_HUNT_1$phy_bmi_ms_1<30,2L,
+                              ifelse(oth_HUNT_1$phy_bmi_ms_1>=25,3L,NA))))
+```  
+### **Variable label**:  Body mass index (BMI) - categories - measured and self-reported combined  
+**Variable name**: phy_bmi_cat_all_2    
+**Variable description**: Body mass index in categories - underweight (<18.5 kg/m2), normal (18.5-24.99 kg/m2), overweight (25 to 29.99 kg/m2), obese ( ≥30 kg/m2) - measured and self-reported combined. If both measured and self-reported weight and height were collected, measured values were taken.      
+**Value type**: integer  
+**Variable unit**: N/A  
+**Category coding**: 
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 | Underweight - BMI <18.5  
+1 | Normal weight - BMI 18.5-24.99  
+2 | Overweight - BMI 25-29.99  
+3 | Obese - BMI >=30  
+
+**Harmonization status**:  complete  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+oth_HUNT_2$phy_bmi_cat_all_2<- ifelse(oth_HUNT_2$phy_bmi_ms_2<18.5,0L,
+                              ifelse(oth_HUNT_2$phy_bmi_ms_2>=18.5 & oth_HUNT_2$phy_bmi_ms_2<25,1L,
+                              ifelse(oth_HUNT_2$phy_bmi_ms_2>=25 & oth_HUNT_2$phy_bmi_ms_2<30,2L,
+                              ifelse(oth_HUNT_2$phy_bmi_ms_2>=30,3L,NA))))
+```  
+### **Variable label**:  Body mass index (BMI) - categories - measured and self-reported combined  
+**Variable name**: phy_bmi_cat_all_3    
+**Variable description**: Body mass index in categories - underweight (<18.5 kg/m2), normal (18.5-24.99 kg/m2), overweight (25 to 29.99 kg/m2), obese ( ≥30 kg/m2) - measured and self-reported combined. If both measured and self-reported weight and height were collected, measured values were taken.      
+**Value type**: integer  
+**Variable unit**: N/A  
+**Category coding**: 
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 | Underweight - BMI <18.5  
+1 | Normal weight - BMI 18.5-24.99  
+2 | Overweight - BMI 25-29.99  
+3 | Obese - BMI >=30  
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**:  Body mass index (BMI) - categories - measured and self-reported combined  
+**Variable name**: phy_bmi_cat_all_4    
+**Variable description**: Body mass index in categories - underweight (<18.5 kg/m2), normal (18.5-24.99 kg/m2), overweight (25 to 29.99 kg/m2), obese ( ≥30 kg/m2) - measured and self-reported combined. If both measured and self-reported weight and height were collected, measured values were taken.        
+**Value type**: integer  
+**Variable unit**: N/A  
+**Category coding**: 
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 | Underweight - BMI <18.5  
+1 | Normal weight - BMI 18.5-24.99  
+2 | Overweight - BMI 25-29.99  
+3 | Obese - BMI >=30  
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**:  Body mass index (BMI) - categories - measured and self-reported combined  
+**Variable name**: phy_bmi_cat_all_5    
+**Variable description**: Body mass index in categories - underweight (<18.5 kg/m2), normal (18.5-24.99 kg/m2), overweight (25 to 29.99 kg/m2), obese ( ≥30 kg/m2) - measured and self-reported combined. If both measured and self-reported weight and height were collected, measured values were taken.      
+**Value type**: integer  
+**Variable unit**: N/A  
+**Category coding**: 
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 | Underweight - BMI <18.5  
+1 | Normal weight - BMI 18.5-24.99  
+2 | Overweight - BMI 25-29.99  
+3 | Obese - BMI >=30  
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**:  Body mass index (BMI) - categories - measured and self-reported combined  
+**Variable name**: phy_bmi_cat_all_6    
+**Variable description**: Body mass index in categories - underweight (<18.5 kg/m2), normal (18.5-24.99 kg/m2), overweight (25 to 29.99 kg/m2), obese ( ≥30 kg/m2) - measured and self-reported combined. If both measured and self-reported weight and height were collected, measured values were taken.      
+**Value type**: integer    
+**Variable unit**: N/A  
+**Category coding**: 
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 | Underweight - BMI <18.5  
+1 | Normal weight - BMI 18.5-24.99  
+2 | Overweight - BMI 25-29.99  
+3 | Obese - BMI >=30  
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+
+### **Variable label**:  Waist circumference in cm - measured and self-reported combined  
+**Variable name**: phy_waist_all_0  
+**Variable description**: Waist circumference of the participant in centimeters - measured and self-reported combined. If both measured and self-reported waist circumference were collected, measured waist circumference was taken.      
+**Value type**: decimal  
+**Variable unit**: cm  
+**Category coding**:  N/A  
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**:  Waist circumference in cm - measured and self-reported combined   
+**Variable name**: phy_waist_all_1  
+**Variable description**: Waist circumference of the participant in centimeters - measured and self-reported combined. If both measured and self-reported waist circumference were collected, measured waist circumference was taken.        
+**Value type**: decimal  
+**Variable unit**: cm  
+**Category coding**:  N/A  
+
+**Harmonization status**:  complete  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+oth_HUNT_1$phy_waist_all_1<- as.numeric(HUNT2$WaistCirc_NT2BLM)
+```  
+### **Variable label**:  Waist circumference in cm - measured and self-reported combined   
+**Variable name**: phy_waist_all_2  
+**Variable description**: Waist circumference of the participant in centimeters - measured and self-reported combined. If both measured and self-reported waist circumference were collected, measured waist circumference was taken.      
+**Value type**: decimal  
+**Variable unit**: cm  
+**Category coding**:  N/A  
+
+**Harmonization status**:  complete  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+oth_HUNT_2$phy_waist_all_2<- as.numeric(HUNT3$WaistCirc_NT3BLM)
+```  
+### **Variable label**:  Waist circumference in cm - measured and self-reported combined 
+**Variable name**: phy_waist_all_3  
+**Variable description**: Waist circumference of the participant in centimeters - measured and self-reported combined. If both measured and self-reported waist circumference were collected, measured waist circumference was taken.     
+**Value type**: decimal  
+**Variable unit**: cm  
+**Category coding**:  N/A  
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**:  Waist circumference in cm - measured and self-reported combined   
+**Variable name**: phy_waist_all_4  
+**Variable description**: Waist circumference of the participant in centimeters - measured and self-reported combined. If both measured and self-reported waist circumference were collected, measured waist circumference was taken.    
+**Value type**: decimal  
+**Variable unit**: cm  
+**Category coding**:  N/A  
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**:  Waist circumference in cm - measured and self-reported combined 
+**Variable name**: phy_waist_all_5  
+**Variable description**: Waist circumference of the participant in centimeters - measured and self-reported combined. If both measured and self-reported waist circumference were collected, measured waist circumference was taken.    
+**Value type**: decimal  
+**Variable unit**: cm  
+**Category coding**:  N/A  
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**:  Waist circumference in cm - measured and self-reported combined 
+**Variable name**: phy_waist_all_6  
+**Variable description**: Waist circumference of the participant in centimeters - measured and self-reported combined. If both measured and self-reported waist circumference were collected, measured waist circumference was taken.      
+**Value type**: decimal  
+**Variable unit**: cm  
+**Category coding**:  N/A  
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+
+# General perception of health subdomain
+
+### **Variable label**:  Self-assessed health   
+**Variable name**:  poh_sah_0  
+**Variable description**:  Self-assessed health of the participant, in three main categories.  
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 |   Good health  
+1 |   Fair health  
+2 |   Poor health  
+
+**Harmonization status**:  complete  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+oth_HUNT_0$poh_sah_0<- recode(as.integer(HUNT1$Healt_NT1BLQ1),'3'=0L,'4'=0L,'2'=1L,'1'=2L,
+                              .default=NA_integer_)
+
+```  
+### **Variable label**:  Self-assessed health   
+**Variable name**:  poh_sah_1  
+**Variable description**:  Self-assessed health of the participant, in three main categories.  
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 |   Good health  
+1 |   Fair health  
+2 |   Poor health  
+
+**Harmonization status**:  complete  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+oth_HUNT_1$poh_sah_1<- recode(as.integer(HUNT2$Healt_NT2BLQ1),'3'=0L,'4'=0L,'2'=1L,'1'=2L,
+                              .default=NA_integer_)
+```  
+### **Variable label**:  Self-assessed health   
+**Variable name**:  poh_sah_2  
+**Variable description**:  Self-assessed health of the participant, in three main categories.  
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 |   Good health  
+1 |   Fair health  
+2 |   Poor health  
+
+**Harmonization status**:  complete  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+oth_HUNT_2$poh_sah_2<- recode(as.integer(HUNT3$Healt_NT3BLQ1),'3'=0L,'4'=0L,'2'=1L,'1'=2L,
+                              .default=NA_integer_)
+```  
+### **Variable label**:  Self-assessed health   
+**Variable name**:  poh_sah_3  
+**Variable description**:  Self-assessed health of the participant, in three main categories.  
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 |   Good health  
+1 |   Fair health  
+2 |   Poor health  
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**:  Self-assessed health   
+**Variable name**:  poh_sah_4  
+**Variable description**:  Self-assessed health of the participant, in three main categories.  
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 |   Good health  
+1 |   Fair health  
+2 |   Poor health  
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**:  Self-assessed health   
+**Variable name**:  poh_sah_5  
+**Variable description**:  Self-assessed health of the participant, in three main categories.  
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 |   Good health  
+1 |   Fair health  
+2 |   Poor health  
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**:  Self-assessed health   
+**Variable name**:  poh_sah_6  
+**Variable description**:  Self-assessed health of the participant, in three main categories.  
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 |   Good health  
+1 |   Fair health  
+2 |   Poor health  
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+
+### **Variable label**:  Poor self-assessed health  
+**Variable name**:  poh_sah_poor_0  
+**Variable description**:  Dichotomous indicator of self-assessed health of the participant, indicating poor vs non-poor health.  
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 |   Poor health
+1 |   Non-poor health
+
+**Harmonization status**:  complete  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+oth_HUNT_0$poh_sah_poor_0<- recode(as.integer(HUNT1$Healt_NT1BLQ1),'3'=1L,'4'=1L,'2'=1L,'1'=0L,
+                              .default=NA_integer_)
+```  
+### **Variable label**:  Poor self-assessed health  
+**Variable name**:  poh_sah_poor_1    
+**Variable description**:  Dichotomous indicator of self-assessed health of the participant, indicating poor vs non-poor health.  
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 |   Poor health
+1 |   Non-poor health
+
+**Harmonization status**:  complete  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+oth_HUNT_1$poh_sah_poor_1<- recode(as.integer(HUNT2$Healt_NT2BLQ1),'3'=1L,'4'=1L,'2'=1L,'1'=0L,
+                              .default=NA_integer_)
+```  
+### **Variable label**:  Poor self-assessed health  
+**Variable name**:  poh_sah_poor_2  
+**Variable description**:  Dichotomous indicator of self-assessed health of the participant, indicating poor vs non-poor health.  
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 |   Poor health
+1 |   Non-poor health
+
+**Harmonization status**:  complete  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+oth_HUNT_2$poh_sah_poor_2<- recode(as.integer(HUNT3$Healt_NT3BLQ1),'3'=1L,'4'=1L,'2'=1L,'1'=0L,
+                              .default=NA_integer_)
+
+```  
+### **Variable label**:  Poor self-assessed health  
+**Variable name**:  poh_sah_poor_3  
+**Variable description**:  Dichotomous indicator of self-assessed health of the participant, indicating poor vs non-poor health.  
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 |   Poor health
+1 |   Non-poor health
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**:  Poor self-assessed health  
+**Variable name**:  poh_sah_poor_4    
+**Variable description**:  Dichotomous indicator of self-assessed health of the participant, indicating poor vs non-poor health.  
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 |   Poor health
+1 |   Non-poor health
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**:  Poor self-assessed health  
+**Variable name**:  poh_sah_poor_5  
+**Variable description**:  Dichotomous indicator of self-assessed health of the participant, indicating poor vs non-poor health.  
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 |   Poor health
+1 |   Non-poor health
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**:  Poor self-assessed health  
+**Variable name**:  poh_sah_poor_6  
+**Variable description**:  Dichotomous indicator of self-assessed health of the participant, indicating poor vs non-poor health.  
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 |   Poor health
+1 |   Non-poor health
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+
+### **Variable label**:  Less than good self-assessed health  
+**Variable name**:  poh_sah_good_0    
+**Variable description**:  Dichotomous indicator of self-assessed health of the participant, indicating good vs less than good health.  
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 |   Less than good health  
+1 |   Good health  
+
+**Harmonization status**:  complete  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+oth_HUNT_0$poh_sah_good_0<- recode(as.integer(HUNT1$Healt_NT1BLQ1),'3'=1L,'4'=1L,'2'=0L,'1'=0L,
+                              .default=NA_integer_)
+```  
+### **Variable label**:  Less than good self-assessed health  
+**Variable name**:  poh_sah_good_1    
+**Variable description**:  Dichotomous indicator of self-assessed health of the participant, indicating good vs less than good health.  
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 |   Less than good health  
+1 |   Good health  
+
+**Harmonization status**:  complete  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+oth_HUNT_1$poh_sah_good_1<- recode(as.integer(HUNT2$Healt_NT2BLQ1),'3'=1L,'4'=1L,'2'=0L,'1'=0L,
+                              .default=NA_integer_)
+```  
+### **Variable label**:  Less than good self-assessed health  
+**Variable name**:  poh_sah_good_2    
+**Variable description**:  Dichotomous indicator of self-assessed health of the participant, indicating good vs less than good health.  
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 |   Less than good health  
+1 |   Good health  
+
+**Harmonization status**:  complete  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+oth_HUNT_2$poh_sah_good_2<- recode(as.integer(HUNT3$Healt_NT3BLQ1),'3'=1L,'4'=1L,'2'=0L,'1'=0L,
+                              .default=NA_integer_)
+```  
+### **Variable label**:  Less than good self-assessed health  
+**Variable name**:  poh_sah_good_3    
+**Variable description**:  Dichotomous indicator of self-assessed health of the participant, indicating good vs less than good health.  
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 |   Less than good health  
+1 |   Good health  
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**:  Less than good self-assessed health  
+**Variable name**:  poh_sah_good_4    
+**Variable description**:  Dichotomous indicator of self-assessed health of the participant, indicating good vs less than good health.  
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 |   Less than good health  
+1 |   Good health  
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**:  Less than good self-assessed health  
+**Variable name**:  poh_sah_good_5    
+**Variable description**:  Dichotomous indicator of self-assessed health of the participant, indicating good vs less than good health.  
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 |   Less than good health  
+1 |   Good health  
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**:  Less than good self-assessed health  
+**Variable name**:  poh_sah_good_6    
+**Variable description**:  Dichotomous indicator of self-assessed health of the participant, indicating good vs less than good health.  
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 |   Less than good health  
+1 |   Good health  
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+
+
+# Disability subdomain
+
+### **Variable label**:  Difficulty walking up and down the stairs  
+**Variable name**:  fct_stairs_diff_0   
+**Variable description**:  Indicator of whether the participant has difficulty walking up and down the stairs.  
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 |   Has no difficulty walking up and down the stairs
+1 |   Has difficulty walking up and down the stairs  
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**:  Difficulty walking up and down the stairs  
+**Variable name**:  fct_stairs_diff_1  
+**Variable description**:  Indicator of whether the participant has difficulty walking up and down the stairs.  
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 |   Has no difficulty walking up and down the stairs
+1 |   Has difficulty walking up and down the stairs  
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**:  Difficulty walking up and down the stairs  
+**Variable name**:  fct_stairs_diff_2  
+**Variable description**:  Indicator of whether the participant has difficulty walking up and down the stairs.  
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 |   Has no difficulty walking up and down the stairs
+1 |   Has difficulty walking up and down the stairs  
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+
+### **Variable label**:  Difficulty walking    
+**Variable name**:  fct_walk_diff_0  
+**Variable description**:  Indicator of whether the participant has difficulty walking 2 to 3 blocks, or for about 400 to 500 meters, or for 5 minutes.  
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 |   Not able to walk without difficulty  
+1 |   Able to walk without difficulty  
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**:  Difficulty walking    
+**Variable name**:  fct_walk_diff_1  
+**Variable description**:  Indicator of whether the participant has difficulty walking 2 to 3 blocks, or for about 400 to 500 meters, or for 5 minutes.  
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 |   Not able to walk without difficulty  
+1 |   Able to walk without difficulty  
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**:  Difficulty walking    
+**Variable name**:  fct_walk_diff_2  
+**Variable description**:  Indicator of whether the participant has difficulty walking 2 to 3 blocks, or for about 400 to 500 meters, or for 5 minutes.    
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 |   Not able to walk without difficulty  
+1 |   Able to walk without difficulty  
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**:  Difficulty walking    
+**Variable name**:  fct_walk_diff_3  
+**Variable description**:  Indicator of whether the participant has difficulty walking 2 to 3 blocks, or for about 400 to 500 meters, or for 5 minutes.   
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 |   Not able to walk without difficulty  
+1 |   Able to walk without difficulty  
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**:  Difficulty walking    
+**Variable name**:  fct_walk_diff_4  
+**Variable description**:  Indicator of whether the participant has difficulty walking 2 to 3 blocks, or for about 400 to 500 meters, or for 5 minutes.     
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 |   Not able to walk without difficulty  
+1 |   Able to walk without difficulty  
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**:  Difficulty walking    
+**Variable name**:  fct_walk_diff_5  
+**Variable description**:  Indicator of whether the participant has difficulty walking 2 to 3 blocks, or for about 400 to 500 meters, or for 5 minutes.    
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 |   Not able to walk without difficulty  
+1 |   Able to walk without difficulty  
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+### **Variable label**:  Difficulty walking    
+**Variable name**:  fct_walk_diff_6  
+**Variable description**:  Indicator of whether the participant has difficulty walking 2 to 3 blocks, or for about 400 to 500 meters, or for 5 minutes.     
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 |   Not able to walk without difficulty  
+1 |   Able to walk without difficulty  
+
+**Harmonization status**:  impossible  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+
+```  
+
+
+

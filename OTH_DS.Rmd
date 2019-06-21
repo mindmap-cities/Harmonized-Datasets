@@ -1,0 +1,2891 @@
+---
+title: "Other outcomes DataSchema"
+output: html_document
+---
+# Table of Contents
+1. [Hypertension subdomain](#hypertension-subdomain)
+2. [Angina subdomain](#angina-subdomain)
+3. [Myocardial infarction subdomain](#myocardial-infarction-subdomain)
+4. [Stroke subdomain](#stroke-subdomain)
+5. [Diabetes subdomain](#diabetes-subdomain)
+6. [BMI subdomain](#bmi-subdomain)
+7. [General perception of health subdomain](#general-perception-of-health-subdomain)
+8. [Disability subdomain](#disability-subdomain)
+
+# Hypertension subdomain
+
+### **Variable label**: Lifetime occurrence of high blood pressure or hypertension    
+**Variable name**: dis_hbp_ever_0  
+**Variable description**:  Occurrence of high blood pressure or hypertension at any point during the life of the participant.   
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding:**  
+  
+**Code**   | **Category Label**    
+-----------| -------------  
+0          |  Never had high blood pressure or hypertension  
+1          |  Ever had high blood pressure or hypertension  
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Lifetime occurrence of high blood pressure or hypertension    
+**Variable name**: dis_hbp_ever_1  
+**Variable description**:  Occurrence of high blood pressure or hypertension at any point during the life of the participant.   
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding:**  
+  
+**Code**   | **Category Label**    
+-----------| -------------  
+0          |  Never had high blood pressure or hypertension  
+1          |  Ever had high blood pressure or hypertension  
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+``` 
+### **Variable label**: Medication for high blood pressure or hypertension    
+**Variable name**:  dis_hbp_med_0  
+**Variable description**:  Indicator of whether the participant has ever taken medication for high blood pressure or hypertension.  
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+  
+**Code** | **Category Label**
+---------| -----------------------------------------------------
+0        |  Never taken medication for high blood pressure or hypertension  
+1        |  Ever taken medication  for high blood pressure or hypertension  
+
+
+**Harmonization status**:  
+**Harmonization comment**:  
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Medication for high blood pressure or hypertension  
+**Variable name**:  dis_hbp_med_1  
+**Variable description**:  Indicator of whether the participant has ever taken medication for high blood pressure or hypertension.  
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+  
+**Code** | **Category Label**
+---------| -----------------------------------------------------
+0        |  Never taken medication for high blood pressure or hypertension  
+1        |  Ever taken medication  for high blood pressure or hypertension    
+
+
+**Harmonization status**:  
+**Harmonization comment**:  
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Medication for high blood pressure or hypertension    
+**Variable name**:  dis_hbp_med_2  
+**Variable description**:  Indicator of whether the participant has ever taken medication for high blood pressure or hypertension.  
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+  
+**Code** | **Category Label**
+---------| -----------------------------------------------------
+0        |  Never taken medication for high blood pressure or hypertension  
+1        |  Ever taken medication  for high blood pressure or hypertension    
+
+
+**Harmonization status**:  
+**Harmonization comment**:  
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Medication for high blood pressure or hypertension    
+**Variable name**:  dis_hbp_med_3    
+**Variable description**:  Indicator of whether the participant has ever taken medication for high blood pressure or hypertension.  
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+  
+**Code** | **Category Label**
+---------| -----------------------------------------------------
+0        |  Never taken medication for high blood pressure or hypertension  
+1        |  Ever taken medication  for high blood pressure or hypertension    
+
+
+**Harmonization status**:  
+**Harmonization comment**:  
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Medication for high blood pressure or hypertension    
+**Variable name**:  dis_hbp_med_4  
+**Variable description**:  Indicator of whether the participant has ever taken medication for high blood pressure or hypertension.  
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+  
+**Code** | **Category Label**
+---------| -----------------------------------------------------
+0        |  Never taken medication for high blood pressure
+1        |  Ever taken medication  for high blood pressure  
+
+
+**Harmonization status**:  
+**Harmonization comment**:  
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Medication for high blood pressure or hypertension    
+**Variable name**:  dis_hbp_med_5  
+**Variable description**:  Indicator of whether the participant has ever taken medication for high blood pressure or hypertension.  
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+  
+**Code** | **Category Label**
+---------| -----------------------------------------------------
+0        |  Never taken medication for high blood pressure
+1        |  Ever taken medication  for high blood pressure  
+
+
+**Harmonization status**:  
+**Harmonization comment**:  
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+# Angina subdomain
+
+### **Variable label**: Lifetime occurrence of angina  
+**Variable name**:  dis_angina_ever_0  
+**Variable description**:  Occurrence of angina (pain or discomfort in chest) at any point during the life of the participant.    
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+  
+**Code** | **Category Label**  
+---------|---------------  
+0        |  Never had angina
+1        |  Ever had angina  
+  
+**Harmonization status**:  
+**Harmonization comment**:  
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Lifetime occurrence of angina 
+**Variable name**:  dis_angina_ever_1  
+**Variable description**:  Occurrence of angina (pain or discomfort in chest) at any point during the life of the participant.    
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+  
+**Code** | **Category Label**  
+---------|---------------  
+0        |  Never had angina
+1        |  Ever had angina  
+  
+**Harmonization status**:  
+**Harmonization comment**:  
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Lifetime occurrence of angina 
+**Variable name**:  dis_angina_ever_2  
+**Variable description**:  Occurrence of angina (pain or discomfort in chest) any point during the life of the participant.    
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+  
+**Code** | **Category Label**  
+---------|---------------  
+0        |  Never had angina
+1        |  Ever had angina  
+  
+**Harmonization status**:  
+**Harmonization comment**:  
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Lifetime occurrence of angina 
+**Variable name**:  dis_angina_ever_3  
+**Variable description**:  Occurrence of angina (pain or discomfort in chest) at any point during the life of the participant.    
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+  
+**Code** | **Category Label**  
+---------|---------------  
+0        |  Never had angina
+1        |  Ever had angina  
+  
+**Harmonization status**:  
+**Harmonization comment**:  
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Lifetime occurrence of angina 
+**Variable name**:  dis_angina_ever_4  
+**Variable description**:  Occurrence of angina (pain or discomfort in chest) at any point during the life of the participant.    
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+  
+**Code** | **Category Label**  
+---------|---------------  
+0        |  Never had angina
+1        |  Ever had angina  
+  
+**Harmonization status**:  
+**Harmonization comment**:  
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+
+# Myocardial infarction subdomain
+
+### **Variable label**: Lifetime occurrence of myocardial infarction    
+**Variable name**:  dis_mi_ever_0  
+**Variable description**:  Occurrence of myocardial infarction (heart attack) at any point during the life of the participant.    
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+---------| -------------  
+0        |   Never had myocardial infarction
+1        |   Ever had myocardial infarction  
+
+**Harmonization status**:  
+**Harmonization comment**:  
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Lifetime occurrence of myocardial infarction    
+**Variable name**:  dis_mi_ever_1  
+**Variable description**:  Occurrence of myocardial infarction (heart attack) at any point during the life of the participant.    
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+---------| -------------  
+0        |   Never had myocardial infarction
+1        |   Ever had myocardial infarction  
+
+**Harmonization status**:  
+**Harmonization comment**:  
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Lifetime occurrence of myocardial infarction    
+**Variable name**:  dis_mi_ever_2  
+**Variable description**:  Occurrence of myocardial infarction (heart attack) at any point during the life of the participant.    
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+---------| -------------  
+0        |   Never had myocardial infarction
+1        |   Ever had myocardial infarction  
+
+**Harmonization status**:  
+**Harmonization comment**:  
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+
+### **Variable label**: Age at first Myocardial infarction  
+**Variable name**:  dis_mi_age_0  
+**Variable description**:  Age of the participant at time of first myocardial infarction.  
+**Value type**:  integer  
+**Variable unit**:  years  
+**Category coding**: N/A  
+         
+**Harmonization status**:  
+**Harmonization comment**:  
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Age at first Myocardial infarction  
+**Variable name**:  dis_mi_age_1  
+**Variable description**:  Age of the participant at time of first myocardial infarction.  
+**Value type**:  integer  
+**Variable unit**:  years  
+**Category coding**: N/A  
+         
+**Harmonization status**:  
+**Harmonization comment**:  
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Age at first Myocardial infarction  
+**Variable name**:  dis_mi_age_2  
+**Variable description**:  Age of the participant at time of first myocardial infarction.  
+**Value type**:  integer  
+**Variable unit**:  years  
+**Category coding**: N/A  
+         
+**Harmonization status**:  
+**Harmonization comment**:  
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+# Stroke subdomain
+
+### **Variable label**: Lifetime occurrence of stroke or CVA  
+**Variable name**:  dis_stroke_ever_0  
+**Variable description**:  Occurrence of stroke or cerebrovascular accident (CVA) at any point during the life of the participant.   
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+  
+**Code** | **Category Label**  
+-------- | -------------  
+0        |   Never had stroke or CVA  
+1        |   Ever had stroke or CVA  
+
+**Harmonization status**:  
+**Harmonization comment**:  
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Lifetime occurrence of stroke or CVA  
+**Variable name**:  dis_stroke_ever_1  
+**Variable description**:  Occurrence of stroke or cerebrovascular accident (CVA) at any point during the life of the participant.   
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+  
+**Code** | **Category Label**  
+-------- | -------------  
+0        |   Never had stroke or CVA  
+1        |   Ever had stroke or CVA  
+
+**Harmonization status**:  
+**Harmonization comment**:  
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Lifetime occurrence of stroke or CVA  
+**Variable name**:  dis_stroke_ever_2  
+**Variable description**:  Occurrence of stroke or cerebrovascular accident (CVA) at any point during the life of the participant.   
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+  
+**Code** | **Category Label**  
+-------- | -------------  
+0        |   Never had stroke or CVA  
+1        |   Ever had stroke or CVA  
+
+**Harmonization status**:  
+**Harmonization comment**:  
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Age at first stroke or CVA  
+**Variable name**:  dis_stroke_age_0  
+**Variable description**:  Age of the participant at time of first stroke or cerebrovascular accident (CVA).      
+**Value type**:  integer  
+**Variable unit**:  years  
+**Category coding**: N/A  
+         
+**Harmonization status**:  
+**Harmonization comment**:  
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Age at first stroke or CVA  
+**Variable name**:  dis_stroke_age_1  
+**Variable description**:  Age of the participant at time of first stroke or cerebrovascular accident (CVA).      
+**Value type**:  integer  
+**Variable unit**:  years  
+**Category coding**: N/A  
+         
+**Harmonization status**:  
+**Harmonization comment**:  
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Age at first stroke or CVA  
+**Variable name**:  dis_stroke_age_2  
+**Variable description**:  Age of the participant at time of first stroke or cerebrovascular accident (CVA).      
+**Value type**:  integer  
+**Variable unit**:  years  
+**Category coding**: N/A  
+         
+**Harmonization status**:  
+**Harmonization comment**:  
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+
+
+# Diabetes subdomain  
+
+### **Variable label**: Lifetime occurrence of diabetes, borderline diabetes, or high blood sugar  
+**Variable name**: dis_diab_ever_0  
+**Variable description**:  Occurrence of diabetes, borderline diabetes, or high blood sugar, at any point during the life of the participant.    
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding:**
+
+**Code**   | **Category Label**
+-----------| ---------------------------  
+0          |  Never had diabetes  
+1          |  Ever had diabetes  
+
+**Harmonization status**:  
+**Harmonization comment**:  
+**R script**:  
+```{r, echo=TRUE}  
+#This is where the R-script will be written  
+
+```  
+### **Variable label**: Lifetime occurrence of diabetes, borderline diabetes or high blood sugar     
+**Variable name**: dis_diab_ever_1  
+**Variable description**:  Occurrence of diabetes, borderline diabetes, or high blood sugar, at any point during the life of the participant.      
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding:**
+
+**Code**   | **Category Label**
+-----------| ---------------------------  
+0          |  Never had diabetes  
+1          |  Ever had diabetes  
+
+**Harmonization status**:  
+**Harmonization comment**:  
+**R script**:  
+```{r, echo=TRUE}  
+#This is where the R-script will be written  
+
+```  
+### **Variable label**: Lifetime occurrence of diabetes, borderline diabetes, or high blood sugar     
+**Variable name**: dis_diab_ever_2  
+**Variable description**:  Occurrence of diabetes, borderline diabetes, or high blood sugar, at any point during the life of the participant.    
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding:**
+
+**Code**   | **Category Label**
+-----------| ---------------------------  
+0          |  Never had diabetes  
+1          |  Ever had diabetes  
+
+**Harmonization status**:  
+**Harmonization comment**:  
+**R script**:  
+```{r, echo=TRUE}  
+#This is where the R-script will be written  
+
+```  
+### **Variable label**: Lifetime occurrence of diabetes, borderline diabetes or high blood sugar     
+**Variable name**: dis_diab_ever_3  
+**Variable description**:  Occurrence of diabetes, borderline diabetes, or high blood sugar, at any point during the life of the participant.      
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding:**
+
+**Code**   | **Category Label**
+-----------| ---------------------------  
+0          |  Never had diabetes  
+1          |  Ever had diabetes  
+
+**Harmonization status**:  
+**Harmonization comment**:  
+**R script**:  
+```{r, echo=TRUE}  
+#This is where the R-script will be written  
+
+```  
+### **Variable label**: Lifetime occurrence of diabetes, borderline diabetes, or high blood sugar     
+**Variable name**: dis_diab_ever_4  
+**Variable description**:  Occurrence of diabetes, borderline diabetes, or high blood sugar, at any point during the life of the participant.      
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding:**
+
+**Code**   | **Category Label**
+-----------| ---------------------------  
+0          |  Never had diabetes  
+1          |  Ever had diabetes  
+
+**Harmonization status**:  
+**Harmonization comment**:  
+**R script**:  
+```{r, echo=TRUE}  
+#This is where the R-script will be written  
+
+```  
+### **Variable label**: Lifetime occurrence of diabetes, borderline diabetes, or high blood sugar     
+**Variable name**: dis_diab_ever_5  
+**Variable description**:  Occurrence of diabetes, borderline diabetes, or high blood sugar, at any point during the life of the participant.      
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding:**
+
+**Code**   | **Category Label**
+-----------| ---------------------------  
+0          |  Never had diabetes  
+1          |  Ever had diabetes  
+
+**Harmonization status**:  
+**Harmonization comment**:  
+**R script**:  
+```{r, echo=TRUE}  
+#This is where the R-script will be written  
+
+```  
+### **Variable label**: Age at diagnosis of diabetes, borderline diabetes, or high blood sugar  
+**Variable name**:  dis_diab_age_0    
+**Variable description**: Age of the participant at first diagnosis of diabetes, borderline diabetes, or high blood sugar.    
+**Value type**:  integer  
+**Variable unit**:  years  
+**Category coding**: N/A
+
+**Hamonization status**:  
+**Harmonization comment**:  
+**R script**:  
+```{r, echo=TRUE}  
+#This is where the R-script will be written  
+
+```  
+### **Variable label**: Age at diagnosis of diabetes, borderline diabetes, or high blood sugar  
+**Variable name**:  dis_diab_age_1    
+**Variable description**: Age of the participant at first diagnosis of diabetes, borderline diabetes, or high blood sugar.    
+**Value type**:  integer  
+**Variable unit**:  years  
+**Category coding**: N/A
+
+**Hamonization status**:  
+**Harmonization comment**:  
+**R script**:  
+```{r, echo=TRUE}  
+#This is where the R-script will be written  
+
+```  
+### **Variable label**: Age at diagnosis of diabetes, borderline diabetes, or high blood sugar  
+**Variable name**:  dis_diab_age_2    
+**Variable description**: Age of the participant at first diagnosis of diabetes, borderline diabetes, or high blood sugar.    
+**Value type**:  integer  
+**Variable unit**:  years  
+**Category coding**: N/A
+
+**Hamonization status**:  
+**Harmonization comment**:  
+**R script**:  
+```{r, echo=TRUE}  
+#This is where the R-script will be written  
+
+```  
+### **Variable label**: Age at diagnosis of diabetes, borderline diabetes, or high blood sugar  
+**Variable name**:  dis_diab_age_3    
+**Variable description**: Age of the participant at first diagnosis of diabetes, borderline diabetes, or high blood sugar.    
+**Value type**:  integer  
+**Variable unit**:  years  
+**Category coding**: N/A
+
+**Hamonization status**:  
+**Harmonization comment**:  
+**R script**:  
+```{r, echo=TRUE}  
+#This is where the R-script will be written  
+
+```  
+### **Variable label**: Age at diagnosis of diabetes, borderline diabetes, or high blood sugar  
+**Variable name**:  dis_diab_age_4    
+**Variable description**: Age of the participant at first diagnosis of diabetes, borderline diabetes, or high blood sugar.    
+**Value type**:  integer  
+**Variable unit**:  years  
+**Category coding**: N/A
+
+**Hamonization status**:  
+**Harmonization comment**:  
+**R script**:  
+```{r, echo=TRUE}  
+#This is where the R-script will be written  
+
+```  
+### **Variable label**: Age at diagnosis of diabetes, borderline diabetes, or high blood sugar  
+**Variable name**:  dis_diab_age_5    
+**Variable description**: Age of the participant at first diagnosis of diabetes, borderline diabetes, or high blood sugar.    
+**Value type**:  integer  
+**Variable unit**:  years  
+**Category coding**: N/A
+
+**Hamonization status**:  
+**Harmonization comment**:  
+**R script**:  
+```{r, echo=TRUE}  
+#This is where the R-script will be written  
+
+```  
+
+### **Variable label**: Currently under treatment for diabetes  
+**Variable name**:  dis_diab_tx_0  
+**Variable description**:  Indicator of whether the participant is currently under treatment for diabetes.    
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+---------| -------------------------------------  
+0        | Not currently under treatment for diabetes  
+1        | Currently under treatment for diabetes  
+
+**Harmonization status**:  
+**Harmonization comment**:  
+**R script**:
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Currently under treatment for diabetes  
+**Variable name**:  dis_diab_tx_1  
+**Variable description**:  Indicator of whether the participant is currently under treatment for diabetes.    
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+---------| -------------------------------------  
+0        | Not currently under treatment for diabetes  
+1        | Currently under treatment for diabetes  
+
+**Harmonization status**:  
+**Harmonization comment**:  
+**R script**:
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Currently under treatment for diabetes  
+**Variable name**:  dis_diab_tx_2  
+**Variable description**:  Indicator of whether the participant is currently under treatment for diabetes.    
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+---------| -------------------------------------  
+0        | Not currently under treatment for diabetes  
+1        | Currently under treatment for diabetes  
+
+**Harmonization status**:  
+**Harmonization comment**:  
+**R script**:
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Currently under treatment for diabetes  
+**Variable name**:  dis_diab_tx_3  
+**Variable description**:  Indicator of whether the participant is currently under treatment for diabetes.    
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+---------| -------------------------------------  
+0        | Not currently under treatment for diabetes  
+1        | Currently under treatment for diabetes  
+
+**Harmonization status**:  
+**Harmonization comment**:  
+**R script**:
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Currently under treatment for diabetes  
+**Variable name**:  dis_diab_tx_4  
+**Variable description**:  Indicator of whether the participant is currently under treatment for diabetes.    
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+---------| -------------------------------------  
+0        | Not currently under treatment for diabetes  
+1        | Currently under treatment for diabetes  
+
+**Harmonization status**:  
+**Harmonization comment**:  
+**R script**:
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Currently under treatment for diabetes  
+**Variable name**:  dis_diab_tx_5  
+**Variable description**:  Indicator of whether the participant is currently under treatment for diabetes.    
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+---------| -------------------------------------  
+0        | Not currently under treatment for diabetes  
+1        | Currently under treatment for diabetes  
+
+**Harmonization status**:  
+**Harmonization comment**:  
+**R script**:
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Currently use insulin for diabetes  
+**Variable name**:  dis_diab_ins_0  
+**Variable description**:  Indicator of whether the participant uses insulin for diabetes treatment.  
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+---------| ---------------------------------------------  
+0        | Currently does not use insulin for diabetes treatment  
+1        | Currently has used insulin for diabetes treatment  
+
+**Harmonization status**:  
+**Harmonization comment**:  
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Currently use insulin for diabetes  
+**Variable name**:  dis_diab_ins_1  
+**Variable description**:  Indicator of whether the participant uses insulin for diabetes treatment.  
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+---------| ---------------------------------------------  
+0        | Currently does not use insulin for diabetes treatment  
+1        | Currently has used insulin for diabetes treatment  
+
+**Harmonization status**:  
+**Harmonization comment**:  
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Currently use insulin for diabetes  
+**Variable name**:  dis_diab_ins_2  
+**Variable description**:  Indicator of whether the participant uses insulin for diabetes treatment.  
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+---------| ---------------------------------------------  
+0        | Currently does not use insulin for diabetes treatment  
+1        | Currently has used insulin for diabetes treatment  
+
+**Harmonization status**:  
+**Harmonization comment**:  
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+# BMI subdomain
+
+### **Variable label**: Weight in kg - measured 
+**Variable name**: phy_weight_ms_0  
+**Variable description**: Weight of the participant in kilograms - measured.  
+**Value type**: decimal  
+**Variable unit**: kg   
+**Category coding**: N/A
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Weight in kg - measured 
+**Variable name**: phy_weight_ms_1  
+**Variable description**: Weight of the participant in kilograms - measured.  
+**Value type**: decimal  
+**Variable unit**: kg   
+**Category coding**: N/A
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Weight in kg - measured 
+**Variable name**: phy_weight_ms_2  
+**Variable description**: Weight of the participant in kilograms - measured.  
+**Value type**: decimal  
+**Variable unit**: kg   
+**Category coding**: N/A
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Weight in kg - measured 
+**Variable name**: phy_weight_ms_3  
+**Variable description**: Weight of the participant in kilograms - measured.  
+**Value type**: decimal  
+**Variable unit**: kg   
+**Category coding**: N/A
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Weight in kg - measured 
+**Variable name**: phy_weight_ms_4  
+**Variable description**: Weight of the participant in kilograms - measured.  
+**Value type**: decimal  
+**Variable unit**: kg   
+**Category coding**: N/A
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Weight in kg - measured 
+**Variable name**: phy_weight_ms_5  
+**Variable description**: Weight of the participant in kilograms - measured.  
+**Value type**: decimal  
+**Variable unit**: kg   
+**Category coding**: N/A
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Weight in kg - measured 
+**Variable name**: phy_weight_ms_6  
+**Variable description**: Weight of the participant in kilograms - measured.  
+**Value type**: decimal  
+**Variable unit**: kg   
+**Category coding**: N/A
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Weight in kg - self-reported 
+**Variable name**: phy_weight_sr_0    
+**Variable description**: Weight of the participant in kilograms - self-reported.  
+**Value type**: decimal  
+**Variable unit**: kg   
+**Category coding**: N/A
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Weight in kg - self-reported 
+**Variable name**: phy_weight_sr_1    
+**Variable description**: Weight of the participant in kilograms - self-reported.  
+**Value type**: decimal  
+**Variable unit**: kg   
+**Category coding**: N/A
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Weight in kg - self-reported 
+**Variable name**: phy_weight_sr_2    
+**Variable description**: Weight of the participant in kilograms - self-reported.  
+**Value type**: decimal  
+**Variable unit**: kg   
+**Category coding**: N/A
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Weight in kg - self-reported 
+**Variable name**: phy_weight_sr_3    
+**Variable description**: Weight of the participant in kilograms - self-reported.  
+**Value type**: decimal  
+**Variable unit**: kg   
+**Category coding**: N/A
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Weight in kg - self-reported 
+**Variable name**: phy_weight_sr_4    
+**Variable description**: Weight of the participant in kilograms - self-reported.  
+**Value type**: decimal  
+**Variable unit**: kg   
+**Category coding**: N/A
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Weight in kg - self-reported 
+**Variable name**: phy_weight_sr_5    
+**Variable description**: Weight of the participant in kilograms - self-reported.  
+**Value type**: decimal  
+**Variable unit**: kg   
+**Category coding**: N/A
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Weight in kg - self-reported 
+**Variable name**: phy_weight_sr_6    
+**Variable description**: Weight of the participant in kilograms - self-reported.  
+**Value type**: decimal  
+**Variable unit**: kg   
+**Category coding**: N/A
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Weight in kg - measured and self-reported combined
+**Variable name**: phy_weight_all_0      
+**Variable description**: Weight of the participant in kilograms - measured and self-reported combined. If both measured and self-reported weight were collected, measured weight was taken.   
+**Value type**: decimal  
+**Variable unit**: kg   
+**Category coding**: N/A  
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+
+### **Variable label**: Weight in kg - measured and self-reported combined
+**Variable name**: phy_weight_all_1    
+**Variable description**: Weight of the participant in kilograms - measured and self-reported combined. If both measured and self-reported weight were collected, measured weight was taken.   
+**Value type**: decimal  
+**Variable unit**: kg   
+**Category coding**: N/A  
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Weight in kg - measured and self-reported combined  
+**Variable name**: phy_weight_all_2    
+**Variable description**: Weight of the participant in kilograms - measured and self-reported combined. If both measured and self-reported weight were collected, measured weight was taken.   
+**Value type**: decimal  
+**Variable unit**: kg   
+**Category coding**: N/A  
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Weight in kg - measured and self-reported combined  
+**Variable name**: phy_weight_all_3     
+**Variable description**: Weight of the participant in kilograms - measured and self-reported combined. If both measured and self-reported weight were collected, measured weight was taken.   
+**Value type**: decimal   
+**Variable unit**: kg    
+**Category coding**: N/A  
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Weight in kg - self-reported and measured combined  
+**Variable name**: phy_weight_all_4    
+**Variable description**: Weight of the participant in kilograms - measured and self-reported combined. If both measured and self-reported weight were collected, measured weight was taken.   
+**Value type**: decimal  
+**Variable unit**: kg   
+**Category coding**: N/A  
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Weight in kg - self-reported and measured combined  
+**Variable name**: phy_weight_all_5    
+**Variable description**: Weight of the participant in kilograms - measured and self-reported combined. If both measured and self-reported weight were collected, measured weight was taken.   
+**Value type**: decimal  
+**Variable unit**: kg   
+**Category coding**: N/A  
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Weight in kg - self-reported and measured combined  
+**Variable name**: phy_weight_all_6    
+**Variable description**: Weight of the participant in kilograms - measured and self-reported combined. If both measured and self-reported weight were collected, measured weight was taken.   
+**Value type**: decimal  
+**Variable unit**: kg   
+**Category coding**: N/A  
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Height in cm - measured  
+**Variable name**: phy_height_ms_0  
+**Variable description**: Height of the participant in centimeters - measured.  
+**Value type**: decimal  
+**Variable unit**: cm  
+**Category coding**: N/A
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Height in cm - measured  
+**Variable name**: phy_height_ms_1  
+**Variable description**: Height of the participant in centimeters - measured.  
+**Value type**: decimal  
+**Variable unit**: cm  
+**Category coding**: N/A
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Height in cm - measured  
+**Variable name**: phy_height_ms_2  
+**Variable description**: Height of the participant in centimeters - measured.  
+**Value type**: decimal  
+**Variable unit**: cm  
+**Category coding**: N/A
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Height in cm - measured  
+**Variable name**: phy_height_ms_3  
+**Variable description**: Height of the participant in centimeters - measured.  
+**Value type**: decimal  
+**Variable unit**: cm    
+**Category coding**: N/A
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Height in cm - measured  
+**Variable name**: phy_height_ms_4  
+**Variable description**: Height of the participant in centimeters - measured.  
+**Value type**: decimal  
+**Variable unit**: cm  
+**Category coding**: N/A
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Height in cm - measured  
+**Variable name**: phy_height_ms_5  
+**Variable description**: Height of the participant in centimeters - measured.  
+**Value type**: decimal  
+**Variable unit**: cm  
+**Category coding**: N/A
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Height in cm - measured  
+**Variable name**: phy_height_ms_6  
+**Variable description**: Height of the participant in centimeters - measured.  
+**Value type**: decimal  
+**Variable unit**: cm  
+**Category coding**: N/A
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+
+### **Variable label**: Height in cm - self-reported  
+**Variable name**: phy_height_sr_0  
+**Variable description**: Height of the participant in centimeters - self-reported.  
+**Value type**: decimal  
+**Variable unit**: cm  
+**Category coding**: N/A
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Height in cm - self-reported  
+**Variable name**: phy_height_sr_1  
+**Variable description**: Height of the participant in centimeters - self-reported.  
+**Value type**: decimal  
+**Variable unit**: cm  
+**Category coding**: N/A
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Height in cm - self-reported  
+**Variable name**: phy_height_sr_2  
+**Variable description**: Height of the participant in centimeters - self-reported.  
+**Value type**: decimal  
+**Variable unit**: cm  
+**Category coding**: N/A
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Height in cm - self-reported  
+**Variable name**: phy_height_sr_3  
+**Variable description**: Height of the participant in centimeters - self-reported.  
+**Value type**: decimal  
+**Variable unit**: cm  
+**Category coding**: N/A
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Height in cm - self-reported  
+**Variable name**: phy_height_sr_4  
+**Variable description**: Height of the participant in centimeters - self-reported.  
+**Value type**: decimal  
+**Variable unit**: cm  
+**Category coding**: N/A
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Height in cm - self-reported  
+**Variable name**: phy_height_sr_5  
+**Variable description**: Height of the participant in centimeters - self-reported.  
+**Value type**: decimal  
+**Variable unit**: cm  
+**Category coding**: N/A
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Height in cm - self-reported  
+**Variable name**: phy_height_sr_6  
+**Variable description**: Height of the participant in centimeters - self-reported.  
+**Value type**: decimal  
+**Variable unit**: cm  
+**Category coding**: N/A
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+
+### **Variable label**: Height in cm - measured and self-reported combined  
+**Variable name**: phy_height_all_0    
+**Variable description**: Height of the participant in centimeters - measured  and self-reported combined. If both measured and self-reported height were collected, measured height was taken.    
+**Value type**: decimal  
+**Variable unit**: cm  
+**Category coding**: N/A
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Height in cm - measured and self-reported combined  
+**Variable name**: phy_height_all_1    
+**Variable description**: Height of the participant in centimeters - measured  and self-reported combined. If both measured and self-reported height were collected, measured height was taken.   
+**Value type**: decimal  
+**Variable unit**: cm  
+**Category coding**: N/A
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Height in cm - measured and self-reported combined    
+**Variable name**: phy_height_all_2    
+**Variable description**: Height of the participant in centimeters - measured  and self-reported combined. If both measured and self-reported height were collected, measured height was taken.   
+**Value type**: decimal  
+**Variable unit**: cm  
+**Category coding**: N/A
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Height in cm - measured and self-reported combined  
+**Variable name**: phy_height_all_3    
+**Variable description**: Height of the participant in centimeters - measured  and self-reported combined. If both measured and self-reported height were collected, measured height was taken.   
+**Value type**: decimal  
+**Variable unit**: cm  
+**Category coding**: N/A
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Height in cm - measured and self-reported combined  
+**Variable name**: phy_height_all_4    
+**Variable description**: Height of the participant in centimeters - measured  and self-reported combined. If both measured and self-reported height were collected, measured height was taken.   
+**Value type**: decimal  
+**Variable unit**: cm  
+**Category coding**: N/A
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Height in cm - measured and self-reported combined  
+**Variable name**: phy_height_all_5    
+**Variable description**: Height of the participant in centimeters - measured  and self-reported combined. If both measured and self-reported height were collected, measured height was taken.   
+**Value type**: decimal  
+**Variable unit**: cm  
+**Category coding**: N/A
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Height in cm - measured and self-reported combined  
+**Variable name**: phy_height_all_6    
+**Variable description**: Height of the participant in centimeters - measured  and self-reported combined. If both measured and self-reported height were collected, measured height was taken.   
+**Value type**: decimal  
+**Variable unit**: cm  
+**Category coding**: N/A
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+
+### **Variable label**: Body mass index (BMI) - measured  
+**Variable name**: phy_bmi_ms_0  
+**Variable description**: Weight (in kg) divided by height (in m) squared - measured.  
+**Value type**: decimal  
+**Variable unit**: kg/m2  
+**Category coding**: N/A
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Body mass index (BMI) - measured  
+**Variable name**: phy_bmi_ms_1  
+**Variable description**: Weight (in kg) divided by height (in m) squared - measured.    
+**Value type**: decimal  
+**Variable unit**: kg/m2  
+**Category coding**: N/A
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Body mass index (BMI) - measured  
+**Variable name**: phy_bmi_ms_2  
+**Variable description**: Weight (in kg) divided by height (in m) squared - measured.   
+**Value type**: decimal  
+**Variable unit**: kg/m2  
+**Category coding**: N/A
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Body mass index (BMI) - measured  
+**Variable name**: phy_bmi_ms_3  
+**Variable description**: Weight (in kg) divided by height (in m) squared - measured.    
+**Value type**: decimal  
+**Variable unit**: kg/m2  
+**Category coding**: N/A
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Body mass index (BMI) - measured  
+**Variable name**: phy_bmi_ms_4  
+**Variable description**: Weight (in kg) divided by height (in m) squared - measured.   
+**Value type**: decimal  
+**Variable unit**: kg/m2  
+**Category coding**: N/A
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Body mass index (BMI) - measured  
+**Variable name**: phy_bmi_ms_5  
+**Variable description**: Weight (in kg) divided by height (in m) squared - measured.    
+**Value type**: decimal  
+**Variable unit**: kg/m2  
+**Category coding**: N/A
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Body mass index (BMI) - measured  
+**Variable name**: phy_bmi_ms_6  
+**Variable description**: Weight (in kg) divided by height (in m) squared - measured.    
+**Value type**: decimal  
+**Variable unit**: kg/m2  
+**Category coding**: N/A
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+
+### **Variable label**: Body mass index (BMI) - self-reported  
+**Variable name**: phy_bmi_sr_0  
+**Variable description**: Weight (in kg) divided by height (in m) squared - self-reported.  
+**Value type**: decimal  
+**Variable unit**: kg/m2  
+**Category coding**: N/A
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Body mass index (BMI) - self-reported  
+**Variable name**: phy_bmi_sr_1  
+**Variable description**: Weight (in kg) divided by height (in m) squared - self-reported.  
+**Value type**: decimal  
+**Variable unit**: kg/m2  
+**Category coding**: N/A
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Body mass index (BMI) - self-reported  
+**Variable name**: phy_bmi_sr_2  
+**Variable description**: Weight (in kg) divided by height (in m) squared - self-reported.    
+**Value type**: decimal  
+**Variable unit**: kg/m2  
+**Category coding**: N/A
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Body mass index (BMI) - self-reported  
+**Variable name**: phy_bmi_sr_3  
+**Variable description**: Weight (in kg) divided by height (in m) squared - self-reported.    
+**Value type**: decimal  
+**Variable unit**: kg/m2  
+**Category coding**: N/A
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Body mass index (BMI) - self-reported  
+**Variable name**: phy_bmi_sr_4  
+**Variable description**: Weight (in kg) divided by height (in m) squared - self-reported.    
+**Value type**: decimal  
+**Variable unit**: kg/m2  
+**Category coding**: N/A
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Body mass index (BMI) - self-reported  
+**Variable name**: phy_bmi_sr_5  
+**Variable description**: Weight (in kg) divided by height (in m) squared - self-reported.    
+**Value type**: decimal  
+**Variable unit**: kg/m2  
+**Category coding**: N/A
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Body mass index (BMI) - self-reported  
+**Variable name**: phy_bmi_sr_6  
+**Variable description**: Weight (in kg) divided by height (in m) squared - self-reported.    
+**Value type**: decimal  
+**Variable unit**: kg/m2  
+**Category coding**: N/A
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```   
+
+### **Variable label**: Body mass index (BMI) - measured and self-reported combined  
+**Variable name**: phy_bmi_all_0  
+**Variable description**: Weight (in kg) divided by height (in m) squared - measured and self-reported combined. If both measured and self-reported weight and height were collected, measured values were taken.    
+**Value type**: decimal  
+**Variable unit**: kg/m2  
+**Category coding**: N/A
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Body mass index (BMI) - measured and self-reported combined  
+**Variable name**: phy_bmi_all_1  
+**Variable description**: Weight (in kg) divided by height (in m) squared - measured and self-reported combined. If both measured and self-reported weight and height were collected, measured values were taken.    
+**Value type**: decimal  
+**Variable unit**: kg/m2  
+**Category coding**: N/A
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Body mass index (BMI) - measured and self-reported combined  
+**Variable name**: phy_bmi_all_2  
+**Variable description**: Weight (in kg) divided by height (in m) squared - measured and self-reported combined. If both measured and self-reported weight and height were collected, measured values were taken.    
+**Value type**: decimal  
+**Variable unit**: kg/m2  
+**Category coding**: N/A
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Body mass index (BMI) - measured and self-reported combined  
+**Variable name**: phy_bmi_all_3  
+**Variable description**: Weight (in kg) divided by height (in m) squared - measured and self-reported combined. If both measured and self-reported weight and height were collected, measured values were taken.    
+**Value type**: decimal  
+**Variable unit**: kg/m2  
+**Category coding**: N/A
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Body mass index (BMI) - measured and self-reported combined  
+**Variable name**: phy_bmi_all_4  
+**Variable description**: Weight (in kg) divided by height (in m) squared - measured and self-reported combined. If both measured and self-reported weight and height were collected, measured values were taken.    
+**Value type**: decimal  
+**Variable unit**: kg/m2  
+**Category coding**: N/A
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Body mass index (BMI) - measured and self-reported combined  
+**Variable name**: phy_bmi_all_5  
+**Variable description**: Weight (in kg) divided by height (in m) squared - measured and self-reported combined. If both measured and self-reported weight and height were collected, measured values were taken.    
+**Value type**: decimal  
+**Variable unit**: kg/m2  
+**Category coding**: N/A
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**: Body mass index (BMI) - measured and self-reported combined  
+**Variable name**: phy_bmi_all_6  
+**Variable description**: Weight (in kg) divided by height (in m) squared - measured and self-reported combined. If both measured and self-reported weight and height were collected, measured values were taken.    
+**Value type**: decimal  
+**Variable unit**: kg/m2  
+**Category coding**: N/A
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+
+### **Variable label**:  Body mass index (BMI) - categories - measured  
+**Variable name**: phy_bmi_cat_ms_0  
+**Variable description**: Body mass index in categories - underweight (<18.5 kg/m2), normal (18.5-24.99 kg/m2), overweight (25 to 29.99 kg/m2), obese ( ≥30 kg/m2) - measured.    
+**Value type**: integer  
+**Variable unit**: N/A  
+**Category coding**: 
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 | Underweight - BMI <18.5  
+1 | Normal weight - BMI 18.5-24.99  
+2 | Overweight - BMI 25-29.99  
+3 | Obese - BMI >=30  
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**:  Body mass index (BMI) - categories - measured  
+**Variable name**: phy_bmi_cat_ms_1  
+**Variable description**: Body mass index in categories - underweight (<18.5 kg/m2), normal (18.5-24.99 kg/m2), overweight (25 to 29.99 kg/m2), obese ( ≥30 kg/m2) - measured.  
+**Value type**: integer  
+**Variable unit**: N/A  
+**Category coding**: 
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 | Underweight - BMI <18.5  
+1 | Normal weight - BMI 18.5-24.99  
+2 | Overweight - BMI 25-29.99  
+3 | Obese - BMI >=30  
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**:  Body mass index (BMI) - categories - measured  
+**Variable name**: phy_bmi_cat_ms_2  
+**Variable description**: Body mass index in categories - underweight (<18.5 kg/m2), normal (18.5-24.99 kg/m2), overweight (25 to 29.99 kg/m2), obese ( ≥30 kg/m2) - measured.    
+**Value type**: integer  
+**Variable unit**: N/A  
+**Category coding**: 
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 | Underweight - BMI <18.5  
+1 | Normal weight - BMI 18.5-24.99  
+2 | Overweight - BMI 25-29.99  
+3 | Obese - BMI >=30  
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**:  Body mass index (BMI) - categories - measured  
+**Variable name**: phy_bmi_cat_ms_3  
+**Variable description**: Body mass index in categories - underweight (<18.5 kg/m2), normal (18.5-24.99 kg/m2), overweight (25 to 29.99 kg/m2), obese ( ≥30 kg/m2) - measured.    
+**Value type**: integer  
+**Variable unit**: N/A  
+**Category coding**: 
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 | Underweight - BMI <18.5  
+1 | Normal weight - BMI 18.5-24.99  
+2 | Overweight - BMI 25-29.99  
+3 | Obese - BMI >=30  
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**:  Body mass index (BMI) - categories - measured  
+**Variable name**: phy_bmi_cat_ms_4  
+**Variable description**: Body mass index in categories - underweight (<18.5 kg/m2), normal (18.5-24.99 kg/m2), overweight (25 to 29.99 kg/m2), obese ( ≥30 kg/m2) - measured.    
+**Value type**: integer  
+**Variable unit**: N/A  
+**Category coding**: 
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 | Underweight - BMI <18.5  
+1 | Normal weight - BMI 18.5-24.99  
+2 | Overweight - BMI 25-29.99  
+3 | Obese - BMI >=30  
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**:  Body mass index (BMI) - categories - measured  
+**Variable name**: phy_bmi_cat_ms_5  
+**Variable description**: Body mass index in categories - underweight (<18.5 kg/m2), normal (18.5-24.99 kg/m2), overweight (25 to 29.99 kg/m2), obese ( ≥30 kg/m2) - measured.  
+**Value type**: integer  
+**Variable unit**: N/A  
+**Category coding**: 
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 | Underweight - BMI <18.5  
+1 | Normal weight - BMI 18.5-24.99  
+2 | Overweight - BMI 25-29.99  
+3 | Obese - BMI >=30  
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**:  Body mass index (BMI) - categories - measured  
+**Variable name**: phy_bmi_cat_ms_6  
+**Variable description**: Body mass index in categories - underweight (<18.5 kg/m2), normal (18.5-24.99 kg/m2), overweight (25 to 29.99 kg/m2), obese ( ≥30 kg/m2) - measured.  
+**Value type**: integer  
+**Variable unit**: N/A  
+**Category coding**: 
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 | Underweight - BMI <18.5  
+1 | Normal weight - BMI 18.5-24.99  
+2 | Overweight - BMI 25-29.99  
+3 | Obese - BMI >=30  
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+
+### **Variable label**:  Body mass index (BMI) - categories - self-reported  
+**Variable name**: phy_bmi_cat_sr_0    
+**Variable description**: Body mass index in categories - underweight (<18.5 kg/m2), normal (18.5-24.99 kg/m2), overweight (25 to 29.99 kg/m2), obese ( ≥30 kg/m2) - self-reported.  
+**Value type**: integer  
+**Variable unit**: N/A  
+**Category coding**: 
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 | Underweight - BMI <18.5  
+1 | Normal weight - BMI 18.5-24.99  
+2 | Overweight - BMI 25-29.99  
+3 | Obese - BMI >=30  
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**:  Body mass index (BMI) - categories - self-reported  
+**Variable name**: phy_bmi_cat_sr_1    
+**Variable description**: Body mass index in categories - underweight (<18.5 kg/m2), normal (18.5-24.99 kg/m2), overweight (25 to 29.99 kg/m2), obese ( ≥30 kg/m2) - self-reported.  
+**Value type**: integer  
+**Variable unit**: N/A  
+**Category coding**: 
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 | Underweight - BMI <18.5  
+1 | Normal weight - BMI 18.5-24.99  
+2 | Overweight - BMI 25-29.99  
+3 | Obese - BMI >=30  
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**:  Body mass index (BMI) - categories - self-reported  
+**Variable name**: phy_bmi_cat_sr_2    
+**Variable description**: Body mass index in categories - underweight (<18.5 kg/m2), normal (18.5-24.99 kg/m2), overweight (25 to 29.99 kg/m2), obese ( ≥30 kg/m2) - self-reported.
+**Value type**: integer  
+**Variable unit**: N/A  
+**Category coding**: 
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 | Underweight - BMI <18.5  
+1 | Normal weight - BMI 18.5-24.99  
+2 | Overweight - BMI 25-29.99  
+3 | Obese - BMI >=30  
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**:  Body mass index (BMI) - categories - self-reported  
+**Variable name**: phy_bmi_cat_sr_3    
+**Variable description**: Body mass index in categories - underweight (<18.5 kg/m2), normal (18.5-24.99 kg/m2), overweight (25 to 29.99 kg/m2), obese ( ≥30 kg/m2) - self-reported.  
+**Value type**: integer  
+**Variable unit**: N/A  
+**Category coding**: 
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 | Underweight - BMI <18.5  
+1 | Normal weight - BMI 18.5-24.99  
+2 | Overweight - BMI 25-29.99  
+3 | Obese - BMI >=30  
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**:  Body mass index (BMI) - categories - self-reported  
+**Variable name**: phy_bmi_cat_sr_4    
+**Variable description**: Body mass index in categories - underweight (<18.5 kg/m2), normal (18.5-24.99 kg/m2), overweight (25 to 29.99 kg/m2), obese ( ≥30 kg/m2) - self-reported.  
+**Value type**: integer  
+**Variable unit**: N/A  
+**Category coding**: 
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 | Underweight - BMI <18.5  
+1 | Normal weight - BMI 18.5-24.99  
+2 | Overweight - BMI 25-29.99  
+3 | Obese - BMI >=30  
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**:  Body mass index (BMI) - categories - self-reported  
+**Variable name**: phy_bmi_cat_sr_5    
+**Variable description**: Body mass index in categories - underweight (<18.5 kg/m2), normal (18.5-24.99 kg/m2), overweight (25 to 29.99 kg/m2), obese ( ≥30 kg/m2) - self-reported.  
+**Value type**: integer  
+**Variable unit**: N/A  
+**Category coding**: 
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 | Underweight - BMI <18.5  
+1 | Normal weight - BMI 18.5-24.99  
+2 | Overweight - BMI 25-29.99  
+3 | Obese - BMI >=30  
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**:  Body mass index (BMI) - categories - self-reported  
+**Variable name**: phy_bmi_cat_sr_6    
+**Variable description**: Body mass index in categories - underweight (<18.5 kg/m2), normal (18.5-24.99 kg/m2), overweight (25 to 29.99 kg/m2), obese ( ≥30 kg/m2) - self-reported.  
+**Value type**: integer  
+**Variable unit**: N/A  
+**Category coding**: 
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 | Underweight - BMI <18.5  
+1 | Normal weight - BMI 18.5-24.99  
+2 | Overweight - BMI 25-29.99  
+3 | Obese - BMI >=30  
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+
+### **Variable label**:  Body mass index (BMI) - categories - measured and self-reported combined  
+**Variable name**: phy_bmi_cat_all_0    
+**Variable description**: Body mass index in categories - underweight (<18.5 kg/m2), normal (18.5-24.99 kg/m2), overweight (25 to 29.99 kg/m2), obese ( ≥30 kg/m2) - measured and self-reported combined. If both measured and self-reported weight and height were collected, measured values were taken.      
+**Value type**: integer  
+**Variable unit**: N/A  
+**Category coding**: 
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 | Underweight - BMI <18.5  
+1 | Normal weight - BMI 18.5-24.99  
+2 | Overweight - BMI 25-29.99  
+3 | Obese - BMI >=30  
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**:  Body mass index (BMI) - categories - measured and self-reported combined  
+**Variable name**: phy_bmi_cat_all_1    
+**Variable description**: Body mass index in categories - underweight (<18.5 kg/m2), normal (18.5-24.99 kg/m2), overweight (25 to 29.99 kg/m2), obese ( ≥30 kg/m2) - measured and self-reported combined. If both measured and self-reported weight and height were collected, measured values were taken.      
+**Value type**: integer  
+**Variable unit**: N/A  
+**Category coding**: 
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 | Underweight - BMI <18.5  
+1 | Normal weight - BMI 18.5-24.99  
+2 | Overweight - BMI 25-29.99  
+3 | Obese - BMI >=30  
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**:  Body mass index (BMI) - categories - measured and self-reported combined  
+**Variable name**: phy_bmi_cat_all_2    
+**Variable description**: Body mass index in categories - underweight (<18.5 kg/m2), normal (18.5-24.99 kg/m2), overweight (25 to 29.99 kg/m2), obese ( ≥30 kg/m2) - measured and self-reported combined. If both measured and self-reported weight and height were collected, measured values were taken.      
+**Value type**: integer  
+**Variable unit**: N/A  
+**Category coding**: 
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 | Underweight - BMI <18.5  
+1 | Normal weight - BMI 18.5-24.99  
+2 | Overweight - BMI 25-29.99  
+3 | Obese - BMI >=30  
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**:  Body mass index (BMI) - categories - measured and self-reported combined  
+**Variable name**: phy_bmi_cat_all_3    
+**Variable description**: Body mass index in categories - underweight (<18.5 kg/m2), normal (18.5-24.99 kg/m2), overweight (25 to 29.99 kg/m2), obese ( ≥30 kg/m2) - measured and self-reported combined. If both measured and self-reported weight and height were collected, measured values were taken.      
+**Value type**: integer  
+**Variable unit**: N/A  
+**Category coding**: 
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 | Underweight - BMI <18.5  
+1 | Normal weight - BMI 18.5-24.99  
+2 | Overweight - BMI 25-29.99  
+3 | Obese - BMI >=30  
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**:  Body mass index (BMI) - categories - measured and self-reported combined  
+**Variable name**: phy_bmi_cat_all_4    
+**Variable description**: Body mass index in categories - underweight (<18.5 kg/m2), normal (18.5-24.99 kg/m2), overweight (25 to 29.99 kg/m2), obese ( ≥30 kg/m2) - measured and self-reported combined. If both measured and self-reported weight and height were collected, measured values were taken.      
+**Value type**: integer  
+**Variable unit**: N/A  
+**Category coding**: 
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 | Underweight - BMI <18.5  
+1 | Normal weight - BMI 18.5-24.99  
+2 | Overweight - BMI 25-29.99  
+3 | Obese - BMI >=30  
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**:  Body mass index (BMI) - categories - measured and self-reported combined  
+**Variable name**: phy_bmi_cat_all_5    
+**Variable description**: Body mass index in categories - underweight (<18.5 kg/m2), normal (18.5-24.99 kg/m2), overweight (25 to 29.99 kg/m2), obese ( ≥30 kg/m2) - measured and self-reported combined. If both measured and self-reported weight and height were collected, measured values were taken.      
+**Value type**: integer  
+**Variable unit**: N/A  
+**Category coding**: 
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 | Underweight - BMI <18.5  
+1 | Normal weight - BMI 18.5-24.99  
+2 | Overweight - BMI 25-29.99  
+3 | Obese - BMI >=30  
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**:  Body mass index (BMI) - categories - measured and self-reported combined  
+**Variable name**: phy_bmi_cat_all_6    
+**Variable description**: Body mass index in categories - underweight (<18.5 kg/m2), normal (18.5-24.99 kg/m2), overweight (25 to 29.99 kg/m2), obese ( ≥30 kg/m2) - measured and self-reported combined. If both measured and self-reported weight and height were collected, measured values were taken.      
+**Value type**: integer    
+**Variable unit**: N/A  
+**Category coding**: 
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 | Underweight - BMI <18.5  
+1 | Normal weight - BMI 18.5-24.99  
+2 | Overweight - BMI 25-29.99  
+3 | Obese - BMI >=30  
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+
+### **Variable label**:  Waist circumference in cm - measured and self-reported combined  
+**Variable name**: phy_waist_all_0  
+**Variable description**: Waist circumference of the participant in centimeters - measured and self-reported combined. If both measured and self-reported waist circumference were collected, measured waist circumference was taken.       
+**Value type**: decimal  
+**Variable unit**: cm  
+**Category coding**:  N/A  
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**:  Waist circumference in cm - measured and self-reported combined   
+**Variable name**: phy_waist_all_1  
+**Variable description**: Waist circumference of the participant in centimeters - measured and self-reported combined. If both measured and self-reported waist circumference were collected, measured waist circumference was taken.       
+**Value type**: decimal  
+**Variable unit**: cm  
+**Category coding**:  N/A  
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**:  Waist circumference in cm - measured and self-reported combined   
+**Variable name**: phy_waist_all_2  
+**Variable description**: Waist circumference of the participant in centimeters - measured and self-reported combined. If both measured and self-reported waist circumference were collected, measured waist circumference was taken.    
+**Value type**: decimal  
+**Variable unit**: cm  
+**Category coding**:  N/A  
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**:  Waist circumference in cm - measured and self-reported combined 
+**Variable name**: phy_waist_all_3  
+**Variable description**: Waist circumference of the participant in centimeters - measured and self-reported combined. If both measured and self-reported waist circumference were collected, measured waist circumference was taken.     
+**Value type**: decimal  
+**Variable unit**: cm  
+**Category coding**:  N/A  
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**:  Waist circumference in cm - measured and self-reported combined   
+**Variable name**: phy_waist_all_4  
+**Variable description**: Waist circumference of the participant in centimeters - measured and self-reported combined. If both measured and self-reported waist circumference were collected, measured waist circumference was taken.    
+**Value type**: decimal  
+**Variable unit**: cm  
+**Category coding**:  N/A  
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**:  Waist circumference in cm - measured and self-reported combined 
+**Variable name**: phy_waist_all_5  
+**Variable description**: Waist circumference of the participant in centimeters - measured and self-reported combined. If both measured and self-reported waist circumference were collected, measured waist circumference was taken.    
+**Value type**: decimal  
+**Variable unit**: cm  
+**Category coding**:  N/A  
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**:  Waist circumference in cm - measured and self-reported combined 
+**Variable name**: phy_waist_all_6  
+**Variable description**: Waist circumference of the participant in centimeters - measured and self-reported combined. If both measured and self-reported waist circumference were collected, measured waist circumference was taken.    
+**Value type**: decimal  
+**Variable unit**: cm  
+**Category coding**:  N/A  
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+
+# General perception of health subdomain
+
+### **Variable label**:  Self-assessed health   
+**Variable name**:  poh_sah_0  
+**Variable description**:  Self-assessed health of the participant, in three main categories.  
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 |   Good health  
+1 |   Fair health  
+2 |   Poor health  
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**:  Self-assessed health   
+**Variable name**:  poh_sah_1  
+**Variable description**:  Self-assessed health of the participant, in three main categories.  
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 |   Good health  
+1 |   Fair health  
+2 |   Poor health  
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**:  Self-assessed health   
+**Variable name**:  poh_sah_2  
+**Variable description**:  Self-assessed health of the participant, in three main categories.  
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 |   Good health  
+1 |   Fair health  
+2 |   Poor health  
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**:  Self-assessed health   
+**Variable name**:  poh_sah_3  
+**Variable description**:  Self-assessed health of the participant, in three main categories.  
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 |   Good health  
+1 |   Fair health  
+2 |   Poor health  
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**:  Self-assessed health   
+**Variable name**:  poh_sah_4  
+**Variable description**:  Self-assessed health of the participant, in three main categories.  
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 |   Good health  
+1 |   Fair health  
+2 |   Poor health  
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**:  Self-assessed health   
+**Variable name**:  poh_sah_5  
+**Variable description**:  Self-assessed health of the participant, in three main categories.  
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 |   Good health  
+1 |   Fair health  
+2 |   Poor health  
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**:  Self-assessed health   
+**Variable name**:  poh_sah_6  
+**Variable description**:  Self-assessed health of the participant, in three main categories.  
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 |   Good health  
+1 |   Fair health  
+2 |   Poor health  
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+
+### **Variable label**:  Poor self-assessed health  
+**Variable name**:  poh_sah_poor_0  
+**Variable description**:  Dichotomous indicator of self-assessed health of the participant, indicating poor vs non-poor health.  
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 |   Poor health
+1 |   Non-poor health
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**:  Poor self-assessed health  
+**Variable name**:  poh_sah_poor_1    
+**Variable description**:  Dichotomous indicator of self-assessed health of the participant, indicating poor vs non-poor health.  
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 |   Poor health
+1 |   Non-poor health
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**:  Poor self-assessed health  
+**Variable name**:  poh_sah_poor_2  
+**Variable description**:  Dichotomous indicator of self-assessed health of the participant, indicating poor vs non-poor health.  
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 |   Poor health
+1 |   Non-poor health
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**:  Poor self-assessed health  
+**Variable name**:  poh_sah_poor_3  
+**Variable description**:  Dichotomous indicator of self-assessed health of the participant, indicating poor vs non-poor health.  
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 |   Poor health
+1 |   Non-poor health
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**:  Poor self-assessed health  
+**Variable name**:  poh_sah_poor_4    
+**Variable description**:  Dichotomous indicator of self-assessed health of the participant, indicating poor vs non-poor health.  
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 |   Poor health
+1 |   Non-poor health
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**:  Poor self-assessed health  
+**Variable name**:  poh_sah_poor_5  
+**Variable description**:  Dichotomous indicator of self-assessed health of the participant, indicating poor vs non-poor health.  
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 |   Poor health
+1 |   Non-poor health
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**:  Poor self-assessed health  
+**Variable name**:  poh_sah_poor_6  
+**Variable description**:  Dichotomous indicator of self-assessed health of the participant, indicating poor vs non-poor health.  
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 |   Poor health
+1 |   Non-poor health
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+
+### **Variable label**:  Less than good self-assessed health  
+**Variable name**:  poh_sah_good_0    
+**Variable description**:  Dichotomous indicator of self-assessed health of the participant, indicating good vs less than good health.  
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 |   Less than good health  
+1 |   Good health  
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**:  Less than good self-assessed health  
+**Variable name**:  poh_sah_good_1    
+**Variable description**:  Dichotomous indicator of self-assessed health of the participant, indicating good vs less than good health.  
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 |   Less than good health  
+1 |   Good health  
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**:  Less than good self-assessed health  
+**Variable name**:  poh_sah_good_2    
+**Variable description**:  Dichotomous indicator of self-assessed health of the participant, indicating good vs less than good health.  
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 |   Less than good health  
+1 |   Good health  
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**:  Less than good self-assessed health  
+**Variable name**:  poh_sah_good_3    
+**Variable description**:  Dichotomous indicator of self-assessed health of the participant, indicating good vs less than good health.  
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 |   Less than good health  
+1 |   Good health  
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**:  Less than good self-assessed health  
+**Variable name**:  poh_sah_good_4    
+**Variable description**:  Dichotomous indicator of self-assessed health of the participant, indicating good vs less than good health.  
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 |   Less than good health  
+1 |   Good health  
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**:  Less than good self-assessed health  
+**Variable name**:  poh_sah_good_5    
+**Variable description**:  Dichotomous indicator of self-assessed health of the participant, indicating good vs less than good health.  
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 |   Less than good health  
+1 |   Good health  
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**:  Less than good self-assessed health  
+**Variable name**:  poh_sah_good_6    
+**Variable description**:  Dichotomous indicator of self-assessed health of the participant, indicating good vs less than good health.  
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 |   Less than good health  
+1 |   Good health  
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+
+
+# Disability subdomain
+
+### **Variable label**:  Difficulty walking up and down the stairs  
+**Variable name**:  fct_stairs_diff_0   
+**Variable description**:  Indicator of whether the participant has difficulty walking up and down the stairs.  
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 |   Has no difficulty walking up and down the stairs
+1 |   Has difficulty walking up and down the stairs  
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**:  Difficulty walking up and down the stairs  
+**Variable name**:  fct_stairs_diff_1  
+**Variable description**:  Indicator of whether the participant has difficulty walking up and down the stairs.  
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 |   Has no difficulty walking up and down the stairs
+1 |   Has difficulty walking up and down the stairs  
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**:  Difficulty walking up and down the stairs  
+**Variable name**:  fct_stairs_diff_2  
+**Variable description**:  Indicator of whether the participant has difficulty walking up and down the stairs.  
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 |   Has no difficulty walking up and down the stairs
+1 |   Has difficulty walking up and down the stairs  
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+
+### **Variable label**:  Difficulty walking    
+**Variable name**:  fct_walk_diff_0  
+**Variable description**:  Indicator of whether the participant has difficulty walking 2 to 3 blocks, or for about 400 to 500 meters, or for 5 minutes.  
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 |   Not able to walk without difficulty  
+1 |   Able to walk without difficulty  
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**:  Difficulty walking    
+**Variable name**:  fct_walk_diff_1  
+**Variable description**:  Indicator of whether the participant has difficulty walking 2 to 3 blocks, or for about 400 to 500 meters, or for 5 minutes.  
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 |   Not able to walk without difficulty  
+1 |   Able to walk without difficulty  
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**:  Difficulty walking    
+**Variable name**:  fct_walk_diff_2  
+**Variable description**:  Indicator of whether the participant has difficulty walking 2 to 3 blocks, or for about 400 to 500 meters, or for 5 minutes.    
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 |   Not able to walk without difficulty  
+1 |   Able to walk without difficulty  
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**:  Difficulty walking    
+**Variable name**:  fct_walk_diff_3  
+**Variable description**:  Indicator of whether the participant has difficulty walking 2 to 3 blocks, or for about 400 to 500 meters, or for 5 minutes.   
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 |   Not able to walk without difficulty  
+1 |   Able to walk without difficulty  
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**:  Difficulty walking    
+**Variable name**:  fct_walk_diff_4  
+**Variable description**:  Indicator of whether the participant has difficulty walking 2 to 3 blocks, or for about 400 to 500 meters, or for 5 minutes.     
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 |   Not able to walk without difficulty  
+1 |   Able to walk without difficulty  
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**:  Difficulty walking    
+**Variable name**:  fct_walk_diff_5  
+**Variable description**:  Indicator of whether the participant has difficulty walking 2 to 3 blocks, or for about 400 to 500 meters, or for 5 minutes.    
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 |   Not able to walk without difficulty  
+1 |   Able to walk without difficulty  
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+### **Variable label**:  Difficulty walking    
+**Variable name**:  fct_walk_diff_6  
+**Variable description**:  Indicator of whether the participant has difficulty walking 2 to 3 blocks, or for about 400 to 500 meters, or for 5 minutes.     
+**Value type**:  integer  
+**Variable unit**:  N/A  
+**Category coding**:  
+
+**Code** | **Category Label**  
+------------- | -------------  
+0 |   Not able to walk without difficulty  
+1 |   Able to walk without difficulty  
+
+**Harmonization status**:  
+**Harmonization comment**:   
+**R script**:  
+```{r, echo=TRUE}
+#This is where the R-script will be written
+
+```  
+
+
+
