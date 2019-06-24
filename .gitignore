@@ -2,6 +2,7 @@
 .Rhistory
 .RData
 .Ruserdata
+*.Rproj
 Harmonized-Datasets.Rproj
 Script_get_all_DataSet.R
 test.R
