@@ -18564,7 +18564,7 @@ sdc_RECORD_1$sdc_num_child_1<- as.integer(RECORD_w2$Qm137)
 **Harmonization comment**:   
 **R script**:  
 ```{r, echo=TRUE}
-sdc_RECORD_0$sdc_num_child_0<- ifelse(as.integer(RECORD_w1_1$Qm3)==0,0,ifelse(as.integer(RECORD_w1_1$Qm3)>0,1,NA))
+sdc_RECORD_0$sdc_child_0<- ifelse(as.integer(RECORD_w1_1$Qm3)==0,0,ifelse(as.integer(RECORD_w1_1$Qm3)>0,1,NA))
 
 ```    
 ### **Variable label**: Children (biological or adopted)  
