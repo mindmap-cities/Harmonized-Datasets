@@ -40,7 +40,7 @@ path_record    = path_list_todo[str_detect(string = path_list_todo,pattern="RECO
 create_dd <- function(path_study,name_study){
      #run variables
   
- #path_study = path_lasa1 ; name_study = 'LASA1' 
+ # path_study = path_lasa1 ; name_study = 'LASA1' 
   
   dd_allvar = list()
   for(i in 1:length(path_study)){
@@ -73,28 +73,28 @@ create_dd <- function(path_study,name_study){
     status %>% nrow %>% print
   
    #run variables
-    study.variable <- tibble(label,name,description,type,unit,comment,status) 
+    study.variable <- tibble(label$Text,name$Text,description$Text,type$Text,unit$Text,comment$Text,status$Text) 
     study.variable <- study.variable %>%
       add_column(
         table = paste("DS",name_study,gsub("-","",today()), sep = "_"),
         script = NA) %>%
       select(
-        `table` = table,
-        `name` = name,	
-        `label:en` = label,
-        `description:en` = description,	
-        `script` = script,	
-        `valueType`	= type,
-        `unit` = unit,	
-        `Mlstr_harmo::status` = status,
-        `Mlstr_harmo::comment`= comment
+        `table`                = table,
+        `name`                 = `name$Text`,	
+        `label:en`             = `label$Text`,
+        `description:en`       = `description$Text`,	
+        `script`               = script,	
+        `valueType`	           = `type$Text`,
+        `unit`                 = `unit$Text`,	
+        `Mlstr_harmo::status`  = `status$Text`,
+        `Mlstr_harmo::comment` = `comment$Text`
       )
   
     ####__3__ FROM ALL_VAR, COLLECT NAMES AND CATEGORIES - CREATE CATEGORIES PART OF DD ########
    #run categories
     study.categories <- dd_allvar %>% 
       filter(str_detect(Text,'Variable name|^[0-9] +\\|'))  %>% as_tibble() %>%
-      separate(Text,into = c("cat","variable"), sep = ":") %>%
+      separate(Text,into = c("cat","variable"), sep = "\\*:") %>%
       mutate(
         variable = str_trim(variable),
         cat = ifelse(str_detect(cat,"Variable name"), NA, cat)) %>%
@@ -133,11 +133,16 @@ dd_lasa2     <- create_dd(path_lasa2 , 'LASA2' )
 dd_lucas     <- create_dd(path_lucas , 'LUCAS' )
 dd_record    <- create_dd(path_record , 'RECORD' )
 
+path_env = "../physical_environmental/PHYSENV_DS.Rmd"
+dd_physenv <- create_dd(path_env, "PHYSENV")
+  message("problem with names")
+  dd_physenv$Variables %>% filter(!str_detect(name,"physenv_"))
+  message("replace m²")
+  dd_physenv$Variables %>% mutate (unit = ifelse(unit == "m²", "m2",unit))
 
-
-fwrite(dd_lsb_final_hunt, file = 'HARMO_DD_HUNT_Variables.csv',row.names = FALSE)
-fwrite(dd_test1_cat12_hunt, file = 'HARMO_DD_HUNT_Categories.csv',row.names = FALSE)
-fwrite(dd_test1_vn, file = 'HARMO_DD_HUNT_names.csv',row.names = FALSE)
+# fwrite(dd_lsb_final_hunt, file = 'HARMO_DD_HUNT_Variables.csv',row.names = FALSE)
+# fwrite(dd_test1_cat12_hunt, file = 'HARMO_DD_HUNT_Categories.csv',row.names = FALSE)
+# fwrite(dd_test1_vn, file = 'HARMO_DD_HUNT_names.csv',row.names = FALSE)
 
 # message("> dd_hunt  [1378,]
 #         # A tibble: 1 x 1
