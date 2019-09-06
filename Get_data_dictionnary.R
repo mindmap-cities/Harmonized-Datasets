@@ -15,6 +15,108 @@ library(dplyr)
 library(data.table)
 library(lubridate)
 
+###########################
+###### FUNCTIONS ##########
+###########################
+
+create_dd <- function(path_study,name_study){
+  #run variables
+  
+  # path_study = path_lasa1 ; name_study = 'LASA1' 
+  
+  dd_allvar = list()
+  for(i in 1:length(path_study)){
+    dd_allvar_i = fread(path_study[i],colClasses = 'characters',na.strings = '', fill = TRUE, sep ='')
+    detection_of_first_variable_i = which(str_detect(string = t(dd_allvar_i), pattern="Variable label"))[1]
+    dd_allvar[[i]] = dd_allvar_i[detection_of_first_variable_i:dim(dd_allvar_i)[1]]}
+  dd_allvar = Reduce(rbind,dd_allvar)
+  names(dd_allvar) = "Text"
+  
+  
+  #dd_allvar = tibble("Text" = dd_allvar) %>% select(Text = contains("Text"))
+  dd_allvar[172:195]
+  
+  ####__2__ FROM ALL_VAR, SEPARATE EACH ROW BY ITS CHUNK - CREATE VARIABLE PART OF DD ########
+  label       <- dd_allvar %>% filter(str_detect(Text,'Variable label\\*')) %>% mutate(Text = str_trim(gsub('.*\\*\\:', '',Text))) %>% as_tibble() 
+  name        <- dd_allvar %>% filter(str_detect(Text,'Variable name\\*')) %>% mutate(Text = str_trim(gsub('.*\\*\\:', '',Text))) %>% as_tibble() 
+  description <- dd_allvar %>% filter(str_detect(Text,'Variable description\\*')) %>% mutate(Text = str_trim(gsub('.*\\*\\:', '',Text))) %>% as_tibble() 
+  type        <- dd_allvar %>% filter(str_detect(Text,'Value type|Variable type\\*')) %>% mutate(Text = str_trim(gsub('.*\\*\\:', '',Text))) %>% as_tibble() 
+  unit        <- dd_allvar %>% filter(str_detect(Text,'Variable unit\\*')) %>% mutate(Text = str_trim(gsub('.*\\*\\:', '',Text))) %>% as_tibble() 
+  comment     <- dd_allvar %>% filter(str_detect(Text,'Harmonization comment\\*')) %>% mutate(Text = str_trim(gsub('.*\\*\\:', '',Text))) %>% as_tibble() 
+  status      <- dd_allvar %>% filter(str_detect(Text,'nization status\\*')) %>% mutate(Text = str_trim(gsub('.*\\*\\:', '',Text))) %>% as_tibble() 
+  
+  #test
+  label %>% nrow %>% print
+  name %>% nrow %>% print
+  description %>% nrow %>% print
+  type %>% nrow %>% print
+  unit %>% nrow %>% print
+  comment %>% nrow %>% print
+  status %>% nrow %>% print
+  
+  #run variables
+  study.variable <- tibble(label$Text,name$Text,description$Text,type$Text,unit$Text,comment$Text,status$Text) 
+  study.variable <- study.variable %>%
+    add_column(
+      table = paste("DS",name_study,gsub("-","",today()), sep = "_"),
+      script = NA) %>%
+    select(
+      `table`                = table,
+      `name`                 = `name$Text`,	
+      `label:en`             = `label$Text`,
+      `description:en`       = `description$Text`,	
+      `script`               = script,	
+      `valueType`	           = `type$Text`,
+      `unit`                 = `unit$Text`,	
+      `Mlstr_harmo::status`  = `status$Text`,
+      `Mlstr_harmo::comment` = `comment$Text`
+    )
+  
+  ####__3__ FROM ALL_VAR, COLLECT NAMES AND CATEGORIES - CREATE CATEGORIES PART OF DD ########
+  #run categories
+  study.categories <- dd_allvar %>% 
+    filter(str_detect(Text,'Variable name|^[0-9] +\\|'))  %>% as_tibble() %>%
+    separate(Text,into = c("cat","variable"), sep = "\\*:") %>%
+    mutate(
+      variable = str_trim(variable),
+      cat = ifelse(str_detect(cat,"Variable name"), NA, cat)) %>%
+    fill(variable, .direction="down") %>%
+    filter(!is.na(cat)) %>%
+    separate(cat,into = c("name","label"), sep = "\\|") %>%
+    mutate(
+      name = str_trim(name),
+      label = str_trim(label)) %>%
+    add_column(
+      table = paste("DS",name_study,gsub("-","",today()), sep = "_"),
+      missing = 0) %>%
+    select(
+      `table` = table,
+      `variable` = variable,	
+      `name` = name,
+      `missing` = missing,
+      `label:en` = label
+    )
+  
+  dd <- list(study.variable,study.categories)
+  names(dd) = c("Variables", "Categories")
+  print(dd)
+  return(dd)}
+save_xls <- function(tbl_var,tbl_cat,name){
+  library(openxlsx)
+  zip    <- zip::zipr 
+  dd_ttl = createWorkbook()
+  addWorksheet(dd_ttl, "Variable")
+  addWorksheet(dd_ttl, "Categories")
+  writeData(dd_ttl, sheet = 'Variable', tbl_var, rowNames = FALSE)
+  writeData(dd_ttl, sheet = 'Categories', tbl_cat, rowNames = FALSE)
+  saveWorkbook(dd_ttl, paste0("DD_",name,".xlsx"), overwrite = TRUE)}
+
+
+
+###########################
+###### PROCEDURE ##########
+###########################
+
 
 #set the liste of domains of interest according to MS 
 # go get "../Harmonized-Datasets/Get_data_merged_for_longitudinal_analysis.R"
@@ -37,91 +139,6 @@ path_record    = path_list_todo[str_detect(string = path_list_todo,pattern="RECO
 #creation of a dataframe containing 1 column, with rows containing variable information (label, description, status, etc.)
 #the followin code separates each variable from its information, and put them in a opal-compatible format (CSV)
 
-create_dd <- function(path_study,name_study){
-     #run variables
-  
- # path_study = path_lasa1 ; name_study = 'LASA1' 
-  
-  dd_allvar = list()
-  for(i in 1:length(path_study)){
-    dd_allvar_i = fread(path_study[i],colClasses = 'characters',na.strings = '', fill = TRUE, sep ='')
-    detection_of_first_variable_i = which(str_detect(string = t(dd_allvar_i), pattern="Variable label"))[1]
-    dd_allvar[[i]] = dd_allvar_i[detection_of_first_variable_i:dim(dd_allvar_i)[1]]}
-  dd_allvar = Reduce(rbind,dd_allvar)
-  names(dd_allvar) = "Text"
-  
-
-    #dd_allvar = tibble("Text" = dd_allvar) %>% select(Text = contains("Text"))
-    dd_allvar[172:195]
-    
-    ####__2__ FROM ALL_VAR, SEPARATE EACH ROW BY ITS CHUNK - CREATE VARIABLE PART OF DD ########
-    label       <- dd_allvar %>% filter(str_detect(Text,'Variable label\\*')) %>% mutate(Text = str_trim(gsub('.*\\*\\:', '',Text))) %>% as_tibble() 
-    name        <- dd_allvar %>% filter(str_detect(Text,'Variable name\\*')) %>% mutate(Text = str_trim(gsub('.*\\*\\:', '',Text))) %>% as_tibble() 
-    description <- dd_allvar %>% filter(str_detect(Text,'Variable description\\*')) %>% mutate(Text = str_trim(gsub('.*\\*\\:', '',Text))) %>% as_tibble() 
-    type        <- dd_allvar %>% filter(str_detect(Text,'Value type|Variable type\\*')) %>% mutate(Text = str_trim(gsub('.*\\*\\:', '',Text))) %>% as_tibble() 
-    unit        <- dd_allvar %>% filter(str_detect(Text,'Variable unit\\*')) %>% mutate(Text = str_trim(gsub('.*\\*\\:', '',Text))) %>% as_tibble() 
-    comment     <- dd_allvar %>% filter(str_detect(Text,'Harmonization comment\\*')) %>% mutate(Text = str_trim(gsub('.*\\*\\:', '',Text))) %>% as_tibble() 
-    status      <- dd_allvar %>% filter(str_detect(Text,'nization status\\*')) %>% mutate(Text = str_trim(gsub('.*\\*\\:', '',Text))) %>% as_tibble() 
-  
-   #test
-    label %>% nrow %>% print
-    name %>% nrow %>% print
-    description %>% nrow %>% print
-    type %>% nrow %>% print
-    unit %>% nrow %>% print
-    comment %>% nrow %>% print
-    status %>% nrow %>% print
-  
-   #run variables
-    study.variable <- tibble(label$Text,name$Text,description$Text,type$Text,unit$Text,comment$Text,status$Text) 
-    study.variable <- study.variable %>%
-      add_column(
-        table = paste("DS",name_study,gsub("-","",today()), sep = "_"),
-        script = NA) %>%
-      select(
-        `table`                = table,
-        `name`                 = `name$Text`,	
-        `label:en`             = `label$Text`,
-        `description:en`       = `description$Text`,	
-        `script`               = script,	
-        `valueType`	           = `type$Text`,
-        `unit`                 = `unit$Text`,	
-        `Mlstr_harmo::status`  = `status$Text`,
-        `Mlstr_harmo::comment` = `comment$Text`
-      )
-  
-    ####__3__ FROM ALL_VAR, COLLECT NAMES AND CATEGORIES - CREATE CATEGORIES PART OF DD ########
-   #run categories
-    study.categories <- dd_allvar %>% 
-      filter(str_detect(Text,'Variable name|^[0-9] +\\|'))  %>% as_tibble() %>%
-      separate(Text,into = c("cat","variable"), sep = "\\*:") %>%
-      mutate(
-        variable = str_trim(variable),
-        cat = ifelse(str_detect(cat,"Variable name"), NA, cat)) %>%
-      fill(variable, .direction="down") %>%
-      filter(!is.na(cat)) %>%
-      separate(cat,into = c("name","label"), sep = "\\|") %>%
-      mutate(
-        name = str_trim(name),
-        label = str_trim(label)) %>%
-      add_column(
-        table = paste("DS",name_study,gsub("-","",today()), sep = "_"),
-        missing = 0) %>%
-      select(
-        `table` = table,
-        `variable` = variable,	
-        `name` = name,
-        `missing` = missing,
-        `label:en` = label
-      )
-  
-  dd <- list(study.variable,study.categories)
-  names(dd) = c("Variables", "Categories")
-  print(dd)
-  return(dd)}
-
-
-
 #dd_clsa      <- create_dd(path_clsa , 'CLSA' )
 dd_globe     <- create_dd(path_globe , 'GLOBE' )
 dd_hapiee_cz <- create_dd(path_hapiee_cz , 'HAPIEE_CZ' )
@@ -140,10 +157,20 @@ dd_physenv <- create_dd(path_env, "PHYSENV")
   message("replace m²")
   dd_physenv$Variables %>% mutate (unit = ifelse(unit == "m²", "m2",unit))
 
-# fwrite(dd_lsb_final_hunt, file = 'HARMO_DD_HUNT_Variables.csv',row.names = FALSE)
-# fwrite(dd_test1_cat12_hunt, file = 'HARMO_DD_HUNT_Categories.csv',row.names = FALSE)
-# fwrite(dd_test1_vn, file = 'HARMO_DD_HUNT_names.csv',row.names = FALSE)
 
+  
+#SAVE WORK  
+
+save_xls(dd_globe$Variables     , dd_globe$Categories     , 'GLOBE' )
+save_xls(dd_hapiee_cz$Variables , dd_hapiee_cz$Categories , 'HAPIEE_CZ' )
+save_xls(dd_hapiee_lt$Variables , dd_hapiee_lt$Categories , 'HAPIEE_LT' )
+save_xls(dd_hapiee_ru$Variables , dd_hapiee_ru$Categories , 'HAPIEE_RU' )
+save_xls(dd_hunt$Variables      , dd_hunt$Categories      , 'HUNT' )
+save_xls(dd_lasa1$Variables     , dd_lasa1$Categories     , 'LASA1' ) 
+save_xls(dd_lasa2$Variables     , dd_lasa2$Categories     , 'LASA2' )
+save_xls(dd_lucas$Variables     , dd_lucas$Categories     , 'LUCAS' )
+save_xls(dd_record$Variables    , dd_record$Categories    , 'RECORD' )
+  
 # message("> dd_hunt  [1378,]
 #         # A tibble: 1 x 1
 #         Text                                                                                            
