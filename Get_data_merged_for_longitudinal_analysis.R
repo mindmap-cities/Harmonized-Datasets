@@ -1,0 +1,972 @@
+#rm(list = ls())
+library(naniar)
+library(epiDisplay)
+library(tidyverse)
+library(stringr)
+select <- dplyr::select
+recode <- dplyr::recode
+## 1. knit all variable included ##
+
+ksource <- function(x, ...) {
+  library(knitr)
+  source(purl(x, output = tempfile()), ...)
+}
+
+
+MyMerge <- function(x,y){
+  df <- merge(x,y, by="id",all=TRUE)
+  return(df)
+}
+
+
+list_domain = c(
+  'sociodem_characteristics',
+  'lifestyle_behaviours',
+  'other_outcomes',
+  #  'biomarkers_genetics',   
+  'mental_health_outcomes',
+  'social_factors',
+  'perceptions_urban_env',
+  'social_environmental',
+  'physical_environmental')
+
+nbDomains = length(list_domain)
+
+domain_short = c(
+  
+  'sdc_',
+  'lsb_',
+  'oth_',
+#  'bio_',
+  'mho_',
+  'soc_',
+  'env_',
+  'socenv_',
+  'physenv_')
+
+names_short = c(
+  'clsa_',
+  'globe_',
+  'hapiee_cz_',
+  'hapiee_lt_',
+  'hapiee_ru_',
+  'hunt_',
+  'lasa1_',
+  'lasa2_',
+  'lucas_',
+  'record_'
+  )
+
+path_file = list()
+
+for (i in 1:nbDomains){
+  path_file[[i]] = list.files(path = paste0("../",list_domain[i]), pattern = "*.Rmd", all.files = FALSE,
+                              full.names = TRUE, recursive = TRUE,
+                              ignore.case = FALSE, include.dirs = FALSE )
+  path_file[[i]] = path_file[[i]][!str_detect(string=path_file[[i]],pattern="validation|Validation")]
+  path_file[[i]] = path_file[[i]][!str_detect(string=path_file[[i]],pattern="DS.Rmd")]
+}  
+
+
+names(path_file) = list_domain
+
+path_list = path_file %>% unlist
+
+### en attendant que les autres soient prets
+#path_list = path_list[c(1,4,5,8,11,14,15,18,19,22,23,25)]
+
+### doesnt work:
+## Biomarker_genetics
+#lasa 1 Library opal
+#lasa 2 Library opal
+## Mho
+# MHO_DS_LASA2 Unknown or uninitialised column: 'r47g'
+
+{
+path_list_todo = c(
+
+### BIO ### 
+#    "../biomarkers_genetics/BIO_DS_LASA1.Rmd",
+    ## PROBLEME [1] : library(opalr)
+    ## PROBLEME [2] : erasmus_opal <-opal.login()
+#   "../biomarkers_genetics/BIO_DS_LASA2.Rmd", 
+    ## PROBLEME [1] : library(opalr)
+    ## PROBLEME [2] : erasmus_opal <-opal.login()
+    ## PROBLEME [3] : line 407 : maj
+      # table(LASA2G$gmalbumi , useNA = "always")
+      # bio_LASA2_2$bio_alb_2<-LASA2G$gmalbumi
+      # table(bio_LASA2_2$bio_alb_2, useNA = "always")
+      # summary(bio_LASA2_2$bio_alb_2)
+    ## PROBLEME [4] : line 625 : maj
+      # bio_LASA2_2$bio_vitd_2[bio_LASA2_2$bio_vitd_2==-1]<-NA
+      # bio_LASA2_2$bio_vitd_2<-bio_LASA2_2$bio_vitd_2*0.400641
+      # table(bio_LASA2_2$bio_vitd_2, useNA = "always")
+      # summary(bio_LASA2_2$bio_vitd_2)
+
+### MHO ### 
+    "../mental_health_outcomes/MHO_DS_GLOBE.Rmd", 
+    ## PROBLEME [2] : varibale list incomplete
+    # opal.assign.table.tibble(erasmus_opal, 'GLOBE1997', 'GLOBE.GLOBE1997',
+    #      variables=list('v16a','v16b','v16c','v16d','v16e','r47c','g4c','r47f','g4f',
+    #                     'r47f','g4g','r47p','g4p','r47t','g4t','r47w','g4w','r47e2',
+    #                     'g4e2','r47f2','g4f2','r47k2','g4k2','r47i','g4i','r47o','g4o',
+    #                     'r47u','g4u','r47c2','g4c2','r47h2','g4h2', 'r47g'))
+    "../mental_health_outcomes/MHO_DS_HAPIEE_CZ.Rmd",
+    "../mental_health_outcomes/MHO_DS_HAPIEE_LT.Rmd",
+    "../mental_health_outcomes/MHO_DS_HAPIEE_RU.Rmd",
+    "../mental_health_outcomes/MHO_DS_HUNT.Rmd",
+    "../mental_health_outcomes/MHO_DS_LASA1.Rmd",
+    "../mental_health_outcomes/MHO_DS_LASA2.Rmd",
+    "../mental_health_outcomes/MHO_DS_LUCAS.Rmd",
+    "../mental_health_outcomes/MHO_DS_RECORD.Rmd",
+
+    
+### SDC ### 
+    # NOT READY YET "../sociodem_characteristics/SDC_DS_CLSA.Rmd",
+    "../sociodem_characteristics/SDC_DS_GLOBE.Rmd",
+    "../sociodem_characteristics/SDC_DS_HAPIEE_CZ.Rmd",  
+      ## PROBLEME [1] : library(opalr)
+      ## PROBLEME [2] : varibale list incomplete
+        #   opal.assign.table.tibble(erasmus_opal, 'HAPIEE_W2', 'HAPIEE.HAPIEE_W2', variable = 
+        #     list('country','numhouse','child','w2date','paidwork'))
+       
+    "../sociodem_characteristics/SDC_DS_HAPIEE_LT.Rmd",
+      ## PROBLEME [1] : library(opalr)
+      ## PROBLEME [2] : varibale list incomplete
+        #   opal.assign.table.tibble(erasmus_opal, 'HAPIEE_W2', 'HAPIEE.HAPIEE_W2',variables = 
+        #     list('country','numhouse','child','w2date','age_lt','q2_lt','q3_lt','q4_lt',
+        #          'w2chldno_lt','w2child_lt','paidwork','retired'))
+        
+    "../sociodem_characteristics/SDC_DS_HAPIEE_RU.Rmd",
+      ## PROBLEME [1] : library(opalr)
+      ## PROBLEME [2] : varibale list incomplete
+        #   opal.assign.table.tibble(erasmus_opal, 'HAPIEE_W2', 'HAPIEE.HAPIEE_W2', variables = 
+        #      list('country','numhouse','child','w2date', 'paidwork', 'retired'))
+
+
+    "../sociodem_characteristics/SDC_DS_HUNT.Rmd",
+    "../sociodem_characteristics/SDC_DS_LASA1.Rmd",
+    "../sociodem_characteristics/SDC_DS_LASA2.Rmd", 
+      ## PROBLEME [1] : library(opalr)
+      ## PROBLEME [2] : line 954 : fmarst / marst
+        # sdc_LASA2_1$sdc_civstat_1 <- 
+        #          recode(as.integer(LASA2F$fmarst),'5'=1L,'1'=0L,'2'=1L,'3'=2L,'4'=3L, 
+        #                  .default = NA_integer_)
+     
+    "../sociodem_characteristics/SDC_DS_LUCAS.Rmd",
+    "../sociodem_characteristics/SDC_DS_RECORD.Rmd",
+
+      ## PROBLEME [2] : line 1359 : remove comment
+        # **Harmonization comment**:   (Number of children to be added after cleaning. See region)
+
+
+ 
+    
+### OTH ### 
+    # NOT READY YET  "../other_outcomes/OTH_DS_CLSA.Rmd",  
+    "../other_outcomes/OTH_DS_GLOBE.Rmd",  
+    "../other_outcomes/OTH_DS_HAPIEE_CZ.Rmd",        
+    "../other_outcomes/OTH_DS_HAPIEE_LT.Rmd",       
+    "../other_outcomes/OTH_DS_HAPIEE_RU.Rmd",      
+    "../other_outcomes/OTH_DS_HUNT.Rmd",     
+    "../other_outcomes/OTH_DS_LASA1.Rmd",    
+    "../other_outcomes/OTH_DS_LASA2.Rmd",   
+    "../other_outcomes/OTH_DS_LUCAS.Rmd",  
+    "../other_outcomes/OTH_DS_RECORD.Rmd",
+
+### ENV ### 
+    "../perceptions_urban_env/ENV_DS_GLOBE.Rmd",
+    "../perceptions_urban_env/ENV_DS_HAPIEE_CZ.Rmd",
+    "../perceptions_urban_env/ENV_DS_HAPIEE_LT.Rmd",
+    "../perceptions_urban_env/ENV_DS_HAPIEE_RU.Rmd",
+    "../perceptions_urban_env/ENV_DS_HUNT.Rmd",
+    "../perceptions_urban_env/ENV_DS_LASA1.Rmd",
+    "../perceptions_urban_env/ENV_DS_LASA2.Rmd",
+    "../perceptions_urban_env/ENV_DS_LUCAS.Rmd",
+    "../perceptions_urban_env/ENV_DS_RECORD.Rmd",
+    
+### SOCENV ###    
+    #NOT READY YET "../social_environmental/SOCENV_DS_GLOBE.Rmd",
+    #NOT READY YET "../social_environmental/SOCENV_DS_HAPIEE_CZ.Rmd",
+    #NOT READY YET "../social_environmental/SOCENV_DS_HAPIEE_LT.Rmd",
+    #NOT READY YET "../social_environmental/SOCENV_DS_HAPIEE_RU.Rmd",
+    #NOT READY YET "../social_environmental/SOCENV_DS_HUNT.Rmd",
+    #NOT READY YET "../social_environmental/SOCENV_DS_LASA1.Rmd",
+    #NOT READY YET "../social_environmental/SOCENV_DS_LASA2.Rmd",
+    #NOT READY YET "../social_environmental/SOCENV_DS_LUCAS.Rmd",
+    #NOT READY YET "../social_environmental/SOCENV_DS_RECORD.Rmd",
+    
+    
+### LSB ###
+    #NOT READY YET "../lifestyle_behaviours/LSB_DS_CLSA.Rmd",
+    "../lifestyle_behaviours/LSB_DS_GLOBE.Rmd",
+      ## PROBLEME [1] : library(opalr)
+      ## PROBLEME [2] : line 2674 : tibble format
+        # GLOBE2004$lsb_pa_garden_time_all<-
+        #   ifelse(is.na(GLOBE2004$lsb_pa_garden_time_1) & 
+        #          is.na(GLOBE2004$lsb_pa_garden_time_2) & 
+        #          is.na(GLOBE2004$lsb_pa_garden_time_3) & 
+        #          is.na(GLOBE2004$lsb_pa_garden_time_4),
+        #        NA,
+        #        GLOBE2004 %>%
+        #          select(lsb_pa_garden_time_1,
+        #                 lsb_pa_garden_time_2,
+        #                 lsb_pa_garden_time_3,
+        #                 lsb_pa_garden_time_4) %>%
+        #          rowSums(na.rm = TRUE))
+      
+      ## PROBLEME [3] : line 2715 : tibble format
+        # GLOBE2011$lsb_pa_garden_time_all<-
+        #   ifelse(is.na(GLOBE2011$lsb_pa_garden_time_1) & 
+        #          is.na(GLOBE2011$lsb_pa_garden_time_2) & 
+        #          is.na(GLOBE2011$lsb_pa_garden_time_3) & 
+        #          is.na(GLOBE2011$lsb_pa_garden_time_4),
+        #        NA,
+        #        GLOBE2011 %>%
+        #          select(lsb_pa_garden_time_1,
+        #                 lsb_pa_garden_time_2,
+        #                 lsb_pa_garden_time_3,
+        #                 lsb_pa_garden_time_4) %>%
+        #          rowSums(na.rm = TRUE))
+
+
+
+    "../lifestyle_behaviours/LSB_DS_HAPIEE_CZ.Rmd",
+      ## PROBLEME [1] : library(opalr)
+      ## PROBLEME [2] : varibale list incomplete
+        # opal.assign.table.tibble(erasmus_opal, 'HAPIEE_W1', 'HAPIEE.HAPIEE_W1',variables = 
+        #   list('country','d_alco_wk','d_beer_wk','d_wine_wk',
+        #        'd_dest_wk','d_al5day','l39','l40','l41','d_packyrs',
+        #        'l42','d_alcfreq','a46','a45','a44', 'l38'))
+      
+    
+    "../lifestyle_behaviours/LSB_DS_HAPIEE_LT.Rmd",
+    "../lifestyle_behaviours/LSB_DS_HAPIEE_RU.Rmd",
+      ## PROBLEME [1] : library(opalr)
+      ## PROBLEME [2] : varibale list incomplete 
+        #   opal.assign.table.tibble(erasmus_opal, 'HAPIEE_W1', 'HAPIEE.HAPIEE_W1', variables = 
+        #     list('country','d_alco_wk','d_beer_wk','d_wine_wk','d_dest_wk','d_al5day',
+        #          'l39','l40','l41','d_packyrs','l42','d_alcfreq','l38'))
+
+    "../lifestyle_behaviours/LSB_DS_HUNT.Rmd",
+    "../lifestyle_behaviours/LSB_DS_LASA1.Rmd",
+    "../lifestyle_behaviours/LSB_DS_LASA2.Rmd",
+    "../lifestyle_behaviours/LSB_DS_LUCAS.Rmd",
+    "../lifestyle_behaviours/LSB_DS_RECORD.Rmd",
+
+### PHYSENV ###
+    "../physical_environmental/PHYSENV_DS_HUNT.Rmd",
+    "../physical_environmental/PHYSENV_DS_RECORD.Rmd"
+ 
+
+### SOC ### 
+    #NOT READY YET "../social_factors/SOC_DS_GLOBE.Rmd",  
+    #NOT READY YET "../social_factors/SOC_DS_HAPIEE_CZ.Rmd",      
+    #NOT READY YET "../social_factors/SOC_DS_HAPIEE_LT.Rmd",     
+    #NOT READY YET "../social_factors/SOC_DS_HAPIEE_RU.Rmd",    
+    #NOT READY YET "../social_factors/SOC_DS_HUNT.Rmd",   
+    #NOT READY YET "../social_factors/SOC_DS_LASA1.Rmd",  
+    #NOT READY YET "../social_factors/SOC_DS_LASA2.Rmd", 
+    #NOT READY YET "../social_factors/SOC_DS_LUCAS.Rmd",
+    #NOT READY YET "../social_factors/SOC_DS_RECORD.Rmd"
+ )
+}
+
+for (i in 1:length(path_list_todo)) {
+  ksource(path_list_todo[i]) 
+}
+
+
+rm(erasmus_opal, smk_table, MyMerge2, med_table,
+   GLOBE1991,GLOBE1997,GLOBE2004,GLOBE2011,GLOBE2014,
+   HAPIEE_postal2009,HAPIEE_postal2012,HAPIEE_postal2013,HAPIEE_postal2015,HAPIEE_postal201718,HAPIEE_W1,HAPIEE_W1_hl,HAPIEE_W2,HAPIEE_W2_hl,
+   HUNT1,HUNT2,HUNT3,med_table_hunt, table_hunt_all,
+   LASA_extravar_PA,LASA1B,LASA1C,LASA1D,LASA1E,LASA1F,LASA1G,LASA1H,med_table_lasa1, lasa1_lsb_table,
+   LASA2B,LASA2F,LASA2G,LASA2H,med_table_lasa2, lasa2_lsb_table,
+   LUCAS_Wave2, lucas_w2,
+   RECORD_w1_1, RECORD_w1_2, RECORD_w2, RECORD_W2_2,  alc_table_record, med_table_record)
+
+
+
+save.image(file="all_dom_data.RData")
+
+
+# bio_hunt_total          =  Reduce(MyMerge, list()) ; rm()
+# bio_record_total        =  Reduce(MyMerge, list()) ; rm()
+# bio_lasa1_total           =  Reduce(MyMerge, list(bio_LASA1_0,bio_LASA1_1,bio_LASA1_6)) ; rm(bio_LASA1_0,bio_LASA1_1,bio_LASA1_6)
+# bio_lasa2_total           =  Reduce(MyMerge, list(bio_LASA2_0,bio_LASA2_2)) ; rm(bio_LASA2_0,bio_LASA2_2)
+# bio_lucas_total         =  Reduce(MyMerge, list()) ; rm()
+# bio_hapiee_lt_total     =  Reduce(MyMerge, list()) ; rm()
+# bio_hapiee_ru_total     =  Reduce(MyMerge, list()) ; rm()
+# bio_hapiee_cz_total     =  Reduce(MyMerge, list()) ; rm()
+# bio_globe_total         =  Reduce(MyMerge, list()) ; rm()
+# bio_clsa_total          =  Reduce(MyMerge, list()) ; rm()
+
+mho_hunt_total            =  Reduce(MyMerge, list(mho_HUNT_0, mho_HUNT_1, mho_HUNT_2)) ; rm(mho_HUNT_0, mho_HUNT_1, mho_HUNT_2)
+mho_record_total          =  Reduce(MyMerge, list(mho_RECORD_0,mho_RECORD_1)) ; rm(mho_RECORD_0,mho_RECORD_1)
+mho_lasa1_total           =  Reduce(MyMerge, list(mho_LASA1_0,mho_LASA1_1,mho_LASA1_2,mho_LASA1_3,mho_LASA1_4,mho_LASA1_5,mho_LASA1_6)) ; rm(mho_LASA1_0,mho_LASA1_1,mho_LASA1_2,mho_LASA1_3,mho_LASA1_4,mho_LASA1_5,mho_LASA1_6)
+mho_lasa2_total           =  Reduce(MyMerge, list(mho_LASA2_0,mho_LASA2_1,mho_LASA2_2,mho_LASA2_3));rm(mho_LASA2_0,mho_LASA2_1,mho_LASA2_2,mho_LASA2_3)
+mho_lucas_total           =  Reduce(MyMerge, list(mho_LUCAS_0)) ; rm(mho_LUCAS_0)
+mho_hapiee_lt_total       =  Reduce(MyMerge, list(mho_HAPIEE_LT_0,mho_HAPIEE_LT_1,mho_HAPIEE_LT_2,mho_HAPIEE_LT_3)) ; rm(mho_HAPIEE_LT_0,mho_HAPIEE_LT_1,mho_HAPIEE_LT_2,mho_HAPIEE_LT_3)
+mho_hapiee_ru_total       =  Reduce(MyMerge, list(mho_HAPIEE_RU_0,mho_HAPIEE_RU_1,mho_HAPIEE_RU_2,mho_HAPIEE_RU_3)) ; rm(mho_HAPIEE_RU_0,mho_HAPIEE_RU_1,mho_HAPIEE_RU_2,mho_HAPIEE_RU_3)
+mho_hapiee_cz_total       =  Reduce(MyMerge, list(mho_HAPIEE_CZ_0,mho_HAPIEE_CZ_1,mho_HAPIEE_CZ_2,mho_HAPIEE_CZ_3,mho_HAPIEE_CZ_4,mho_HAPIEE_CZ_5,mho_HAPIEE_CZ_6)) ; rm(mho_HAPIEE_CZ_0,mho_HAPIEE_CZ_1,mho_HAPIEE_CZ_2,mho_HAPIEE_CZ_3,mho_HAPIEE_CZ_4,mho_HAPIEE_CZ_5,mho_HAPIEE_CZ_6)
+mho_globe_total           =  Reduce(MyMerge, list(mho_GLOBE_0,mho_GLOBE_1,mho_GLOBE_2,mho_GLOBE_3,mho_GLOBE_4)) ; rm(mho_GLOBE_0,mho_GLOBE_1,mho_GLOBE_2,mho_GLOBE_3,mho_GLOBE_4)
+mho_clsa_total          =  Reduce(MyMerge, list()) ; rm()
+
+
+sdc_hunt_total            =  Reduce(MyMerge, list(sdc_HUNT_0, sdc_HUNT_1, sdc_HUNT_2)) ; rm(sdc_HUNT_0, sdc_HUNT_1, sdc_HUNT_2)
+sdc_record_total          =  Reduce(MyMerge, list(sdc_RECORD_0,sdc_RECORD_1)) ; rm(sdc_RECORD_0,sdc_RECORD_1)
+sdc_lasa1_total           =  Reduce(MyMerge, list(sdc_LASA1_0,sdc_LASA1_1,sdc_LASA1_2,sdc_LASA1_3,sdc_LASA1_4,sdc_LASA1_5,sdc_LASA1_6)) ; rm(sdc_LASA1_0,sdc_LASA1_1,sdc_LASA1_2,sdc_LASA1_3,sdc_LASA1_4,sdc_LASA1_5,sdc_LASA1_6)
+sdc_lasa2_total           =  Reduce(MyMerge, list(sdc_LASA2_0,sdc_LASA2_1,sdc_LASA2_2,sdc_LASA2_3));rm(sdc_LASA2_0,sdc_LASA2_1,sdc_LASA2_2,sdc_LASA2_3)
+sdc_lucas_total           =  Reduce(MyMerge, list(sdc_LUCAS_0)) ; rm(sdc_LUCAS_0)
+sdc_hapiee_lt_total       =  Reduce(MyMerge, list(sdc_HAPIEE_LT_0)) ; rm(sdc_HAPIEE_LT_0)
+sdc_hapiee_ru_total       =  Reduce(MyMerge, list(sdc_HAPIEE_RU_0,sdc_HAPIEE_RU_1)) ; rm(sdc_HAPIEE_RU_0,sdc_HAPIEE_RU_1)
+sdc_hapiee_cz_total       =  Reduce(MyMerge, list(sdc_HAPIEE_CZ_0,sdc_HAPIEE_CZ_1)) ; rm(sdc_HAPIEE_CZ_0,sdc_HAPIEE_CZ_1)
+sdc_globe_total           =  Reduce(MyMerge, list(sdc_GLOBE_0,sdc_GLOBE_1,sdc_GLOBE_2,sdc_GLOBE_3,sdc_GLOBE_4)) ; rm(sdc_GLOBE_0,sdc_GLOBE_1,sdc_GLOBE_2,sdc_GLOBE_3,sdc_GLOBE_4)
+sdc_clsa_total          =  Reduce(MyMerge, list()) ; rm()
+
+
+
+oth_hunt_total            =  Reduce(MyMerge, list(oth_HUNT_0, oth_HUNT_1, oth_HUNT_2)) ; rm(oth_HUNT_0, oth_HUNT_1, oth_HUNT_2)
+oth_record_total          =  Reduce(MyMerge, list(oth_RECORD_0,oth_RECORD_1)) ; rm(oth_RECORD_0,oth_RECORD_1)
+oth_lasa1_total           =  Reduce(MyMerge, list(oth_LASA1_0,oth_LASA1_1,oth_LASA1_2,oth_LASA1_3,oth_LASA1_4,oth_LASA1_5,oth_LASA1_6)) ; rm(oth_LASA1_0,oth_LASA1_1,oth_LASA1_2,oth_LASA1_3,oth_LASA1_4,oth_LASA1_5,oth_LASA1_6)
+oth_lasa2_total           =  Reduce(MyMerge, list(oth_LASA2_0,oth_LASA2_1,oth_LASA2_2,oth_LASA2_3));rm(oth_LASA2_0,oth_LASA2_1,oth_LASA2_2,oth_LASA2_3)
+oth_lucas_total           =  Reduce(MyMerge, list(oth_LUCAS_0)) ; rm(oth_LUCAS_0)
+oth_hapiee_lt_total       =  Reduce(MyMerge, list(oth_HAPIEE_LT_0)) ; rm(oth_HAPIEE_LT_0)
+oth_hapiee_ru_total       =  Reduce(MyMerge, list(oth_HAPIEE_RU_0,oth_HAPIEE_RU_1)) ; rm(oth_HAPIEE_RU_0,oth_HAPIEE_RU_1)
+oth_hapiee_cz_total       =  Reduce(MyMerge, list(oth_HAPIEE_CZ_0,oth_HAPIEE_CZ_1)) ; rm(oth_HAPIEE_CZ_0,oth_HAPIEE_CZ_1)
+oth_globe_total           =  Reduce(MyMerge, list(oth_GLOBE_0,oth_GLOBE_1,oth_GLOBE_2,oth_GLOBE_3,oth_GLOBE_4)) ; rm(oth_GLOBE_0,oth_GLOBE_1,oth_GLOBE_2,oth_GLOBE_3,oth_GLOBE_4)
+oth_clsa_total          =  Reduce(MyMerge, list()) ; rm()
+
+
+
+env_hunt_total            =  Reduce(MyMerge, list(env_HUNT_0, env_HUNT_1, env_HUNT_2)) ; rm(env_HUNT_0, env_HUNT_1, env_HUNT_2)
+env_record_total          =  Reduce(MyMerge, list(env_RECORD_0,env_RECORD_1)) ; rm(env_RECORD_0,env_RECORD_1)
+env_lasa1_total           =  Reduce(MyMerge, list(env_LASA1_0,env_LASA1_1,env_LASA1_2,env_LASA1_3,env_LASA1_4,env_LASA1_5,env_LASA1_6)) ; rm(env_LASA1_0,env_LASA1_1,env_LASA1_2,env_LASA1_3,env_LASA1_4,env_LASA1_5,env_LASA1_6)
+env_lasa2_total           =  Reduce(MyMerge, list(env_LASA2_0,env_LASA2_1,env_LASA2_2,env_LASA2_3));rm(env_LASA2_0,env_LASA2_1,env_LASA2_2,env_LASA2_3)
+env_lucas_total           =  Reduce(MyMerge, list(env_LUCAS_0)) ; rm(env_LUCAS_0)
+env_hapiee_lt_total       =  Reduce(MyMerge, list(env_HAPIEE_LT_0)) ; rm(env_HAPIEE_LT_0)
+env_hapiee_ru_total       =  Reduce(MyMerge, list(env_HAPIEE_RU_0,env_HAPIEE_RU_1)) ; rm(env_HAPIEE_RU_0,env_HAPIEE_RU_1)
+env_hapiee_cz_total       =  Reduce(MyMerge, list(env_HAPIEE_CZ_0,env_HAPIEE_CZ_1)) ; rm(env_HAPIEE_CZ_0,env_HAPIEE_CZ_1)
+env_globe_total           =  Reduce(MyMerge, list(env_GLOBE_0,env_GLOBE_1,env_GLOBE_2,env_GLOBE_3,env_GLOBE_4)) ; rm(env_GLOBE_0,env_GLOBE_1,env_GLOBE_2,env_GLOBE_3,env_GLOBE_4)
+env_clsa_total          =  Reduce(MyMerge, list()) ; rm()
+
+socenv_hunt_total       =  Reduce(MyMerge, list()) ; rm()
+socenv_record_total     =  Reduce(MyMerge, list()) ; rm()
+socenv_lasa1_total      =  Reduce(MyMerge, list()) ; rm()
+socenv_lasa2_total      =  Reduce(MyMerge, list()) ; rm()
+socenv_lucas_total      =  Reduce(MyMerge, list()) ; rm()
+socenv_hapiee_lt_total  =  Reduce(MyMerge, list()) ; rm()
+socenv_hapiee_ru_total  =  Reduce(MyMerge, list()) ; rm()
+socenv_hapiee_cz_total  =  Reduce(MyMerge, list()) ; rm()
+socenv_globe_total      =  Reduce(MyMerge, list()) ; rm()
+socenv_clsa_total       =  Reduce(MyMerge, list()) ; rm()
+
+lsb_hunt_total            =  Reduce(MyMerge, list(lsb_HUNT_0, lsb_HUNT_1, lsb_HUNT_2)) ; rm(lsb_HUNT_0, lsb_HUNT_1, lsb_HUNT_2)
+lsb_record_total          =  Reduce(MyMerge, list(lsb_RECORD_0,lsb_RECORD_1)) ; rm(lsb_RECORD_0,lsb_RECORD_1)
+lsb_lasa1_total           =  Reduce(MyMerge, list(lsb_LASA1_0,lsb_LASA1_1,lsb_LASA1_2,lsb_LASA1_3,lsb_LASA1_4,lsb_LASA1_5,lsb_LASA1_6)) ; rm(lsb_LASA1_0,lsb_LASA1_1,lsb_LASA1_2,lsb_LASA1_3,lsb_LASA1_4,lsb_LASA1_5,lsb_LASA1_6)
+lsb_lasa2_total           =  Reduce(MyMerge, list(lsb_LASA2_0,lsb_LASA2_1,lsb_LASA2_2,lsb_LASA2_3));rm(lsb_LASA2_0,lsb_LASA2_1,lsb_LASA2_2,lsb_LASA2_3)
+lsb_lucas_total           =  Reduce(MyMerge, list(lsb_LUCAS_0)) ; rm(lsb_LUCAS_0)
+lsb_hapiee_lt_total       =  Reduce(MyMerge, list(lsb_HAPIEE_LT_0)) ; rm(lsb_HAPIEE_LT_0)
+lsb_hapiee_ru_total       =  Reduce(MyMerge, list(lsb_HAPIEE_RU_0,lsb_HAPIEE_RU_1)) ; rm(lsb_HAPIEE_RU_0,lsb_HAPIEE_RU_1)
+lsb_hapiee_cz_total       =  Reduce(MyMerge, list(lsb_HAPIEE_CZ_0,lsb_HAPIEE_CZ_1)) ; rm(lsb_HAPIEE_CZ_0,lsb_HAPIEE_CZ_1)
+lsb_globe_total           =  Reduce(MyMerge, list(lsb_GLOBE_0,lsb_GLOBE_1,lsb_GLOBE_2,lsb_GLOBE_3,lsb_GLOBE_4)) ; rm(lsb_GLOBE_0,lsb_GLOBE_1,lsb_GLOBE_2,lsb_GLOBE_3,lsb_GLOBE_4)
+lsb_clsa_total          =  Reduce(MyMerge, list()) ; rm()
+
+physenv_hunt_total        =  Reduce(MyMerge, list(physenv_HUNT_0, physenv_HUNT_1, physenv_HUNT_2)) ; rm(physenv_HUNT_0, physenv_HUNT_1, physenv_HUNT_2)
+physenv_record_total      =  Reduce(MyMerge, list(physenv_RECORD_0,physenv_RECORD_1)) ; rm(physenv_RECORD_0,physenv_RECORD_1)
+physenv_lasa1_total     =  Reduce(MyMerge, list()) ; rm()
+physenv_lasa2_total     =  Reduce(MyMerge, list()) ; rm()
+physenv_lucas_total     =  Reduce(MyMerge, list()) ; rm()
+physenv_hapiee_lt_total =  Reduce(MyMerge, list()) ; rm()
+physenv_hapiee_ru_total =  Reduce(MyMerge, list()) ; rm()
+physenv_hapiee_cz_total =  Reduce(MyMerge, list()) ; rm()
+physenv_globe_total     =  Reduce(MyMerge, list()) ; rm()
+physenv_clsa_total      =  Reduce(MyMerge, list()) ; rm()
+
+soc_hunt_total          =  Reduce(MyMerge, list()) ; rm()
+soc_record_total        =  Reduce(MyMerge, list()) ; rm()
+soc_lasa1_total         =  Reduce(MyMerge, list()) ; rm()
+soc_lasa2_total         =  Reduce(MyMerge, list()) ; rm()
+soc_lucas_total         =  Reduce(MyMerge, list()) ; rm()
+soc_hapiee_lt_total     =  Reduce(MyMerge, list()) ; rm()
+soc_hapiee_ru_total     =  Reduce(MyMerge, list()) ; rm()
+soc_hapiee_cz_total     =  Reduce(MyMerge, list()) ; rm()
+soc_globe_total         =  Reduce(MyMerge, list()) ; rm()
+soc_clsa_total          =  Reduce(MyMerge, list()) ; rm()
+
+
+
+
+
+hunt_total   = Reduce(MyMerge, list(
+  sdc_hunt_total,
+  lsb_hunt_total,
+  oth_hunt_total,
+  #  bio_hunt_total,
+  mho_hunt_total,
+  # soc_hunt_total,
+  env_hunt_total,
+  # socenv_hunt_total,
+  physenv_hunt_total
+)) %>% as_tibble ; rm(
+  sdc_hunt_total,
+  lsb_hunt_total,
+  oth_hunt_total,
+  #  bio_hunt_total,
+  mho_hunt_total,
+  soc_hunt_total,
+  env_hunt_total,
+  socenv_hunt_total,
+  physenv_hunt_total
+)
+
+record_total = Reduce(MyMerge, list(
+  sdc_record_total,
+  lsb_record_total,
+  oth_record_total,
+  #  bio_record_total,
+  mho_record_total,
+  # soc_record_total,
+  env_record_total,
+  # socenv_record_total,
+  physenv_record_total
+)) %>% as_tibble ; rm(
+  sdc_record_total,
+  lsb_record_total,
+  oth_record_total,
+  #  bio_record_total,
+  mho_record_total,
+  soc_record_total,
+  env_record_total,
+  socenv_record_total,
+  physenv_record_total
+)
+
+
+lasa1_total = Reduce(MyMerge, list(
+  sdc_lasa1_total,
+  lsb_lasa1_total,
+  oth_lasa1_total,
+  #  bio_lasa1_total,
+  mho_lasa1_total,
+  # soc_lasa1_total,
+  env_lasa1_total
+  # socenv_lasa1_total,
+  # physenv_lasa1_total
+)) %>% as_tibble ; rm(
+  sdc_lasa1_total,
+  lsb_lasa1_total,
+  oth_lasa1_total,
+  #  bio_lasa1_total,
+  mho_lasa1_total,
+  soc_lasa1_total,
+  env_lasa1_total,
+  socenv_lasa1_total,
+  physenv_lasa1_total
+)
+
+
+lasa2_total = Reduce(MyMerge, list(
+  sdc_lasa2_total,
+  lsb_lasa2_total,
+  oth_lasa2_total,
+  #  bio_lasa2_total,
+  mho_lasa2_total,
+  # soc_lasa2_total,
+  env_lasa2_total
+  # socenv_lasa2_total,
+  # physenv_lasa2_total
+)) %>% as_tibble ; rm(
+  sdc_lasa2_total,
+  lsb_lasa2_total,
+  oth_lasa2_total,
+  #  bio_lasa2_total,
+  mho_lasa2_total,
+  soc_lasa2_total,
+  env_lasa2_total,
+  socenv_lasa2_total,
+  physenv_lasa2_total
+)
+
+
+lucas_total = Reduce(MyMerge, list(
+  sdc_lucas_total,
+  lsb_lucas_total,
+  oth_lucas_total,
+  #  bio_lucas_total,
+  mho_lucas_total,
+  # soc_lucas_total,
+  env_lucas_total
+  # socenv_lucas_total,
+  # physenv_lucas_total
+)) %>% as_tibble ; rm(
+  sdc_lucas_total,
+  lsb_lucas_total,
+  oth_lucas_total,
+  #  bio_lucas_total,
+  mho_lucas_total,
+  soc_lucas_total,
+  env_lucas_total,
+  socenv_lucas_total,
+  physenv_lucas_total
+)
+
+
+hapiee_lt_total = Reduce(MyMerge, list(
+  sdc_hapiee_lt_total,
+  lsb_hapiee_lt_total,
+  oth_hapiee_lt_total,
+  #  bio_hapiee_lt_total,
+  mho_hapiee_lt_total,
+  # soc_hapiee_lt_total,
+  env_hapiee_lt_total
+  # socenv_hapiee_lt_total,
+  # physenv_hapiee_lt_total
+)) %>% as_tibble ; rm(
+  sdc_hapiee_lt_total,
+  lsb_hapiee_lt_total,
+  oth_hapiee_lt_total,
+  #  bio_hapiee_lt_total,
+  mho_hapiee_lt_total,
+  soc_hapiee_lt_total,
+  env_hapiee_lt_total,
+  socenv_hapiee_lt_total,
+  physenv_hapiee_lt_total
+)
+
+
+hapiee_ru_total = Reduce(MyMerge, list(
+  sdc_hapiee_ru_total,
+  lsb_hapiee_ru_total,
+  oth_hapiee_ru_total,
+  #  bio_hapiee_ru_total,
+  mho_hapiee_ru_total,
+  # soc_hapiee_ru_total,
+  env_hapiee_ru_total
+  # socenv_hapiee_ru_total,
+  # physenv_hapiee_ru_total
+)) %>% as_tibble ; rm(
+  sdc_hapiee_ru_total,
+  lsb_hapiee_ru_total,
+  oth_hapiee_ru_total,
+  #  bio_hapiee_ru_total,
+  mho_hapiee_ru_total,
+  soc_hapiee_ru_total,
+  env_hapiee_ru_total,
+  socenv_hapiee_ru_total,
+  physenv_hapiee_ru_total
+)
+
+
+
+hapiee_cz_total = Reduce(MyMerge, list(
+  sdc_hapiee_cz_total,
+  lsb_hapiee_cz_total,
+  oth_hapiee_cz_total,
+  #  bio_hapiee_cz_total,
+  mho_hapiee_cz_total,
+  # soc_hapiee_cz_total,
+  env_hapiee_cz_total
+  # socenv_hapiee_cz_total,
+  # physenv_hapiee_cz_total
+)) %>% as_tibble ; rm(
+  sdc_hapiee_cz_total,
+  lsb_hapiee_cz_total,
+  oth_hapiee_cz_total,
+  #  bio_hapiee_cz_total,
+  mho_hapiee_cz_total,
+  soc_hapiee_cz_total,
+  env_hapiee_cz_total,
+  socenv_hapiee_cz_total,
+  physenv_hapiee_cz_total
+)
+
+
+
+globe_total = Reduce(MyMerge, list(
+  sdc_globe_total,
+  lsb_globe_total,
+  oth_globe_total,
+  #  bio_globe_total,
+  mho_globe_total,
+  # soc_globe_total,
+  env_globe_total
+  # socenv_globe_total,
+  # physenv_globe_total
+)) %>% as_tibble ; rm(
+  sdc_globe_total,
+  lsb_globe_total,
+  oth_globe_total,
+  #  bio_globe_total,
+  mho_globe_total,
+  soc_globe_total,
+  env_globe_total,
+  socenv_globe_total,
+  physenv_globe_total
+)
+
+
+
+# clsa_total = Reduce(MyMerge, list(
+  # sdc_clsa_total,
+  # lsb_clsa_total,
+  # oth_clsa_total,
+  #  bio_clsa_total,
+  # mho_clsa_total,
+  # soc_clsa_total,
+  # env_clsa_total
+  # socenv_clsa_total,
+  # physenv_clsa_total
+# )) %>% as_tibble ; 
+rm(
+  sdc_clsa_total,
+  lsb_clsa_total,
+  oth_clsa_total,
+   # bio_clsa_total,
+  mho_clsa_total,
+  soc_clsa_total,
+  env_clsa_total,
+  socenv_clsa_total,
+  physenv_clsa_total
+)
+
+
+
+
+
+
+
+hunt_total = as_tibble(data.frame(
+  id = hunt_total$id,
+  hunt_total[str_subset(names(hunt_total), "_0")],
+  hunt_total[str_subset(names(hunt_total), "_1")],
+  hunt_total[str_subset(names(hunt_total), "_2")],
+  hunt_total[str_subset(names(hunt_total), "_3")],
+  hunt_total[str_subset(names(hunt_total), "_4")],
+  hunt_total[str_subset(names(hunt_total), "_5")],
+  hunt_total[str_subset(names(hunt_total), "_6")],
+  baseline_yr	   = rep(1984),
+  followup1_yr	 = rep(1995),
+  followup2_yr	 = rep(2006),
+  followup3_yr	 = rep(NA),
+  followup4_yr	 = rep(NA),
+  followup5_yr	 = rep(NA),
+  followup6_yr	 = rep(NA),
+  t1	 = 1995 - 1984,
+  t2	 = 2006 - 1995
+
+)
+)
+
+record_total = as_tibble(data.frame(
+  id = record_total$id,
+  record_total[str_subset(names(record_total), "_0")],
+  record_total[str_subset(names(record_total), "_1")],
+  record_total[str_subset(names(record_total), "_2")],
+  record_total[str_subset(names(record_total), "_3")],
+  record_total[str_subset(names(record_total), "_4")],
+  record_total[str_subset(names(record_total), "_5")],
+  record_total[str_subset(names(record_total), "_6")],
+  baseline_yr	   = rep(2007),
+  followup1_yr	 = rep(2011),
+  followup2_yr	 = rep(NA),
+  followup3_yr	 = rep(NA),
+  followup4_yr	 = rep(NA),
+  followup5_yr	 = rep(NA),
+  followup6_yr	 = rep(NA),
+  t1	 = 2011 - 2007
+
+)
+)
+
+lasa1_total = as_tibble(data.frame(
+  id = lasa1_total$id,
+  lasa1_total[str_subset(names(lasa1_total), "_0")],
+  lasa1_total[str_subset(names(lasa1_total), "_1")],
+  lasa1_total[str_subset(names(lasa1_total), "_2")],
+  lasa1_total[str_subset(names(lasa1_total), "_3")],
+  lasa1_total[str_subset(names(lasa1_total), "_4")],
+  lasa1_total[str_subset(names(lasa1_total), "_5")],
+  lasa1_total[str_subset(names(lasa1_total), "_6")],
+  baseline_yr	   = rep(1992),
+  followup1_yr	 = rep(1995),
+  followup2_yr	 = rep(1998),
+  followup3_yr	 = rep(2001),
+  followup4_yr	 = rep(2005),
+  followup5_yr	 = rep(2008),
+  followup6_yr	 = rep(2011),
+  t1	 = 1995-1992 ,
+  t2	 = 1998-1995,
+  t3	 = 2001-1998,
+  t4	 = 2005-2001,
+  t5	 = 2008-2005,
+  t6	 = 2011-2008
+)
+)
+
+
+lasa2_total = as_tibble(data.frame(
+  id = lasa2_total$id,
+  lasa2_total[str_subset(names(lasa2_total), "_0")],
+  lasa2_total[str_subset(names(lasa2_total), "_1")],
+  lasa2_total[str_subset(names(lasa2_total), "_2")],
+  lasa2_total[str_subset(names(lasa2_total), "_3")],
+  lasa2_total[str_subset(names(lasa2_total), "_4")],
+  lasa2_total[str_subset(names(lasa2_total), "_5")],
+  lasa2_total[str_subset(names(lasa2_total), "_6")],
+  baseline_yr	   = rep(2002),
+  followup1_yr	 = rep(2005),
+  followup2_yr	 = rep(2008),
+  followup3_yr	 = rep(2011),
+  followup4_yr	 = rep(NA),
+  followup5_yr	 = rep(NA),
+  followup6_yr	 = rep(NA),
+  t1	 = 2005 - 2002,
+  t2	 = 2008 - 2005,
+  t3	 = 2011 - 2008
+  
+)
+)
+
+
+lucas_total = as_tibble(data.frame(
+  id = lucas_total$id,
+  lucas_total[str_subset(names(lucas_total), "_0")],
+  lucas_total[str_subset(names(lucas_total), "_1")],
+  lucas_total[str_subset(names(lucas_total), "_2")],
+  lucas_total[str_subset(names(lucas_total), "_3")],
+  lucas_total[str_subset(names(lucas_total), "_4")],
+  lucas_total[str_subset(names(lucas_total), "_5")],
+  lucas_total[str_subset(names(lucas_total), "_6")],
+  baseline_yr	   = rep(2000),
+  followup1_yr	 = rep(NA),
+  followup2_yr	 = rep(NA),
+  followup3_yr	 = rep(NA),
+  followup4_yr	 = rep(NA),
+  followup5_yr	 = rep(NA),
+  followup6_yr	 = rep(NA)
+)
+)
+
+
+hapiee_lt_total = as_tibble(data.frame(
+  id = hapiee_lt_total$id,
+  hapiee_lt_total[str_subset(names(hapiee_lt_total), "_0")],
+  hapiee_lt_total[str_subset(names(hapiee_lt_total), "_1")],
+  hapiee_lt_total[str_subset(names(hapiee_lt_total), "_2")],
+  hapiee_lt_total[str_subset(names(hapiee_lt_total), "_3")],
+  hapiee_lt_total[str_subset(names(hapiee_lt_total), "_4")],
+  hapiee_lt_total[str_subset(names(hapiee_lt_total), "_5")],
+  hapiee_lt_total[str_subset(names(hapiee_lt_total), "_6")],
+  baseline_yr	   = rep(2005),
+  followup1_yr	 = rep(NA),
+  followup2_yr	 = rep(NA),
+  followup3_yr	 = rep(NA),
+  followup4_yr	 = rep(NA),
+  followup5_yr	 = rep(NA),
+  followup6_yr	 = rep(NA)
+)
+)
+
+
+hapiee_ru_total = as_tibble(data.frame(
+  id = lasa2_total$id,
+  hapiee_ru_total[str_subset(names(hapiee_ru_total), "_0")],
+  hapiee_ru_total[str_subset(names(hapiee_ru_total), "_1")],
+  hapiee_ru_total[str_subset(names(hapiee_ru_total), "_2")],
+  hapiee_ru_total[str_subset(names(hapiee_ru_total), "_3")],
+  hapiee_ru_total[str_subset(names(hapiee_ru_total), "_4")],
+  hapiee_ru_total[str_subset(names(hapiee_ru_total), "_5")],
+  hapiee_ru_total[str_subset(names(hapiee_ru_total), "_6")],
+  baseline_yr	   = rep(2002),
+  followup1_yr	 = rep(2006),
+  followup2_yr	 = rep(NA),
+  followup3_yr	 = rep(NA),
+  followup4_yr	 = rep(NA),
+  followup5_yr	 = rep(NA),
+  followup6_yr	 = rep(NA),
+  t1	 = 2006 - 2002
+  
+)
+)
+
+
+hapiee_cz_total = as_tibble(data.frame(
+  id = hapiee_cz_total$id,
+  hapiee_cz_total[str_subset(names(hapiee_cz_total), "_0")],
+  hapiee_cz_total[str_subset(names(hapiee_cz_total), "_1")],
+  hapiee_cz_total[str_subset(names(hapiee_cz_total), "_2")],
+  hapiee_cz_total[str_subset(names(hapiee_cz_total), "_3")],
+  hapiee_cz_total[str_subset(names(hapiee_cz_total), "_4")],
+  hapiee_cz_total[str_subset(names(hapiee_cz_total), "_5")],
+  hapiee_cz_total[str_subset(names(hapiee_cz_total), "_6")],
+  baseline_yr	   = rep(2002),
+  followup1_yr	 = rep(2006),
+  followup2_yr	 = rep(NA),
+  followup3_yr	 = rep(NA),
+  followup4_yr	 = rep(NA),
+  followup5_yr	 = rep(NA),
+  followup6_yr	 = rep(NA),
+  t1	 = 2006 - 2002
+  
+)
+)
+
+
+globe_total = as_tibble(data.frame(
+  id = globe_total$id,
+  globe_total[str_subset(names(globe_total), "_0")],
+  globe_total[str_subset(names(globe_total), "_1")],
+  globe_total[str_subset(names(globe_total), "_2")],
+  globe_total[str_subset(names(globe_total), "_3")],
+  globe_total[str_subset(names(globe_total), "_4")],
+  globe_total[str_subset(names(globe_total), "_5")],
+  globe_total[str_subset(names(globe_total), "_6")],
+  baseline_yr	   = rep(1991),
+  followup1_yr	 = rep(1997),
+  followup2_yr	 = rep(2004),
+  followup3_yr	 = rep(2011),
+  followup4_yr	 = rep(2014),
+  followup5_yr	 = rep(NA),
+  followup6_yr	 = rep(NA),
+  t1	 = 1997 - 1991,
+  t2	 = 2004 - 1997,
+  t3	 = 2011 - 2004,
+  t4	 = 2014 - 2011
+  
+  
+)
+)
+
+# 
+# clsa_total = as_tibble(data.frame(
+#   id = clsa_total$id,
+#   clsa_total[str_subset(names(clsa_total), "_0")],
+#   clsa_total[str_subset(names(clsa_total), "_1")],
+#   clsa_total[str_subset(names(clsa_total), "_2")],
+#   clsa_total[str_subset(names(clsa_total), "_3")],
+#   clsa_total[str_subset(names(clsa_total), "_4")],
+#   clsa_total[str_subset(names(clsa_total), "_5")],
+#   clsa_total[str_subset(names(clsa_total), "_6")],
+#   baseline_yr	   = rep(2008),
+#   followup1_yr	 = rep(2015),
+#   followup2_yr	 = rep(NA),
+#   followup3_yr	 = rep(NA),
+#   followup4_yr	 = rep(NA),
+#   followup5_yr	 = rep(NA),
+#   followup6_yr	 = rep(NA),
+#   t1	 = 2015 - 2008
+
+# )
+# )
+
+
+
+write_csv(hunt_total,"hunt_Harmo_Table.csv",na="NA",col_names = TRUE)
+write_csv(record_total,"record_Harmo_Table.csv",na="NA",col_names = TRUE)
+write_csv(lasa1_total,"lasa1_Harmo_Table.csv",na="NA",col_names = TRUE)
+write_csv(lasa2_total,"lasa2_Harmo_Table.csv",na="NA",col_names = TRUE)
+write_csv(lucas_total,"lucas_Harmo_Table.csv",na="NA",col_names = TRUE)
+write_csv(hapiee_lt_total,"hapiee_lt_Harmo_Table.csv",na="NA",col_names = TRUE)
+write_csv(hapiee_ru_total,"hapiee_ru_Harmo_Table.csv",na="NA",col_names = TRUE)
+write_csv(hapiee_cz_total,"happie_cz_Harmo_Table.csv",na="NA",col_names = TRUE)
+write_csv(globe_total,"globe_Harmo_Table.csv",na="NA",col_names = TRUE)
+#write_csv(clsa_total,"clsa_Harmo_Table.csv",na="NA",col_names = TRUE)
+
+
+rm(path_file,
+   i,
+   list_domain,
+   domain_short,
+   names_short,
+   nbDomains,
+   path_list,
+   path_list_todo,
+   ksource,
+   MyMerge, 
+   recode,
+   select)
+
+
+
+# rm(hunt_total,
+#    record_total,
+#    lasa1_total,
+#    lasa2_total,
+#    lucas_total,
+#    hapiee_cz_total,
+#    hapiee_lt_total, 
+#    hapiee_ru_total,
+#    globe_total,
+#    clsa_total)
+
+
+
+
+# # 
+# o <- opal.login("gfabre","r338d7gC49g8tbcb3hs4", 
+#                 url = "https://obiba.erasmusmc.nl")
+# 
+# opal.assign.table(o, symbol = "df", value = "datashield.CNSIM1")
+# opal.assign.table.tibble(o, symbol = "tbl", value = "datashield.CNSIM1")
+# opal.symbols(o)
+# opal.execute(o, script = "names(tbl)")
+# tbl <- opal.execute(o, script = "tbl")
+# 
+# opal.workspaces(o)
+# opal.logout(o)
+# 
+# 
+# create_variable <- function(...){
+# #   
+#   "  
+#   ### **Variable label**: prompt$1  
+#   **Variable name**: prompt$2  
+#   **Variable description**: prompt$3 
+#   **Variable type**: prompt$4
+#   **Variable unit**: prompt$5  
+#   **Category coding**:  prompt$6
+#   
+#   **Harmonization status**:  prompt$7
+#   **Harmonization comment**:  prompt$8
+#   **R script**:  prompt$9
+#   ```{r, echo=TRUE}  
+#   
+#   ```  "
+#   (return(index))
+#   
+# }
+
+# 
+# create_variable <- function(...){
+#   
+#   "  
+#   ### **Variable label**: prompt$[i,1]  
+#   **Variable name**: prompt$[i,2]
+#   **Variable description**: prompt$[i,3]
+#   **Variable type**: prompt$4
+#   **Variable unit**: prompt$5  
+#   **Category coding**:  prompt$6
+#   
+#   **Harmonization status**:  prompt$7
+#   **Harmonization comment**:  prompt$8
+#   **R script**:  prompt$9
+#   ```{r, echo=TRUE}  
+#   
+#   ```  "
+#   (return(index))
+#   
+# }
+# 
+# 
+# 
+# 
+#  create_DS <- function(index[...]){
+#    
+#    happend(index)
+#    
+#  }
+# 
+# 
+
