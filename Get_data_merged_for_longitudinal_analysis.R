@@ -877,12 +877,12 @@ write_csv(globe_total,"globe_Harmo_Table.csv",na="NA",col_names = TRUE)
 
 rm(path_file,
    i,
-   list_domain,
-   domain_short,
-   names_short,
+#   list_domain,
+#   domain_short,
+#   names_short,
    nbDomains,
    path_list,
-   path_list_todo,
+#   path_list_todo,
    ksource,
    MyMerge, 
    recode,
@@ -901,72 +901,4 @@ rm(path_file,
 #    globe_total,
 #    clsa_total)
 
-
-
-
-# # 
-# o <- opal.login("gfabre","r338d7gC49g8tbcb3hs4", 
-#                 url = "https://obiba.erasmusmc.nl")
-# 
-# opal.assign.table(o, symbol = "df", value = "datashield.CNSIM1")
-# opal.assign.table.tibble(o, symbol = "tbl", value = "datashield.CNSIM1")
-# opal.symbols(o)
-# opal.execute(o, script = "names(tbl)")
-# tbl <- opal.execute(o, script = "tbl")
-# 
-# opal.workspaces(o)
-# opal.logout(o)
-# 
-# 
-# create_variable <- function(...){
-# #   
-#   "  
-#   ### **Variable label**: prompt$1  
-#   **Variable name**: prompt$2  
-#   **Variable description**: prompt$3 
-#   **Variable type**: prompt$4
-#   **Variable unit**: prompt$5  
-#   **Category coding**:  prompt$6
-#   
-#   **Harmonization status**:  prompt$7
-#   **Harmonization comment**:  prompt$8
-#   **R script**:  prompt$9
-#   ```{r, echo=TRUE}  
-#   
-#   ```  "
-#   (return(index))
-#   
-# }
-
-# 
-# create_variable <- function(...){
-#   
-#   "  
-#   ### **Variable label**: prompt$[i,1]  
-#   **Variable name**: prompt$[i,2]
-#   **Variable description**: prompt$[i,3]
-#   **Variable type**: prompt$4
-#   **Variable unit**: prompt$5  
-#   **Category coding**:  prompt$6
-#   
-#   **Harmonization status**:  prompt$7
-#   **Harmonization comment**:  prompt$8
-#   **R script**:  prompt$9
-#   ```{r, echo=TRUE}  
-#   
-#   ```  "
-#   (return(index))
-#   
-# }
-# 
-# 
-# 
-# 
-#  create_DS <- function(index[...]){
-#    
-#    happend(index)
-#    
-#  }
-# 
-# 
 
