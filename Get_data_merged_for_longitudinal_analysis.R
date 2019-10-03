@@ -255,8 +255,7 @@ path_list_todo = c(
     "../lifestyle_behaviours/LSB_DS_RECORD.Rmd",
 
 ### PHYSENV ###
-    "../physical_environmental/PHYSENV_DS_HUNT.Rmd",
-    "../physical_environmental/PHYSENV_DS_RECORD.Rmd"
+    "Recoding data in R_physenv.r"
  
 
 ### SOC ### 

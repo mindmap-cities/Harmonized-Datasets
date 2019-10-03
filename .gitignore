@@ -4,4 +4,5 @@
 .Ruserdata
 *.Rproj
 *.xlsx
+*.csv
 all_dom_data.RData
