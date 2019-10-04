@@ -22,7 +22,7 @@ library(lubridate)
 create_dd <- function(path_study,name_study){
   #run variables
   
-  # path_study = path_lasa1 ; name_study = 'LASA1' 
+  path_study = path_globe ; name_study = 'GLOBE' 
   
   dd_allvar = list()
   for(i in 1:length(path_study)){

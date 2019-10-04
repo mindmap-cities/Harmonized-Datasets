@@ -1,5 +1,3 @@
-message("\n*** Successfully loaded .Rprofile with Opal login options ***\n")
-
 #Load Opal R library
 library(opalr) 
 
@@ -325,13 +323,13 @@ colnames(HAPIEE_UA_1)
 
 
 # Merge and rename data files
-physenv_HAPIEE_0 <- data.frame(HAPIEE_Corine_0)
-physenv_HAPIEE_1 <- merge(HAPIEE_Corine_1, HAPIEE_UA_1, by = 'id')
+physenv_HAPIEE_CZ_0 <- data.frame(HAPIEE_Corine_0)
+physenv_HAPIEE_CZ_1 <- merge(HAPIEE_Corine_1, HAPIEE_UA_1, by = 'id')
 
 
 # check data
-colnames(physenv_HAPIEE_0)
-colnames(physenv_HAPIEE_1)
+colnames(physenv_HAPIEE_CZ_0)
+colnames(physenv_HAPIEE_CZ_1)
 
 
 # Missing variables describing the distance to the nearest area marked as 'facility'
