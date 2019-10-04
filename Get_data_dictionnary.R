@@ -106,9 +106,9 @@ save_xls <- function(tbl_var,tbl_cat,name){
   library(openxlsx)
   zip    <- zip::zipr 
   dd_ttl = createWorkbook()
-  addWorksheet(dd_ttl, "Variable")
+  addWorksheet(dd_ttl, "Variables")
   addWorksheet(dd_ttl, "Categories")
-  writeData(dd_ttl, sheet = 'Variable', tbl_var, rowNames = FALSE)
+  writeData(dd_ttl, sheet = 'Variables', tbl_var, rowNames = FALSE)
   writeData(dd_ttl, sheet = 'Categories', tbl_cat, rowNames = FALSE)
   saveWorkbook(dd_ttl, paste0("DD_",name,".xlsx"), overwrite = TRUE)}
 
