@@ -24,7 +24,7 @@ list_domain = c(
   'sociodem_characteristics',
   'lifestyle_behaviours',
   'other_outcomes',
-  #  'biomarkers_genetics',   
+  # 'biomarkers_genetics',   
   'mental_health_outcomes',
   'social_factors',
   'perceptions_urban_env',
@@ -105,30 +105,10 @@ path_list_todo = c(
 
 ### BIO ### 
 #    "../biomarkers_genetics/BIO_DS_LASA1.Rmd",
-    ## PROBLEME [1] : library(opalr)
-    ## PROBLEME [2] : erasmus_opal <-opal.login()
 #   "../biomarkers_genetics/BIO_DS_LASA2.Rmd", 
-    ## PROBLEME [1] : library(opalr)
-    ## PROBLEME [2] : erasmus_opal <-opal.login()
-    ## PROBLEME [3] : line 407 : maj
-      # table(LASA2G$gmalbumi , useNA = "always")
-      # bio_LASA2_2$bio_alb_2<-LASA2G$gmalbumi
-      # table(bio_LASA2_2$bio_alb_2, useNA = "always")
-      # summary(bio_LASA2_2$bio_alb_2)
-    ## PROBLEME [4] : line 625 : maj
-      # bio_LASA2_2$bio_vitd_2[bio_LASA2_2$bio_vitd_2==-1]<-NA
-      # bio_LASA2_2$bio_vitd_2<-bio_LASA2_2$bio_vitd_2*0.400641
-      # table(bio_LASA2_2$bio_vitd_2, useNA = "always")
-      # summary(bio_LASA2_2$bio_vitd_2)
 
 ### MHO ### 
     "../mental_health_outcomes/MHO_DS_GLOBE.Rmd", 
-    ## PROBLEME [2] : varibale list incomplete
-    # opal.assign.table.tibble(erasmus_opal, 'GLOBE1997', 'GLOBE.GLOBE1997',
-    #      variables=list('v16a','v16b','v16c','v16d','v16e','r47c','g4c','r47f','g4f',
-    #                     'r47f','g4g','r47p','g4p','r47t','g4t','r47w','g4w','r47e2',
-    #                     'g4e2','r47f2','g4f2','r47k2','g4k2','r47i','g4i','r47o','g4o',
-    #                     'r47u','g4u','r47c2','g4c2','r47h2','g4h2', 'r47g'))
     "../mental_health_outcomes/MHO_DS_HAPIEE_CZ.Rmd",
     "../mental_health_outcomes/MHO_DS_HAPIEE_LT.Rmd",
     "../mental_health_outcomes/MHO_DS_HAPIEE_RU.Rmd",
@@ -143,43 +123,14 @@ path_list_todo = c(
     # NOT READY YET "../sociodem_characteristics/SDC_DS_CLSA.Rmd",
     "../sociodem_characteristics/SDC_DS_GLOBE.Rmd",
     "../sociodem_characteristics/SDC_DS_HAPIEE_CZ.Rmd",  
-      ## PROBLEME [1] : library(opalr)
-      ## PROBLEME [2] : varibale list incomplete
-        #   opal.assign.table.tibble(erasmus_opal, 'HAPIEE_W2', 'HAPIEE.HAPIEE_W2', variable = 
-        #     list('country','numhouse','child','w2date','paidwork'))
-       
     "../sociodem_characteristics/SDC_DS_HAPIEE_LT.Rmd",
-      ## PROBLEME [1] : library(opalr)
-      ## PROBLEME [2] : varibale list incomplete
-        #   opal.assign.table.tibble(erasmus_opal, 'HAPIEE_W2', 'HAPIEE.HAPIEE_W2',variables = 
-        #     list('country','numhouse','child','w2date','age_lt','q2_lt','q3_lt','q4_lt',
-        #          'w2chldno_lt','w2child_lt','paidwork','retired'))
-        
     "../sociodem_characteristics/SDC_DS_HAPIEE_RU.Rmd",
-      ## PROBLEME [1] : library(opalr)
-      ## PROBLEME [2] : varibale list incomplete
-        #   opal.assign.table.tibble(erasmus_opal, 'HAPIEE_W2', 'HAPIEE.HAPIEE_W2', variables = 
-        #      list('country','numhouse','child','w2date', 'paidwork', 'retired'))
-
-
     "../sociodem_characteristics/SDC_DS_HUNT.Rmd",
     "../sociodem_characteristics/SDC_DS_LASA1.Rmd",
     "../sociodem_characteristics/SDC_DS_LASA2.Rmd", 
-      ## PROBLEME [1] : library(opalr)
-      ## PROBLEME [2] : line 954 : fmarst / marst
-        # sdc_LASA2_1$sdc_civstat_1 <- 
-        #          recode(as.integer(LASA2F$fmarst),'5'=1L,'1'=0L,'2'=1L,'3'=2L,'4'=3L, 
-        #                  .default = NA_integer_)
-     
     "../sociodem_characteristics/SDC_DS_LUCAS.Rmd",
     "../sociodem_characteristics/SDC_DS_RECORD.Rmd",
 
-      ## PROBLEME [2] : line 1359 : remove comment
-        # **Harmonization comment**:   (Number of children to be added after cleaning. See region)
-
-
- 
-    
 ### OTH ### 
     # NOT READY YET  "../other_outcomes/OTH_DS_CLSA.Rmd",  
     "../other_outcomes/OTH_DS_GLOBE.Rmd",  
@@ -218,54 +169,9 @@ path_list_todo = c(
 ### LSB ###
     #NOT READY YET "../lifestyle_behaviours/LSB_DS_CLSA.Rmd",
     "../lifestyle_behaviours/LSB_DS_GLOBE.Rmd",
-      ## PROBLEME [1] : library(opalr)
-      ## PROBLEME [2] : line 2674 : tibble format
-        # GLOBE2004$lsb_pa_garden_time_all<-
-        #   ifelse(is.na(GLOBE2004$lsb_pa_garden_time_1) & 
-        #          is.na(GLOBE2004$lsb_pa_garden_time_2) & 
-        #          is.na(GLOBE2004$lsb_pa_garden_time_3) & 
-        #          is.na(GLOBE2004$lsb_pa_garden_time_4),
-        #        NA,
-        #        GLOBE2004 %>%
-        #          select(lsb_pa_garden_time_1,
-        #                 lsb_pa_garden_time_2,
-        #                 lsb_pa_garden_time_3,
-        #                 lsb_pa_garden_time_4) %>%
-        #          rowSums(na.rm = TRUE))
-      
-      ## PROBLEME [3] : line 2715 : tibble format
-        # GLOBE2011$lsb_pa_garden_time_all<-
-        #   ifelse(is.na(GLOBE2011$lsb_pa_garden_time_1) & 
-        #          is.na(GLOBE2011$lsb_pa_garden_time_2) & 
-        #          is.na(GLOBE2011$lsb_pa_garden_time_3) & 
-        #          is.na(GLOBE2011$lsb_pa_garden_time_4),
-        #        NA,
-        #        GLOBE2011 %>%
-        #          select(lsb_pa_garden_time_1,
-        #                 lsb_pa_garden_time_2,
-        #                 lsb_pa_garden_time_3,
-        #                 lsb_pa_garden_time_4) %>%
-        #          rowSums(na.rm = TRUE))
-
-
-
     "../lifestyle_behaviours/LSB_DS_HAPIEE_CZ.Rmd",
-      ## PROBLEME [1] : library(opalr)
-      ## PROBLEME [2] : varibale list incomplete
-        # opal.assign.table.tibble(erasmus_opal, 'HAPIEE_W1', 'HAPIEE.HAPIEE_W1',variables = 
-        #   list('country','d_alco_wk','d_beer_wk','d_wine_wk',
-        #        'd_dest_wk','d_al5day','l39','l40','l41','d_packyrs',
-        #        'l42','d_alcfreq','a46','a45','a44', 'l38'))
-      
-    
     "../lifestyle_behaviours/LSB_DS_HAPIEE_LT.Rmd",
     "../lifestyle_behaviours/LSB_DS_HAPIEE_RU.Rmd",
-      ## PROBLEME [1] : library(opalr)
-      ## PROBLEME [2] : varibale list incomplete 
-        #   opal.assign.table.tibble(erasmus_opal, 'HAPIEE_W1', 'HAPIEE.HAPIEE_W1', variables = 
-        #     list('country','d_alco_wk','d_beer_wk','d_wine_wk','d_dest_wk','d_al5day',
-        #          'l39','l40','l41','d_packyrs','l42','d_alcfreq','l38'))
-
     "../lifestyle_behaviours/LSB_DS_HUNT.Rmd",
     "../lifestyle_behaviours/LSB_DS_LASA1.Rmd",
     "../lifestyle_behaviours/LSB_DS_LASA2.Rmd",
@@ -277,14 +183,6 @@ path_list_todo = c(
 
 ### SOC ### 
     "../social_factors/SOC_DS_GLOBE.Rmd",
-## PROBLEME [1] : doublon 
-## PROBLEME [2] : varibale list incomplete 
-#   opal.assign.table.tibble(erasmus_opal, 'GLOBE2011', 'GLOBE.GLOBE2011',
-#       variables = list('v49_buurt_wndr','53_b_buur2','v50_huis_bez','v61_c_o_vak',
-#                        'v61_d_o_pol','v61_e_o_ker','v61_f_o_buu','v61_g_o_ner','v59_f_ond6',
-#                        'v61_d_o_pol','v61_c_o_vak','v61_f_o_buu','v61_g_o_ner','v61_b_o_hob',
-#                        'v49_buurt_wndr','v53_b_buur2','v59_a_ond1'))
-#
    "../social_factors/SOC_DS_HAPIEE_CZ.Rmd",
    "../social_factors/SOC_DS_HAPIEE_LT.Rmd",
    "../social_factors/SOC_DS_HAPIEE_RU.Rmd",
@@ -299,12 +197,6 @@ path_list_todo = c(
 for (i in 1:length(path_list_todo)) {
   try(ksource(path_list[i]))
 } 
-
-
-for (i in 1:9) {
-  ksource(path_list_todo[i]) 
-} 
-
 
 
 ### PHYSENV ###
