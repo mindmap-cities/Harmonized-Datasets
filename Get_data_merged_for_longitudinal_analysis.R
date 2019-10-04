@@ -1,4 +1,4 @@
-#rm(list = ls())
+rm(list = ls())
 library(naniar)
 library(epiDisplay)
 library(tidyverse)
@@ -270,13 +270,13 @@ path_list_todo = c(
     "../lifestyle_behaviours/LSB_DS_LASA1.Rmd",
     "../lifestyle_behaviours/LSB_DS_LASA2.Rmd",
     "../lifestyle_behaviours/LSB_DS_LUCAS.Rmd",
-    "../lifestyle_behaviours/LSB_DS_RECORD.Rmd"
+    "../lifestyle_behaviours/LSB_DS_RECORD.Rmd",
 
 ### PHYSENV ###
     # special file to do so
 
 ### SOC ### 
-#    "../social_factors/SOC_DS_GLOBE.Rmd",
+    "../social_factors/SOC_DS_GLOBE.Rmd",
 ## PROBLEME [1] : doublon 
 ## PROBLEME [2] : varibale list incomplete 
 #   opal.assign.table.tibble(erasmus_opal, 'GLOBE2011', 'GLOBE.GLOBE2011',
@@ -285,20 +285,26 @@ path_list_todo = c(
 #                        'v61_d_o_pol','v61_c_o_vak','v61_f_o_buu','v61_g_o_ner','v61_b_o_hob',
 #                        'v49_buurt_wndr','v53_b_buur2','v59_a_ond1'))
 #
-#    "../social_factors/SOC_DS_HAPIEE_CZ.Rmd",
-#    "../social_factors/SOC_DS_HAPIEE_LT.Rmd",
-#    "../social_factors/SOC_DS_HAPIEE_RU.Rmd",
-#    "../social_factors/SOC_DS_HUNT.Rmd",
+   "../social_factors/SOC_DS_HAPIEE_CZ.Rmd",
+   "../social_factors/SOC_DS_HAPIEE_LT.Rmd",
+   "../social_factors/SOC_DS_HAPIEE_RU.Rmd",
+   "../social_factors/SOC_DS_HUNT.Rmd",
     #NOT READY YET "../social_factors/SOC_DS_LASA1.Rmd",  
     #NOT READY YET "../social_factors/SOC_DS_LASA2.Rmd", 
-#   "../social_factors/SOC_DS_LUCAS.Rmd",
-#    "../social_factors/SOC_DS_RECORD.Rmd"
+   "../social_factors/SOC_DS_LUCAS.Rmd",
+   "../social_factors/SOC_DS_RECORD.Rmd"
  )
 }
 
 for (i in 1:length(path_list_todo)) {
+  try(ksource(path_list[i]))
+} 
+
+
+for (i in 1:9) {
   ksource(path_list_todo[i]) 
 } 
+
 
 
 ### PHYSENV ###
