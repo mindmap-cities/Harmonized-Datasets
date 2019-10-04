@@ -1,8 +1,10 @@
-# rm(list = ls())
+#rm(list = ls())
 library(naniar)
 library(epiDisplay)
 library(tidyverse)
 library(stringr)
+library(lubridate)
+
 filter <- dplyr::filter
 select <- dplyr::select
 recode <- dplyr::recode
@@ -13,6 +15,9 @@ ksource <- function(x, ...) {
   source(purl(x, output = tempfile()), ...)
 }
 
+parceval <- function(text){
+  eval(parse(text =text))
+}
 
 MyMerge <- function(x,y){
   df <- merge(x,y, by="id",all=TRUE)
@@ -194,40 +199,41 @@ path_list_todo = c(
  )
 }
 
-for (i in 1:length(path_list)) {
-  try(ksource(path_list[i]))
-} 
-
-
-### PHYSENV ###
-source("Recoding data in R_physenv.r")
-
+# for (i in 1:length(path_list)) {
+#   try(ksource(path_list[i]))
+# }
+# 
+# 
+# ### PHYSENV ###
+# source("Recoding data in R_physenv.r")
+# 
 rm(erasmus_opal, smk_table, MyMerge2, med_table,
    GLOBE1991,
     GLOBE1997,GLOBE2004,GLOBE2011,GLOBE2014,
    HAPIEE_postal2009,
     HAPIEE_postal2012,HAPIEE_postal2013,
     HAPIEE_postal2015,HAPIEE_postal201718,
-    HAPIEE_W1,HAPIEE_W1_hl,HAPIEE_W2,HAPIEE_W2_hl, 
+    HAPIEE_W1,HAPIEE_W1_hl,HAPIEE_W2,HAPIEE_W2_hl,
     HAPIEE_Corine_0,HAPIEE_Corine_1,HAPIEE_UA_1,
    HUNT1,HUNT2,HUNT3,
-    med_table_hunt, 
+    med_table_hunt,
     table_hunt_all,
    LASA_extravar_PA, LASA1B,LASA1C,LASA1D,
     LASA1E,LASA1F,LASA1G,LASA1H,med_table_lasa1, lasa1_lsb_table,
     LASA2B,LASA2F,LASA2G,LASA2H,med_table_lasa2, lasa2_lsb_table,
    LUCAS_Wave2, lucas_w2,
-   RECORD_w1_1, RECORD_w1_2, RECORD_w2, 
+   RECORD_w1_1, RECORD_w1_2, RECORD_w2,
     RECORD_W2_2,  alc_table_record, med_table_record,
    physenv_GLOBE_1997, physenv_GLOBE_2004, physenv_GLOBE_2011,
    physenv_GLOBE_2014, physenv_HUNT3_2000, physenv_HUNT3_2006,
    physenv_HUNT3_2012, physenv_LASA2_2006, physenv_LASA2_2012,
-   physenv_RECORD_2006, physenv_RECORD_2012
+   physenv_RECORD_2006, physenv_RECORD_2012, 
+   physenv_LASA1_2006, physenv_LASA1_2012
    )
-
-
+# 
+# 
 # save.image(file="all_dom_data.RData")
-# load(file="all_dom_data.RData")
+load(file="all_dom_data.RData")
 
 # bio_hunt_total          =  Reduce(MyMerge, list()) ; rm()
 # bio_record_total        =  Reduce(MyMerge, list()) ; rm()
@@ -293,11 +299,11 @@ socenv_hunt_total       =  Reduce(MyMerge, list()) %>% as_tibble() ; rm()
 socenv_record_total     =  Reduce(MyMerge, list()) %>% as_tibble() ; rm()
 socenv_lasa1_total      =  Reduce(MyMerge, list()) %>% as_tibble() ; rm()
 socenv_lasa2_total      =  Reduce(MyMerge, list()) %>% as_tibble() ; rm()
-socenv_lucas_total      =  Reduce(MyMerge, list()) %>% as_tibble() ; rm()
-socenv_hapiee_lt_total  =  Reduce(MyMerge, list()) %>% as_tibble() ; rm()
-socenv_hapiee_ru_total  =  Reduce(MyMerge, list()) %>% as_tibble() ; rm()
-socenv_hapiee_cz_total  =  Reduce(MyMerge, list()) %>% as_tibble() ; rm()
-socenv_globe_total      =  Reduce(MyMerge, list()) %>% as_tibble() ; rm()
+socenv_lucas_total      =  Reduce(MyMerge, list(socenv_LUCAS_0)) %>% as_tibble() ; rm(socenv_LUCAS_0)
+socenv_hapiee_lt_total  =  Reduce(MyMerge, list(socenv_HAPIEE_LT_0)) %>% as_tibble() ; rm(socenv_HAPIEE_LT_0)
+socenv_hapiee_ru_total  =  Reduce(MyMerge, list(socenv_HAPIEE_RU_0,socenv_HAPIEE_RU_1)) %>% as_tibble() ; rm(socenv_HAPIEE_RU_0,socenv_HAPIEE_RU_1)
+socenv_hapiee_cz_total  =  Reduce(MyMerge, list(socenv_HAPIEE_CZ_0,socenv_HAPIEE_CZ_1)) %>% as_tibble() ; rm(socenv_HAPIEE_CZ_0,socenv_HAPIEE_CZ_1)
+socenv_globe_total      =  Reduce(MyMerge, list(socenv_GLOBE_0,socenv_GLOBE_1,socenv_GLOBE_2,socenv_GLOBE_3,socenv_GLOBE_4)) %>% as_tibble() ; rm(socenv_GLOBE_0,socenv_GLOBE_1,socenv_GLOBE_2,socenv_GLOBE_3,socenv_GLOBE_4)
 socenv_clsa_total       =  Reduce(MyMerge, list()) %>% as_tibble() ; rm()
 
 lsb_hunt_total            =  Reduce(MyMerge, list(lsb_HUNT_0, lsb_HUNT_1, lsb_HUNT_2)) %>% as_tibble() ; rm(lsb_HUNT_0, lsb_HUNT_1, lsb_HUNT_2)
@@ -322,17 +328,16 @@ physenv_hapiee_cz_total   =  Reduce(MyMerge, list(physenv_HAPIEE_CZ_0,physenv_HA
 physenv_globe_total       =  Reduce(MyMerge, list(physenv_GLOBE_1,physenv_GLOBE_2,physenv_GLOBE_3,physenv_GLOBE_4)) %>% as_tibble() ; rm(physenv_GLOBE_1,physenv_GLOBE_2,physenv_GLOBE_3,physenv_GLOBE_4)
 physenv_clsa_total      =  Reduce(MyMerge, list()) %>% as_tibble() ; rm()
 
-soc_hunt_total          =  Reduce(MyMerge, list()) %>% as_tibble() ; rm()
-soc_record_total        =  Reduce(MyMerge, list()) %>% as_tibble() ; rm()
+soc_hunt_total            =  Reduce(MyMerge, list(soc_HUNT_0, soc_HUNT_1, soc_HUNT_2)) %>% as_tibble() ; rm(soc_HUNT_0, soc_HUNT_1, soc_HUNT_2)
+soc_record_total          =  Reduce(MyMerge, list(soc_RECORD_0,soc_RECORD_1)) %>% as_tibble() ; rm(soc_RECORD_0,soc_RECORD_1)
 soc_lasa1_total         =  Reduce(MyMerge, list()) %>% as_tibble() ; rm()
 soc_lasa2_total         =  Reduce(MyMerge, list()) %>% as_tibble() ; rm()
-soc_lucas_total         =  Reduce(MyMerge, list()) %>% as_tibble() ; rm()
-soc_hapiee_lt_total     =  Reduce(MyMerge, list()) %>% as_tibble() ; rm()
-soc_hapiee_ru_total     =  Reduce(MyMerge, list()) %>% as_tibble() ; rm()
-soc_hapiee_cz_total     =  Reduce(MyMerge, list()) %>% as_tibble() ; rm()
-soc_globe_total         =  Reduce(MyMerge, list()) %>% as_tibble() ; rm()
-soc_clsa_total          =  Reduce(MyMerge, list()) %>% as_tibble() ; rm()
-
+soc_lucas_total           =  Reduce(MyMerge, list(soc_LUCAS_0)) %>% as_tibble() ; rm(soc_LUCAS_0)
+soc_hapiee_lt_total       =  Reduce(MyMerge, list(soc_HAPIEE_LT_0)) %>% as_tibble() ; rm(soc_HAPIEE_LT_0)
+soc_hapiee_ru_total       =  Reduce(MyMerge, list(soc_HAPIEE_RU_0,soc_HAPIEE_RU_1)) %>% as_tibble() ; rm(soc_HAPIEE_RU_0,soc_HAPIEE_RU_1)
+soc_hapiee_cz_total       =  Reduce(MyMerge, list(soc_HAPIEE_CZ_0,soc_HAPIEE_CZ_1)) %>% as_tibble() ; rm(soc_HAPIEE_CZ_0,soc_HAPIEE_CZ_1)
+soc_globe_total           =  Reduce(MyMerge, list(soc_GLOBE_0, soc_GLOBE_1, soc_GLOBE_2, soc_GLOBE_3, soc_GLOBE_4)) %>% as_tibble() ; rm(soc_GLOBE_0, soc_GLOBE_1, soc_GLOBE_2, soc_GLOBE_3, soc_GLOBE_4)
+soc_clsa_total         =  Reduce(MyMerge, list()) %>% as_tibble() ; rm()
 
 
 
@@ -343,7 +348,7 @@ hunt_total   = Reduce(MyMerge, list(
   oth_hunt_total,
   #  bio_hunt_total,
   mho_hunt_total,
-  # soc_hunt_total,
+  soc_hunt_total,
   env_hunt_total,
   # socenv_hunt_total,
   physenv_hunt_total
@@ -351,11 +356,11 @@ hunt_total   = Reduce(MyMerge, list(
   sdc_hunt_total,
   lsb_hunt_total,
   oth_hunt_total,
-  bio_hunt_total,
+  #bio_hunt_total,
   mho_hunt_total,
   soc_hunt_total,
   env_hunt_total,
-  socenv_hunt_total,
+  #socenv_hunt_total,
   physenv_hunt_total
 )
 
@@ -365,7 +370,7 @@ record_total = Reduce(MyMerge, list(
   oth_record_total,
   #  bio_record_total,
   mho_record_total,
-  # soc_record_total,
+  soc_record_total,
   env_record_total,
   # socenv_record_total,
   physenv_record_total
@@ -373,7 +378,7 @@ record_total = Reduce(MyMerge, list(
   sdc_record_total,
   lsb_record_total,
   oth_record_total,
-  bio_record_total,
+  #bio_record_total,
   mho_record_total,
   soc_record_total,
   env_record_total,
@@ -396,11 +401,11 @@ lasa1_total = Reduce(MyMerge, list(
   sdc_lasa1_total,
   lsb_lasa1_total,
   oth_lasa1_total,
-  bio_lasa1_total,
+ # bio_lasa1_total,
   mho_lasa1_total,
-  soc_lasa1_total,
+ # soc_lasa1_total,
   env_lasa1_total,
-  socenv_lasa1_total,
+ # socenv_lasa1_total,
   physenv_lasa1_total
 )
 
@@ -419,11 +424,11 @@ lasa2_total = Reduce(MyMerge, list(
   sdc_lasa2_total,
   lsb_lasa2_total,
   oth_lasa2_total,
-  bio_lasa2_total,
+  #bio_lasa2_total,
   mho_lasa2_total,
-  soc_lasa2_total,
+  #soc_lasa2_total,
   env_lasa2_total,
-  socenv_lasa2_total,
+ # socenv_lasa2_total,
   physenv_lasa2_total
 )
 
@@ -434,20 +439,20 @@ lucas_total = Reduce(MyMerge, list(
   oth_lucas_total,
   # bio_lucas_total,
   mho_lucas_total,
-  # soc_lucas_total,
+  soc_lucas_total,
   env_lucas_total
   # socenv_lucas_total,
-  # physenv_lucas_total
+  #physenv_lucas_total
 )) %>% as_tibble ; rm(
   sdc_lucas_total,
   lsb_lucas_total,
   oth_lucas_total,
-  bio_lucas_total,
+  #bio_lucas_total,
   mho_lucas_total,
   soc_lucas_total,
-  env_lucas_total,
-  socenv_lucas_total,
-  physenv_lucas_total
+  env_lucas_total
+  #socenv_lucas_total,
+  #physenv_lucas_total
 )
 
 
@@ -457,20 +462,20 @@ hapiee_lt_total = Reduce(MyMerge, list(
   oth_hapiee_lt_total,
   #  bio_hapiee_lt_total,
   mho_hapiee_lt_total,
-  #  soc_hapiee_lt_total,
+  soc_hapiee_lt_total,
   env_hapiee_lt_total
   # socenv_hapiee_lt_total,
-  # physenv_hapiee_lt_total
+  #physenv_hapiee_lt_total
 )) %>% as_tibble ; rm(
   sdc_hapiee_lt_total,
   lsb_hapiee_lt_total,
   oth_hapiee_lt_total,
-  bio_hapiee_lt_total,
+  #bio_hapiee_lt_total,
   mho_hapiee_lt_total,
   soc_hapiee_lt_total,
-  env_hapiee_lt_total,
-  socenv_hapiee_lt_total,
-  physenv_hapiee_lt_total
+  env_hapiee_lt_total
+  #socenv_hapiee_lt_total,
+  #physenv_hapiee_lt_total
 )
 
 
@@ -480,7 +485,7 @@ hapiee_ru_total = Reduce(MyMerge, list(
   oth_hapiee_ru_total,
   #  bio_hapiee_ru_total,
   mho_hapiee_ru_total,
-  #  soc_hapiee_ru_total,
+  soc_hapiee_ru_total,
   env_hapiee_ru_total
   # socenv_hapiee_ru_total,
   # physenv_hapiee_ru_total
@@ -488,12 +493,12 @@ hapiee_ru_total = Reduce(MyMerge, list(
   sdc_hapiee_ru_total,
   lsb_hapiee_ru_total,
   oth_hapiee_ru_total,
-  bio_hapiee_ru_total,
+  #bio_hapiee_ru_total,
   mho_hapiee_ru_total,
   soc_hapiee_ru_total,
-  env_hapiee_ru_total,
-  socenv_hapiee_ru_total,
-  physenv_hapiee_ru_total
+  env_hapiee_ru_total
+  #socenv_hapiee_ru_total,
+  #physenv_hapiee_ru_total
 )
 
 
@@ -504,19 +509,19 @@ hapiee_cz_total = Reduce(MyMerge, list(
   oth_hapiee_cz_total,
   #  bio_hapiee_cz_total,
   mho_hapiee_cz_total,
-  #  soc_hapiee_cz_total,
-  env_hapiee_cz_total
+  soc_hapiee_cz_total,
+  env_hapiee_cz_total,
   # socenv_hapiee_cz_total,
-  # physenv_hapiee_cz_total
+  physenv_hapiee_cz_total
 )) %>% as_tibble ; rm(
   sdc_hapiee_cz_total,
   lsb_hapiee_cz_total,
   oth_hapiee_cz_total,
-  bio_hapiee_cz_total,
+  #bio_hapiee_cz_total,
   mho_hapiee_cz_total,
   soc_hapiee_cz_total,
   env_hapiee_cz_total,
-  socenv_hapiee_cz_total,
+  #socenv_hapiee_cz_total,
   physenv_hapiee_cz_total
 )
 
@@ -528,7 +533,7 @@ globe_total = Reduce(MyMerge, list(
   oth_globe_total,
   #  bio_globe_total,
   mho_globe_total,
-  # soc_globe_total,
+  soc_globe_total,
   env_globe_total,
   # socenv_globe_total,
   physenv_globe_total
@@ -536,11 +541,11 @@ globe_total = Reduce(MyMerge, list(
   sdc_globe_total,
   lsb_globe_total,
   oth_globe_total,
-  bio_globe_total,
+  #bio_globe_total,
   mho_globe_total,
   soc_globe_total,
   env_globe_total,
-  socenv_globe_total,
+  #socenv_globe_total,
   physenv_globe_total
 )
 
@@ -561,7 +566,7 @@ rm(
   sdc_clsa_total,
   lsb_clsa_total,
   oth_clsa_total,
-  bio_clsa_total,
+  #bio_clsa_total,
   mho_clsa_total,
   soc_clsa_total,
   env_clsa_total,
@@ -800,6 +805,17 @@ globe_total = as_tibble(data.frame(
 # )
 
 
+for(i in 1:length(names_short)){
+  try(write_csv(
+    parceval(paste0(names_short[i],"_total")),
+    paste0("csv_files/",names_short[i],"_Harmo_Table_",str_replace_all(today(),"-",""),".csv"),
+    na="NA",col_names = TRUE))
+}
+
+
+
+paste0(names_short[1],"_Harmo_Table_",str_replace_all(today(),"-",""),".csv")
+
 
 write_csv(hunt_total,"hunt_Harmo_Table.csv",na="NA",col_names = TRUE)
 write_csv(record_total,"record_Harmo_Table.csv",na="NA",col_names = TRUE)
@@ -819,7 +835,7 @@ rm(path_file,
 #   domain_short,
 #   names_short,
    nbDomains,
-   path_list,
+#   path_list,
 #   path_list_todo,
    ksource,
    MyMerge, 
@@ -844,9 +860,11 @@ erasmus_opal = opal.login()
 
 
 for(i in 1:length(names_short)){
-  opal.file_upload(erasmus_opal,paste0(names_short[i],"_Harmo_Table.csv"),paste0("/projects/",names_opal_proj[i]))  
+  try(opal.file_upload(erasmus_opal,paste0("csv_files/",names_short[i],"_Harmo_Table_",str_replace_all(today(),"-",""),".csv"),paste0("/Projects/",names_opal_proj[i])))  
 }
-opal.file_upload(erasmus_opal,paste0(names_short[i],"_Harmo_Table.csv"),paste0("/projects/",names_opal_proj[i]))  
+
+
+opal.file_upload(erasmus_opal,paste0("csv_files/",names_short[1],"_Harmo_Table_",str_replace_all(today(),"-",""),".csv"),paste0("/projects/",names_opal_proj[i]))  
 
 ""
 

@@ -22,8 +22,9 @@ library(lubridate)
 create_dd <- function(path_study,name_study){
   #run variables
   
-  path_study = path_globe ; name_study = 'GLOBE' 
+ path_study = path_globe[2] ; name_study = 'GLOBE' 
   
+ {
   dd_allvar = list()
   for(i in 1:length(path_study)){
     dd_allvar_i = fread(path_study[i],colClasses = 'characters',na.strings = '', fill = TRUE, sep ='')
@@ -53,7 +54,7 @@ create_dd <- function(path_study,name_study){
   unit %>% nrow %>% print
   comment %>% nrow %>% print
   status %>% nrow %>% print
-  
+ } 
   #run variables
   study.variable <- tibble(label$Text,name$Text,description$Text,type$Text,unit$Text,comment$Text,status$Text) 
   study.variable <- study.variable %>%
@@ -121,19 +122,20 @@ save_xls <- function(tbl_var,tbl_cat,name){
 #set the liste of domains of interest according to MS 
 # go get "../Harmonized-Datasets/Get_data_merged_for_longitudinal_analysis.R"
 path_list_todo
+path_list
 
 
 #separate each study to work separately with. Here Hunt and Record
-path_clsa      = path_list_todo[str_detect(string = path_list_todo,pattern="CLSA")]
-path_globe     = path_list_todo[str_detect(string = path_list_todo,pattern="GLOBE")]
-path_hapiee_cz = path_list_todo[str_detect(string = path_list_todo,pattern="HAPIEE_CZ")]
-path_hapiee_lt = path_list_todo[str_detect(string = path_list_todo,pattern="HAPIEE_LT")]
-path_hapiee_ru = path_list_todo[str_detect(string = path_list_todo,pattern="HAPIEE_RU")]
-path_hunt      = path_list_todo[str_detect(string = path_list_todo,pattern="HUNT")]
-path_lasa1     = path_list_todo[str_detect(string = path_list_todo,pattern="LASA1")]
-path_lasa2     = path_list_todo[str_detect(string = path_list_todo,pattern="LASA2")]
-path_lucas     = path_list_todo[str_detect(string = path_list_todo,pattern="LUCAS")]
-path_record    = path_list_todo[str_detect(string = path_list_todo,pattern="RECORD")]
+path_clsa      = try(path_list[str_detect(string = path_list,pattern="CLSA")])
+path_globe     = try(path_list[str_detect(string = path_list,pattern="GLOBE")])
+path_hapiee_cz = try(path_list[str_detect(string = path_list,pattern="HAPIEE_CZ")])
+path_hapiee_lt = try(path_list[str_detect(string = path_list,pattern="HAPIEE_LT")])
+path_hapiee_ru = try(path_list[str_detect(string = path_list,pattern="HAPIEE_RU")])
+path_hunt      = try(path_list[str_detect(string = path_list,pattern="HUNT")])
+path_lasa1     = try(path_list[str_detect(string = path_list,pattern="LASA1")])
+path_lasa2     = try(path_list[str_detect(string = path_list,pattern="LASA2")])
+path_lucas     = try(path_list[str_detect(string = path_list,pattern="LUCAS")])
+path_record    = try(path_list[str_detect(string = path_list,pattern="RECORD")])
 
 #For each .Rmd file, detect the first d variable. It will exclude all before, et rbind for each study, domain after domain. 
 #creation of a dataframe containing 1 column, with rows containing variable information (label, description, status, etc.)
@@ -141,14 +143,18 @@ path_record    = path_list_todo[str_detect(string = path_list_todo,pattern="RECO
 
 #dd_clsa      <- create_dd(path_clsa , 'CLSA' )
 dd_globe     <- create_dd(path_globe , 'GLOBE' )
-dd_hapiee_cz <- create_dd(path_hapiee_cz , 'HAPIEE_CZ' )
-dd_hapiee_lt <- create_dd(path_hapiee_lt , 'HAPIEE_LT' )
-dd_hapiee_ru <- create_dd(path_hapiee_ru , 'HAPIEE_RU' )
+dd_hapiee_cz <- create_dd(path_hapiee_cz , 'HAPIEE_CZ' ) #ok
+dd_hapiee_lt <- create_dd(path_hapiee_lt , 'HAPIEE_LT' ) #ok
+dd_hapiee_ru <- create_dd(path_hapiee_ru , 'HAPIEE_RU' ) #ok
 dd_hunt      <- create_dd(path_hunt , 'HUNT' )
-dd_lasa1     <- create_dd(path_lasa1 , 'LASA1' ) 
+dd_lasa1     <- create_dd(path_lasa1 , 'LASA1' )
 dd_lasa2     <- create_dd(path_lasa2 , 'LASA2' )
-dd_lucas     <- create_dd(path_lucas , 'LUCAS' )
-dd_record    <- create_dd(path_record , 'RECORD' )
+dd_lucas     <- create_dd(path_lucas , 'LUCAS' ) #ok
+dd_record    <- create_dd(path_record , 'RECORD' ) #ok
+
+
+coment comment
+
 
 path_env = "../physical_environmental/PHYSENV_DS.Rmd"
 dd_physenv <- create_dd(path_env, "PHYSENV")
