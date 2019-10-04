@@ -194,7 +194,7 @@ path_list_todo = c(
  )
 }
 
-for (i in 1:length(path_list_todo)) {
+for (i in 1:length(path_list)) {
   try(ksource(path_list[i]))
 } 
 
