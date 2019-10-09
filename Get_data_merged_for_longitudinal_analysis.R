@@ -1,4 +1,6 @@
 #rm(list = ls())
+#load(file="all_dom_data.RData")
+
 library(naniar)
 library(epiDisplay)
 library(tidyverse)
@@ -33,7 +35,7 @@ list_domain = c(
   'mental_health_outcomes',
   'social_factors',
   'perceptions_urban_env',
-  'social_environmental',
+  #'social_environmental',
   'physical_environmental')
 
 nbDomains = length(list_domain)
@@ -47,7 +49,7 @@ domain_short = c(
   'mho_',
   'soc_',
   'env_',
-  'socenv_',
+ # 'socenv_',
   'physenv_')
 
 names_short = c(
@@ -202,11 +204,11 @@ path_list_todo = c(
 # for (i in 1:length(path_list)) {
 #   try(ksource(path_list[i]))
 # }
-# 
+
 # 
 # ### PHYSENV ###
 # source("Recoding data in R_physenv.r")
-# 
+
 rm(erasmus_opal, smk_table, MyMerge2, med_table,
    GLOBE1991,
     GLOBE1997,GLOBE2004,GLOBE2011,GLOBE2014,
@@ -233,7 +235,6 @@ rm(erasmus_opal, smk_table, MyMerge2, med_table,
 # 
 # 
 # save.image(file="all_dom_data.RData")
-load(file="all_dom_data.RData")
 
 # bio_hunt_total          =  Reduce(MyMerge, list()) ; rm()
 # bio_record_total        =  Reduce(MyMerge, list()) ; rm()
@@ -809,15 +810,14 @@ for(i in 1:length(names_short)){
   try(write_csv(
     parceval(paste0(names_short[i],"_total")),
     paste0("csv_files/",names_short[i],"_Harmo_Table_",str_replace_all(today(),"-",""),".csv"),
-    na="NA",col_names = TRUE))
+    col_names = TRUE, na=""))
 }
-
 
 
 paste0(names_short[1],"_Harmo_Table_",str_replace_all(today(),"-",""),".csv")
 
 
-write_csv(hunt_total,"hunt_Harmo_Table.csv",na="NA",col_names = TRUE)
+write_csv(hunt_total,"hunt_Harmo_Table.csv",na="NA",col_names = TRUE, na="")
 write_csv(record_total,"record_Harmo_Table.csv",na="NA",col_names = TRUE)
 write_csv(lasa1_total,"lasa1_Harmo_Table.csv",na="NA",col_names = TRUE)
 write_csv(lasa2_total,"lasa2_Harmo_Table.csv",na="NA",col_names = TRUE)
@@ -856,11 +856,12 @@ rm(path_file,
 #    clsa_total)
 
 #Opal upload files
+library(opalr)
 erasmus_opal = opal.login()
 
 
 for(i in 1:length(names_short)){
-  try(opal.file_upload(erasmus_opal,paste0("csv_files/",names_short[i],"_Harmo_Table_",str_replace_all(today(),"-",""),".csv"),paste0("/Projects/",names_opal_proj[i])))  
+  try(opal.file_upload(erasmus_opal,paste0("csv_files/",names_short[i],"_Harmo_Table_",str_replace_all(today(),"-",""),".csv"),paste0("/projects/",names_opal_proj[i])))  
 }
 
 
