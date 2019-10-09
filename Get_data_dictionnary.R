@@ -22,7 +22,6 @@ library(lubridate)
 create_dd <- function(path_study,name_study){
   #run variables
   
- path_study = path_globe[2] ; name_study = 'GLOBE' 
   
  {
   dd_allvar = list()
@@ -45,7 +44,6 @@ create_dd <- function(path_study,name_study){
   unit        <- dd_allvar %>% filter(str_detect(Text,'Variable unit\\*')) %>% mutate(Text = str_trim(gsub('.*\\*\\:', '',Text))) %>% as_tibble() 
   comment     <- dd_allvar %>% filter(str_detect(Text,'Harmonization comment\\*')) %>% mutate(Text = str_trim(gsub('.*\\*\\:', '',Text))) %>% as_tibble() 
   status      <- dd_allvar %>% filter(str_detect(Text,'nization status\\*')) %>% mutate(Text = str_trim(gsub('.*\\*\\:', '',Text))) %>% as_tibble() 
-  
   #test
   label %>% nrow %>% print
   name %>% nrow %>% print
@@ -54,19 +52,19 @@ create_dd <- function(path_study,name_study){
   unit %>% nrow %>% print
   comment %>% nrow %>% print
   status %>% nrow %>% print
+
  } 
   #run variables
   study.variable <- tibble(label$Text,name$Text,description$Text,type$Text,unit$Text,comment$Text,status$Text) 
   study.variable <- study.variable %>%
     add_column(
-      table = paste("DS",name_study,gsub("-","",today()), sep = "_"),
-      script = NA) %>%
+      table = paste("DS",name_study,gsub("-","",today()), sep = "_"), script=paste("$('",name$Text, "')", sep="" )) %>%
     select(
       `table`                = table,
       `name`                 = `name$Text`,	
       `label:en`             = `label$Text`,
       `description:en`       = `description$Text`,	
-      `script`               = script,	
+      `script`               =  script,	
       `valueType`	           = `type$Text`,
       `unit`                 = `unit$Text`,	
       `Mlstr_harmo::status`  = `status$Text`,
@@ -153,7 +151,6 @@ dd_lucas     <- create_dd(path_lucas , 'LUCAS' ) #ok
 dd_record    <- create_dd(path_record , 'RECORD' ) #ok
 
 
-coment comment
 
 
 path_env = "../physical_environmental/PHYSENV_DS.Rmd"
