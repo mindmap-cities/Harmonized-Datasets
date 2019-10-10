@@ -6,3 +6,4 @@
 *.xlsx
 *.csv
 all_dom_data.RData
+all_total.Rdata
