@@ -1,4 +1,4 @@
-
+rm(list = ls())
 ########################################################################################################################
 ################################################## DD ##################################################################
 ########################################################################################################################
@@ -15,11 +15,13 @@ library(dplyr)
 library(data.table)
 library(lubridate)
 
+load("all_total.Rdata")
+
 ###########################
 ###### FUNCTIONS ##########
 ###########################
 
-create_dd <- function(path_study,name_study){
+create_dd <- function(path_study,name_study,harmo_data_set){
   #run variables
   
   
@@ -58,7 +60,8 @@ create_dd <- function(path_study,name_study){
   study.variable <- tibble(label$Text,name$Text,description$Text,type$Text,unit$Text,comment$Text,status$Text) 
   study.variable <- study.variable %>%
     add_column(
-      table = paste("DS",name_study,gsub("-","",today()), sep = "_"), script=paste("$('",name$Text, "')", sep="" )) %>%
+      table =  paste("DS",name_study,gsub("-","",today()), sep = "_"), 
+      script = ifelse(status$Text=="complete", paste("$('",name$Text[], "')", sep="" ),  "")) %>%
     select(
       `table`                = table,
       `name`                 = `name$Text`,	
@@ -100,6 +103,68 @@ create_dd <- function(path_study,name_study){
   names(dd) = c("Variables", "Categories")
   print(dd)
   return(dd)}
+
+add_row_in_dd <-function(dd,name_var,name_study, harmo_data_set){
+
+  temp <- dd$Variable %>%
+  add_row(.,
+    table = paste("DS",name_study,gsub("-","",today()), sep = "_"),            
+    name =  name_var,  
+    `label:en` =  name_var,
+    `description:en` = "",
+    script =   paste0("$('",name_var, "')"),
+    valueType = "text",
+    unit    =    "",
+    `Mlstr_harmo::status` = "complete",
+    `Mlstr_harmo::comment` = "")
+
+  # to_complete = temp %>%
+  #   filter(name == name_var) %>% .$name %>% tibble() %>%
+  #   left_join(.,harmo_data_set %>%
+  #                select(name_var) %>% names %>% tibble())
+  # temp <-
+  #   temp %>%
+  #   mutate(
+  #     `Mlstr_harmo::status` =  ifelse(!name %in% to_complete[[1]], "complete","impossible"),
+  #     script = ifelse(!name %in% to_complete[[1]], paste0("$('",name, "')") , ""))
+  
+  return(temp)}
+
+complete_dd <- function(dd, harmo_data_set,name_study){
+
+  
+  
+  to_complete = dd$Variables %>%
+    filter(str_detect(name,"physenv_")) %>% .$name %>% tibble() %>%
+    right_join(.,harmo_data_set %>%
+                 select(contains("physenv_")) %>% names %>% tibble())
+  
+  dd$Variables <- 
+  dd$Variables %>%
+    mutate(
+      `Mlstr_harmo::status` =  ifelse(name %in% to_complete[[1]], "complete","impossible"),
+      script = ifelse(name %in% to_complete[[1]], paste0("$('",name, "')") , ""))
+  dd$Variables$table =  paste("DS",name_study,gsub("-","",today()), sep = "_")
+  dd$Categories$table =  paste("DS",name_study,gsub("-","",today()), sep = "_")
+
+  
+  dd$Variables <- add_row_in_dd(dd,'baseline_yr',name_study,harmo_data_set)
+  dd$Variables <- add_row_in_dd(dd,'followup1_yr',name_study,harmo_data_set)
+  dd$Variables <- add_row_in_dd(dd,'followup2_yr',name_study,harmo_data_set)
+  dd$Variables <- add_row_in_dd(dd,'followup3_yr',name_study,harmo_data_set)
+  dd$Variables <- add_row_in_dd(dd,'followup4_yr',name_study,harmo_data_set)
+  dd$Variables <- add_row_in_dd(dd,'followup5_yr',name_study,harmo_data_set)
+  dd$Variables <- add_row_in_dd(dd,'followup6_yr',name_study,harmo_data_set)
+  
+  dd$Variables <- add_row_in_dd(dd,'t1',name_study,harmo_data_set)
+  dd$Variables <- add_row_in_dd(dd,'t2',name_study,harmo_data_set)
+  dd$Variables <- add_row_in_dd(dd,'t3',name_study,harmo_data_set)
+  dd$Variables <- add_row_in_dd(dd,'t4',name_study,harmo_data_set)
+  dd$Variables <- add_row_in_dd(dd,'t5',name_study,harmo_data_set)
+  dd$Variables <- add_row_in_dd(dd,'t6',name_study,harmo_data_set)
+  
+  return(dd)}
+
 save_xls <- function(tbl_var,tbl_cat,name){
   library(openxlsx)
   zip    <- zip::zipr 
@@ -111,7 +176,6 @@ save_xls <- function(tbl_var,tbl_cat,name){
   saveWorkbook(dd_ttl, paste0("DD_",name,".xlsx"), overwrite = TRUE)}
 
 
-
 ###########################
 ###### PROCEDURE ##########
 ###########################
@@ -120,20 +184,23 @@ save_xls <- function(tbl_var,tbl_cat,name){
 #set the liste of domains of interest according to MS 
 # go get "../Harmonized-Datasets/Get_data_merged_for_longitudinal_analysis.R"
 path_list_todo
-path_list
+
 
 
 #separate each study to work separately with. Here Hunt and Record
-path_clsa      = try(path_list[str_detect(string = path_list,pattern="CLSA")])
-path_globe     = try(path_list[str_detect(string = path_list,pattern="GLOBE")])
-path_hapiee_cz = try(path_list[str_detect(string = path_list,pattern="HAPIEE_CZ")])
-path_hapiee_lt = try(path_list[str_detect(string = path_list,pattern="HAPIEE_LT")])
-path_hapiee_ru = try(path_list[str_detect(string = path_list,pattern="HAPIEE_RU")])
-path_hunt      = try(path_list[str_detect(string = path_list,pattern="HUNT")])
-path_lasa1     = try(path_list[str_detect(string = path_list,pattern="LASA1")])
-path_lasa2     = try(path_list[str_detect(string = path_list,pattern="LASA2")])
-path_lucas     = try(path_list[str_detect(string = path_list,pattern="LUCAS")])
-path_record    = try(path_list[str_detect(string = path_list,pattern="RECORD")])
+path_clsa      = try(path_list_todo[str_detect(string = path_list_todo,pattern="CLSA")])
+path_globe     = try(path_list_todo[str_detect(string = path_list_todo,pattern="GLOBE")])
+path_hapiee_cz = try(path_list_todo[str_detect(string = path_list_todo,pattern="HAPIEE_CZ")])
+path_hapiee_lt = try(path_list_todo[str_detect(string = path_list_todo,pattern="HAPIEE_LT")])
+path_hapiee_ru = try(path_list_todo[str_detect(string = path_list_todo,pattern="HAPIEE_RU")])
+path_hunt      = try(path_list_todo[str_detect(string = path_list_todo,pattern="HUNT")])
+path_lasa1     = try(path_list_todo[str_detect(string = path_list_todo,pattern="LASA1")])
+path_lasa2     = try(path_list_todo[str_detect(string = path_list_todo,pattern="LASA2")])
+path_lucas     = try(path_list_todo[str_detect(string = path_list_todo,pattern="LUCAS")])
+path_record    = try(path_list_todo[str_detect(string = path_list_todo,pattern="RECORD")])
+ 
+
+
 
 #For each .Rmd file, detect the first d variable. It will exclude all before, et rbind for each study, domain after domain. 
 #creation of a dataframe containing 1 column, with rows containing variable information (label, description, status, etc.)
@@ -151,17 +218,118 @@ dd_lucas     <- create_dd(path_lucas , 'LUCAS' ) #ok
 dd_record    <- create_dd(path_record , 'RECORD' ) #ok
 
 
-
-
 path_env = "../physical_environmental/PHYSENV_DS.Rmd"
 dd_physenv <- create_dd(path_env, "PHYSENV")
-  message("problem with names")
-  dd_physenv$Variables %>% filter(!str_detect(name,"physenv_"))
   message("replace m²")
-  dd_physenv$Variables %>% mutate (unit = ifelse(unit == "m²", "m2",unit))
+  #dd_physenv <- dd_physenv$Variables %>% mutate (unit = ifelse(unit == "m²", "m2",unit))
 
 
+#dd_clsa      <- create_dd(path_clsa , 'CLSA' )
+dd_globe$Variables     <- dd_globe$Variables %>% bind_rows(dd_physenv$Variables)
+dd_hapiee_cz$Variables <- dd_hapiee_cz$Variables %>% bind_rows(dd_physenv$Variables)
+dd_hapiee_lt$Variables <- dd_hapiee_lt$Variables %>% bind_rows(dd_physenv$Variables)
+dd_hapiee_ru$Variables <- dd_hapiee_ru$Variables %>% bind_rows(dd_physenv$Variables)
+dd_hunt$Variables      <- dd_hunt$Variables %>% bind_rows(dd_physenv$Variables)
+dd_lasa1$Variables     <- dd_lasa1$Variables %>% bind_rows(dd_physenv$Variables)
+dd_lasa2$Variables     <- dd_lasa2$Variables %>% bind_rows(dd_physenv$Variables)
+dd_lucas$Variables     <- dd_lucas$Variables %>% bind_rows(dd_physenv$Variables)
+dd_record$Variables    <- dd_record$Variables %>% bind_rows(dd_physenv$Variables)
   
+dd_globe$Categories     <- dd_globe$Categories %>% bind_rows(dd_physenv$Categories)
+dd_hapiee_cz$Categories <- dd_hapiee_cz$Categories %>% bind_rows(dd_physenv$Categories)
+dd_hapiee_lt$Categories <- dd_hapiee_lt$Categories %>% bind_rows(dd_physenv$Categories)
+dd_hapiee_ru$Categories <- dd_hapiee_ru$Categories %>% bind_rows(dd_physenv$Categories)
+dd_hunt$Categories      <- dd_hunt$Categories %>% bind_rows(dd_physenv$Categories)
+dd_lasa1$Categories     <- dd_lasa1$Categories %>% bind_rows(dd_physenv$Categories)
+dd_lasa2$Categories     <- dd_lasa2$Categories %>% bind_rows(dd_physenv$Categories)
+dd_lucas$Categories     <- dd_lucas$Categories %>% bind_rows(dd_physenv$Categories)
+dd_record$Categories    <- dd_record$Categories %>% bind_rows(dd_physenv$Categories)
+  
+
+#### 
+
+
+#dd_clsa     <- complete_dd(dd_clsa ,    clsa_total,      'CLSA' )
+dd_globe     <- complete_dd(dd_globe,     globe_total,     'GLOBE'   )
+dd_hapiee_cz <- complete_dd(dd_hapiee_cz, hapiee_cz_total, 'HAPIEE_CZ' )
+dd_hapiee_lt <- complete_dd(dd_hapiee_lt, hapiee_lt_total, 'HAPIEE_LT' )
+dd_hapiee_ru <- complete_dd(dd_hapiee_ru, hapiee_ru_total, 'HAPIEE_RU')
+dd_hunt      <- complete_dd(dd_hunt,      hunt_total,      'HUNT')
+dd_lasa1     <- complete_dd(dd_lasa1,     lasa1_total,     'LASA1')
+dd_lasa2     <- complete_dd(dd_lasa2,     lasa2_total,     'LASA2')
+dd_lucas     <- complete_dd(dd_lucas,     lucas_total,     'LUCAS')
+dd_record    <- complete_dd(dd_record,    record_total,    'RECORD')
+ 
+##checking for any issues
+dd_record$Variables %>% select(table) %>% unique 
+dd_record$Variables %>% filter(script == "") %>% select(`Mlstr_harmo::status`) %>% unique
+  #if any trouble
+  dd_record$Variables %>% filter(`Mlstr_harmo::status` == "") %>% select(table,name) %>%
+    filter(!str_detect(name,"physenv_"))
+dd_record$Variables %>% filter(script != "") %>% select(`Mlstr_harmo::status`) %>% unique
+
+
+dd_globe$Variables %>% select(table) %>% unique 
+dd_globe$Variables %>% filter(script == "") %>% select(`Mlstr_harmo::status`) %>% unique
+dd_globe$Variables %>% filter(`Mlstr_harmo::status` == "") %>% select(table,name) %>%
+  filter(!str_detect(name,"physenv_"))
+dd_globe$Variables %>% filter(script != "") %>% select(`Mlstr_harmo::status`) %>% unique
+
+
+dd_lasa1$Variables %>% select(table) %>% unique 
+dd_lasa1$Variables %>% filter(script == "") %>% select(`Mlstr_harmo::status`) %>% unique
+dd_lasa1$Variables %>% filter(`Mlstr_harmo::status` == "") %>% select(table,name) %>%
+  filter(!str_detect(name,"physenv_"))
+dd_lasa1$Variables %>% filter(script != "") %>% select(`Mlstr_harmo::status`) %>% unique
+
+
+dd_lasa2$Variables %>% select(table) %>% unique 
+dd_lasa2$Variables %>% filter(script == "") %>% select(`Mlstr_harmo::status`) %>% unique
+dd_lasa2$Variables %>% filter(`Mlstr_harmo::status` == "") %>% select(table,name) %>%
+  filter(!str_detect(name,"physenv_"))
+dd_lasa2$Variables %>% filter(script != "") %>% select(`Mlstr_harmo::status`) %>% unique
+
+
+dd_lucas$Variables %>% select(table) %>% unique 
+dd_lucas$Variables %>% filter(script == "") %>% select(`Mlstr_harmo::status`) %>% unique
+dd_lucas$Variables %>% filter(`Mlstr_harmo::status` == "") %>% select(table,name) %>%
+  filter(!str_detect(name,"physenv_"))
+#if any trouble
+dd_lucas$Variables %>% filter(script != "") %>% select(`Mlstr_harmo::status`) %>% unique
+
+
+dd_hapiee_cz$Variables %>% select(table) %>% unique 
+dd_hapiee_cz$Variables %>% filter(script == "") %>% select(`Mlstr_harmo::status`) %>% unique
+dd_hapiee_cz$Variables %>% filter(`Mlstr_harmo::status`== "impossible  impossible") %>% select(table,name) %>%
+  filter(!str_detect(name,"physenv_"))
+#if any trouble
+dd_hapiee_cz$Variables %>% filter(script != "") %>% select(`Mlstr_harmo::status`) %>% unique
+
+
+dd_hapiee_lt$Variables %>% select(table) %>% unique 
+dd_hapiee_lt$Variables %>% filter(script == "") %>% select(`Mlstr_harmo::status`) %>% unique
+#if any trouble
+dd_hapiee_lt$Variables %>% filter(`Mlstr_harmo::status`== "") %>% select(table,name) %>%
+  filter(!str_detect(name,"physenv_"))
+dd_hapiee_lt$Variables %>% filter(script != "") %>% select(`Mlstr_harmo::status`) %>% unique
+
+
+dd_hapiee_ru$Variables %>% select(table) %>% unique 
+dd_hapiee_ru$Variables %>% filter(script == "") %>% select(`Mlstr_harmo::status`) %>% unique
+#if any trouble
+dd_hapiee_ru$Variables %>% filter(`Mlstr_harmo::status`== "") %>% select(table,name) %>%
+  filter(!str_detect(name,"physenv_"))
+dd_hapiee_ru$Variables %>% filter(script != "") %>% select(`Mlstr_harmo::status`) %>% unique
+
+
+dd_hunt$Variables %>% select(table) %>% unique 
+dd_hunt$Variables %>% filter(script == "") %>% select(`Mlstr_harmo::status`) %>% unique
+#if any trouble
+dd_hunt$Variables %>% filter(`Mlstr_harmo::status`== "") %>% select(table,name) %>%
+  filter(!str_detect(name,"physenv_"))
+dd_hunt$Variables %>% filter(script != "") %>% select(`Mlstr_harmo::status`) %>% unique
+
+
 #SAVE WORK  
 
 save_xls(dd_globe$Variables     , dd_globe$Categories     , 'GLOBE' )
@@ -173,7 +341,6 @@ save_xls(dd_lasa1$Variables     , dd_lasa1$Categories     , 'LASA1' )
 save_xls(dd_lasa2$Variables     , dd_lasa2$Categories     , 'LASA2' )
 save_xls(dd_lucas$Variables     , dd_lucas$Categories     , 'LUCAS' )
 save_xls(dd_record$Variables    , dd_record$Categories    , 'RECORD' )
-save_xls(dd_physenv$Variables   , dd_physenv$Categories    , 'RECORD' )
 
 # message("> dd_hunt  [1378,]
 #         # A tibble: 1 x 1
