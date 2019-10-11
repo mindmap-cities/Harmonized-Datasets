@@ -104,13 +104,13 @@ create_dd <- function(path_study,name_study,harmo_data_set){
   print(dd)
   return(dd)}
 
-add_row_in_dd <-function(dd,name_var,name_study, harmo_data_set){
+add_row_in_dd <-function(dd,name_var,name_study,label_var, harmo_data_set){
 
   temp <- dd$Variable %>%
   add_row(.,
     table = paste("DS",name_study,gsub("-","",today()), sep = "_"),            
     name =  name_var,  
-    `label:en` =  name_var,
+    `label:en` =  label_var,
     `description:en` = "",
     script =   paste0("$('",name_var, "')"),
     valueType = "text",
@@ -148,20 +148,20 @@ complete_dd <- function(dd, harmo_data_set,name_study){
   dd$Categories$table =  paste("DS",name_study,gsub("-","",today()), sep = "_")
 
   
-  dd$Variables <- add_row_in_dd(dd,'baseline_yr',name_study,harmo_data_set)
-  dd$Variables <- add_row_in_dd(dd,'followup1_yr',name_study,harmo_data_set)
-  dd$Variables <- add_row_in_dd(dd,'followup2_yr',name_study,harmo_data_set)
-  dd$Variables <- add_row_in_dd(dd,'followup3_yr',name_study,harmo_data_set)
-  dd$Variables <- add_row_in_dd(dd,'followup4_yr',name_study,harmo_data_set)
-  dd$Variables <- add_row_in_dd(dd,'followup5_yr',name_study,harmo_data_set)
-  dd$Variables <- add_row_in_dd(dd,'followup6_yr',name_study,harmo_data_set)
+  dd$Variables <- add_row_in_dd(dd,'baseline_yr',name_study, "Baseline Year",   harmo_data_set)
+  dd$Variables <- add_row_in_dd(dd,'followup1_yr',name_study,"Follow-up 1 year",harmo_data_set)
+  dd$Variables <- add_row_in_dd(dd,'followup2_yr',name_study,"Follow-up 2 year",harmo_data_set)
+  dd$Variables <- add_row_in_dd(dd,'followup3_yr',name_study,"Follow-up 3 year",harmo_data_set)
+  dd$Variables <- add_row_in_dd(dd,'followup4_yr',name_study,"Follow-up 4 year",harmo_data_set)
+  dd$Variables <- add_row_in_dd(dd,'followup5_yr',name_study,"Follow-up 5 year",harmo_data_set)
+  dd$Variables <- add_row_in_dd(dd,'followup6_yr',name_study,"Follow-up 6 year",harmo_data_set)
   
-  dd$Variables <- add_row_in_dd(dd,'t1',name_study,harmo_data_set)
-  dd$Variables <- add_row_in_dd(dd,'t2',name_study,harmo_data_set)
-  dd$Variables <- add_row_in_dd(dd,'t3',name_study,harmo_data_set)
-  dd$Variables <- add_row_in_dd(dd,'t4',name_study,harmo_data_set)
-  dd$Variables <- add_row_in_dd(dd,'t5',name_study,harmo_data_set)
-  dd$Variables <- add_row_in_dd(dd,'t6',name_study,harmo_data_set)
+  dd$Variables <- add_row_in_dd(dd,'t1',name_study,"Years between follow-up 1 and baseline",   harmo_data_set)
+  dd$Variables <- add_row_in_dd(dd,'t2',name_study,"Years between follow-up 2 and follow-up 1",harmo_data_set)
+  dd$Variables <- add_row_in_dd(dd,'t3',name_study,"Years between follow-up 3 and follow-up 2",harmo_data_set)
+  dd$Variables <- add_row_in_dd(dd,'t4',name_study,"Years between follow-up 4 and follow-up 3",harmo_data_set)
+  dd$Variables <- add_row_in_dd(dd,'t5',name_study,"Years between follow-up 5 and follow-up 4",harmo_data_set)
+  dd$Variables <- add_row_in_dd(dd,'t6',name_study,"Years between follow-up 6 and follow-up 5",harmo_data_set)
   
   return(dd)}
 
