@@ -232,7 +232,7 @@ dd_hapiee_ru$Variables <- dd_hapiee_ru$Variables %>% bind_rows(dd_physenv$Variab
 dd_hunt$Variables      <- dd_hunt$Variables %>% bind_rows(dd_physenv$Variables)
 dd_lasa1$Variables     <- dd_lasa1$Variables %>% bind_rows(dd_physenv$Variables)
 dd_lasa2$Variables     <- dd_lasa2$Variables %>% bind_rows(dd_physenv$Variables)
-dd_lucas$Variables     <- dd_lucas$Variables %>% bind_rows(dd_physenv$Variables)
+dd_lucas$Variables     <- dd_lucas$Variables %>% bind_rows(dd_physenv$Variables) %>% filter(str_detect(name,"_0"))
 dd_record$Variables    <- dd_record$Variables %>% bind_rows(dd_physenv$Variables)
   
 dd_globe$Categories     <- dd_globe$Categories %>% bind_rows(dd_physenv$Categories)
@@ -242,7 +242,7 @@ dd_hapiee_ru$Categories <- dd_hapiee_ru$Categories %>% bind_rows(dd_physenv$Cate
 dd_hunt$Categories      <- dd_hunt$Categories %>% bind_rows(dd_physenv$Categories)
 dd_lasa1$Categories     <- dd_lasa1$Categories %>% bind_rows(dd_physenv$Categories)
 dd_lasa2$Categories     <- dd_lasa2$Categories %>% bind_rows(dd_physenv$Categories)
-dd_lucas$Categories     <- dd_lucas$Categories %>% bind_rows(dd_physenv$Categories)
+dd_lucas$Categories     <- dd_lucas$Categories %>% bind_rows(dd_physenv$Categories) %>% filter(str_detect(variable,"_0"))
 dd_record$Categories    <- dd_record$Categories %>% bind_rows(dd_physenv$Categories)
   
 
@@ -259,7 +259,8 @@ dd_lasa1     <- complete_dd(dd_lasa1,     lasa1_total,     'LASA1')
 dd_lasa2     <- complete_dd(dd_lasa2,     lasa2_total,     'LASA2')
 dd_lucas     <- complete_dd(dd_lucas,     lucas_total,     'LUCAS')
 dd_record    <- complete_dd(dd_record,    record_total,    'RECORD')
- 
+
+
 ##checking for any issues
 dd_record$Variables %>% select(table) %>% unique 
 dd_record$Variables %>% filter(script == "") %>% select(`Mlstr_harmo::status`) %>% unique
