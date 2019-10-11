@@ -1,4 +1,4 @@
-rm(list = ls())
+#rm(list = ls())
 load(file="all_dom_data.RData")
 
 
