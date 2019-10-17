@@ -106,7 +106,7 @@ path_list = path_file %>% unlist
 # MHO_DS_LASA2 Unknown or uninitialised column: 'r47g'
 
 {
-path_list_todo = c(
+path_list = c(
 
 ### BIO ### 
 #    "../biomarkers_genetics/BIO_DS_LASA1.Rmd",
@@ -202,10 +202,10 @@ path_list_todo = c(
 #  for (i in 1:length(path_list)) {
 #    try(ksource(path_list[i]))
 #  }
-# 
-# #
-# # ### PHYSENV ###
-# source("Recoding data in R_physenv.r")
+# # 
+# # #
+# # # ### PHYSENV ###
+#  source("Recoding data in R_physenv.r")
 
 rm(erasmus_opal, smk_table, MyMerge2, med_table,
    GLOBE1991,
@@ -232,7 +232,7 @@ rm(erasmus_opal, smk_table, MyMerge2, med_table,
    )
 # 
 # 
- save.image(file="all_dom_data.RData")
+load(file="all_dom_data.RData")
 
 # bio_hunt_total          =  Reduce(MyMerge, list()) ; rm()
 # bio_record_total        =  Reduce(MyMerge, list()) ; rm()
@@ -327,6 +327,67 @@ physenv_hapiee_cz_total   =  Reduce(MyMerge, list(physenv_HAPIEE_CZ_0,physenv_HA
 physenv_globe_total       =  Reduce(MyMerge, list(physenv_GLOBE_1,physenv_GLOBE_2,physenv_GLOBE_3,physenv_GLOBE_4)) %>% as_tibble() ; rm(physenv_GLOBE_1,physenv_GLOBE_2,physenv_GLOBE_3,physenv_GLOBE_4)
 physenv_clsa_total      =  Reduce(MyMerge, list()) %>% as_tibble() ; rm()
 
+
+# change_class <- function(tbl){
+#   for(i in 2:ncol(tbl)){
+#     tbl = physenv_lasa1_total
+#     i = 439
+#     temp_col <- tbl[i]
+#     temp_col_int <- sapply(tbl[i], as.integer) %>% as_tibble()
+#     comparison <- mean(temp_col == temp_col_int, na.rm = TRUE)
+#     
+#     tbl[i] <- temp_col
+#     
+#     tbl[i] <- ifelse(
+#       comparison == 1, temp_col_int, ifelse(
+#         is.nan(comparison),temp_col,temp_col))}
+#   
+#   return(tbl)} 
+# 
+# change_class <- function(tbl){
+#   for(i in 2:ncol(tbl)){
+#     tbl = physenv_lasa1_total
+#     i = 439
+#     temp_col <- tbl[i]
+#     temp_col_int <- sapply(tbl[i], as.integer) %>% as_tibble()
+#     comparison <- mean(temp_col == temp_col_int, na.rm = TRUE)
+#     
+#     tbl[i] <- temp_col
+#     
+#     tbl[i] <- ifelse(
+#       comparison == 1, temp_col_int, ifelse(
+#         is.nan(comparison),temp_col,temp_col))}
+#   
+#   return(tbl)} 
+# 
+
+change_class <- function(tbl){
+  for(i in 2:ncol(tbl)){
+    tbl[i]<-lapply(tbl[i], as.character)}
+  return(tbl)}
+
+
+
+
+# change_class <- function(physenv_lasa2_total){
+#   for(i in 2:ncol(physenv_lasa2_total)){
+#     sapply(physenv_lasa2_total[i], as.character)}
+#   return(physenv_lasa2_total)}
+# 
+# a<-for(i in 2:ncol(physenv_lasa2_total)){
+#     lapply(physenv_lasa2_total[i], as.character)}
+
+physenv_globe_total <- change_class(physenv_globe_total)
+physenv_lasa1_total2 <- change_class(physenv_lasa1_total)
+physenv_lasa2_total <- change_class(physenv_lasa2_total)
+physenv_hapiee_cz_total<-change_class(physenv_hapiee_cz_total)
+# physenv_hapiee_lt_total<-change_class(physenv_hapiee_lt_total)
+# physenv_hapiee_ru_total<-change_class(physenv_hapiee_ru_total)
+# physenv_lucas_total<-change_class(physenv_lucas_total)
+#physenv_hunt_total<-change_class(physenv_hunt_total)
+physenv_record_total<-change_class(physenv_record_total)
+
+
 soc_hunt_total            =  Reduce(MyMerge, list(soc_HUNT_0, soc_HUNT_1, soc_HUNT_2)) %>% as_tibble() ; rm(soc_HUNT_0, soc_HUNT_1, soc_HUNT_2)
 soc_record_total          =  Reduce(MyMerge, list(soc_RECORD_0,soc_RECORD_1)) %>% as_tibble() ; rm(soc_RECORD_0,soc_RECORD_1)
 soc_lasa1_total         =  Reduce(MyMerge, list()) %>% as_tibble() ; rm()
@@ -339,7 +400,8 @@ soc_globe_total           =  Reduce(MyMerge, list(soc_GLOBE_0, soc_GLOBE_1, soc_
 soc_clsa_total         =  Reduce(MyMerge, list()) %>% as_tibble() ; rm()
 
 
-
+#save.image(file="all_total_data.RData")
+load(file="all_total_data.RData")
 
 hunt_total   = Reduce(MyMerge, list(
   sdc_hunt_total,
@@ -348,9 +410,9 @@ hunt_total   = Reduce(MyMerge, list(
   #  bio_hunt_total,
   mho_hunt_total,
   soc_hunt_total,
-  env_hunt_total,
+  env_hunt_total
   # socenv_hunt_total,
-  physenv_hunt_total
+  #physenv_hunt_total
 )) %>% as_tibble ; rm(
   sdc_hunt_total,
   lsb_hunt_total,
@@ -370,9 +432,9 @@ record_total = Reduce(MyMerge, list(
   #  bio_record_total,
   mho_record_total,
   soc_record_total,
-  env_record_total,
+  env_record_total
   # socenv_record_total,
-  physenv_record_total
+  #physenv_record_total
 )) %>% as_tibble ; rm(
   sdc_record_total,
   lsb_record_total,
@@ -509,9 +571,9 @@ hapiee_cz_total = Reduce(MyMerge, list(
   #  bio_hapiee_cz_total,
   mho_hapiee_cz_total,
   soc_hapiee_cz_total,
-  env_hapiee_cz_total,
+  env_hapiee_cz_total
   # socenv_hapiee_cz_total,
-  physenv_hapiee_cz_total
+  #physenv_hapiee_cz_total
 )) %>% as_tibble ; rm(
   sdc_hapiee_cz_total,
   lsb_hapiee_cz_total,
@@ -533,20 +595,21 @@ globe_total = Reduce(MyMerge, list(
   #  bio_globe_total,
   mho_globe_total,
   soc_globe_total,
-  env_globe_total,
+  env_globe_total
   # socenv_globe_total,
-  physenv_globe_total
-)) %>% as_tibble ; rm(
-  sdc_globe_total,
-  lsb_globe_total,
-  oth_globe_total,
-  #bio_globe_total,
-  mho_globe_total,
-  soc_globe_total,
-  env_globe_total,
-  #socenv_globe_total,
-  physenv_globe_total
-)
+  #physenv_globe_total
+ )) %>% as_tibble 
+# #rm(
+#   sdc_globe_total,
+#   lsb_globe_total,
+#   oth_globe_total,
+#   #bio_globe_total,
+#   mho_globe_total,
+#   soc_globe_total,
+#   env_globe_total,
+#   #socenv_globe_total,
+#   physenv_globe_total
+# )
 
 
 
@@ -560,18 +623,20 @@ globe_total = Reduce(MyMerge, list(
   # env_clsa_total
   # socenv_clsa_total,
   # physenv_clsa_total
-# )) %>% as_tibble ; 
-rm(
-  sdc_clsa_total,
-  lsb_clsa_total,
-  oth_clsa_total,
-  #bio_clsa_total,
-  mho_clsa_total,
-  soc_clsa_total,
-  env_clsa_total,
-  socenv_clsa_total,
-  physenv_clsa_total
-)
+# # )) %>% as_tibble ; 
+# rm(
+#   sdc_clsa_total,
+#   lsb_clsa_total,
+#   oth_clsa_total,
+#   #bio_clsa_total,
+#   mho_clsa_total,
+#   soc_clsa_total,
+#   env_clsa_total,
+#   socenv_clsa_total,
+#   physenv_clsa_total
+# )
+# 
+
 
 
 hunt_total = as_tibble(data.frame(
@@ -585,9 +650,9 @@ hunt_total = as_tibble(data.frame(
   hunt_total[str_subset(names(hunt_total), "_6")],
   baseline_yr	   = rep(1984),
   followup1_yr	 = rep(1995),
-  followup2_yr	 = rep(2006),
-  t1	 = 1995 - 1984,
-  t2	 = 2006 - 1995
+  followup2_yr	 = rep(2006)
+  # t1	 = 1995 - 1984,
+  # t2	 = 2006 - 1995
 )
 )
 
@@ -601,8 +666,8 @@ record_total = as_tibble(data.frame(
   record_total[str_subset(names(record_total), "_5")],
   record_total[str_subset(names(record_total), "_6")],
   baseline_yr	   = rep(2007),
-  followup1_yr	 = rep(2011),
-  t1	 = 2011 - 2007
+  followup1_yr	 = rep(2011)
+  # t1	 = 2011 - 2007
 )
 )
 
@@ -724,11 +789,11 @@ globe_total = as_tibble(data.frame(
   followup1_yr	 = rep(1997),
   followup2_yr	 = rep(2004),
   followup3_yr	 = rep(2011),
-  followup4_yr	 = rep(2014),
-  t1	 = 1997 - 1991,
-  t2	 = 2004 - 1997,
-  t3	 = 2011 - 2004,
-  t4	 = 2014 - 2011
+  followup4_yr	 = rep(2014)
+  # t1	 = as.integer(1997 - 1991),
+  # t2	 = as.integer(2004 - 1997),
+  # t3	 = as.integer(2011 - 2004),
+  # t4	 = as.integer(2014 - 2011)
   
   
 )
@@ -751,7 +816,10 @@ globe_total = as_tibble(data.frame(
 # )
 
 
-save.image("all_total.Rdata")
+load("all_total.Rdata")
+
+
+
 
 for(i in 1:length(names_short)){
   try(write_csv(
@@ -761,13 +829,17 @@ for(i in 1:length(names_short)){
 }
 
 
+
+a<-read_csv("csv_files/globe_Harmo_Table_20191011.csv")
+
+
 paste0(names_short[1],"_Harmo_Table_",str_replace_all(today(),"-",""),".csv")
 
 
 # write_csv(hunt_total,"hunt_Harmo_Table.csv",na="NA",col_names = TRUE, na="")
 # write_csv(record_total,"record_Harmo_Table.csv",na="NA",col_names = TRUE)
-# write_csv(lasa1_total,"lasa1_Harmo_Table.csv",na="NA",col_names = TRUE)
-# write_csv(lasa2_total,"lasa2_Harmo_Table.csv",na="NA",col_names = TRUE)
+# write_csv(lasa1_total,"lasa1_Harmo_Table.csv",na="",col_names = TRUE)
+# write_csv(lasa2_total,"lasa2_Harmo_Table.csv",na="",col_names = TRUE)
 # write_csv(lucas_total,"lucas_Harmo_Table.csv",na="NA",col_names = TRUE)
 # write_csv(hapiee_lt_total,"hapiee_lt_Harmo_Table.csv",na="NA",col_names = TRUE)
 # write_csv(hapiee_ru_total,"hapiee_ru_Harmo_Table.csv",na="NA",col_names = TRUE)
@@ -803,6 +875,13 @@ rm(path_file,
 #    clsa_total)
 
 #Opal upload files
+
+
+
+#opal.file_upload(erasmus_opal,paste0("csv_files/",names_short[1],"_Harmo_Table_",str_replace_all(today(),"-",""),".csv"),paste0("/projects/",names_opal_proj[i]))  
+
+
+#Opal upload files
 library(opalr)
 erasmus_opal = opal.login()
 
@@ -813,6 +892,4 @@ for(i in 1:length(names_short)){
 
 
 #opal.file_upload(erasmus_opal,paste0("csv_files/",names_short[1],"_Harmo_Table_",str_replace_all(today(),"-",""),".csv"),paste0("/projects/",names_opal_proj[i]))  
-
-""
-
+# opal.file_upload(erasmus_opal, "lasa1_Harmo_Table.csv", "/projects/LASA")
