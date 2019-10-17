@@ -5,5 +5,7 @@
 *.Rproj
 *.xlsx
 *.csv
-all_dom_data.RData
+all_dom_data_backup.RData
 all_total.Rdata
+all_total_data.RData
+all_dom_data.RData
