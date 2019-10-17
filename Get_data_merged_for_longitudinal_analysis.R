@@ -233,6 +233,7 @@ if(answer_sourceData == 1){
   source("Recoding data in R_physenv.r")}
 
 
+
 rm(erasmus_opal, smk_table, MyMerge2, med_table,
    GLOBE1991,
     GLOBE1997,GLOBE2004,GLOBE2011,GLOBE2014,
@@ -495,9 +496,9 @@ lucas_total = Reduce(MyMerge, list(
   # bio_lucas_total,
   mho_lucas_total,
   soc_lucas_total,
-  env_lucas_total,
+  env_lucas_total
   # socenv_lucas_total,
-  physenv_lucas_total
+  # physenv_lucas_total
 )) %>% as_tibble ; rm(
   sdc_lucas_total,
   lsb_lucas_total,
@@ -518,9 +519,9 @@ hapiee_lt_total = Reduce(MyMerge, list(
   #  bio_hapiee_lt_total,
   mho_hapiee_lt_total,
   soc_hapiee_lt_total,
-  env_hapiee_lt_total,
+  env_hapiee_lt_total
   # socenv_hapiee_lt_total,
-  physenv_hapiee_lt_total
+  # physenv_hapiee_lt_total
 )) %>% as_tibble ; rm(
   sdc_hapiee_lt_total,
   lsb_hapiee_lt_total,
@@ -541,9 +542,9 @@ hapiee_ru_total = Reduce(MyMerge, list(
   #  bio_hapiee_ru_total,
   mho_hapiee_ru_total,
   soc_hapiee_ru_total,
-  env_hapiee_ru_total,
+  env_hapiee_ru_total
   # socenv_hapiee_ru_total,
-  physenv_hapiee_ru_total
+  # physenv_hapiee_ru_total
 )) %>% as_tibble ; rm(
   sdc_hapiee_ru_total,
   lsb_hapiee_ru_total,
@@ -592,18 +593,17 @@ globe_total = Reduce(MyMerge, list(
   env_globe_total,
   # socenv_globe_total,
   physenv_globe_total
- )) %>% as_tibble 
-# #rm(
-#   sdc_globe_total,
-#   lsb_globe_total,
-#   oth_globe_total,
-#   #bio_globe_total,
-#   mho_globe_total,
-#   soc_globe_total,
-#   env_globe_total,
-#   #socenv_globe_total,
-#   physenv_globe_total
-# )
+)) %>% as_tibble ; rm(
+  sdc_globe_total,
+  lsb_globe_total,
+  oth_globe_total,
+  #bio_globe_total,
+  mho_globe_total,
+  soc_globe_total,
+  env_globe_total,
+  #socenv_globe_total,
+  physenv_globe_total
+ )
 
 
 
@@ -811,7 +811,7 @@ globe_total = as_tibble(data.frame(
 
 
 
-save.image(file="all_total.Rdata")
+save.image(file="all_total.RData")
 
 answer_TotalData = menu(c("Yes", "No"), title="Do you want to load all_total.Rdata?")
 if(answer_TotalData == 1){
@@ -870,6 +870,11 @@ library(opalr)
 erasmus_opal = opal.login()
 
 
+
+
+
+
+
 for(i in 1:length(names_short)){
   try(opal.file_upload(erasmus_opal,paste0("csv_files/",names_short[i],"_Harmo_Table_",str_replace_all(today(),"-",""),".csv"),paste0("/projects/",names_opal_proj[i])))  
 }
@@ -877,3 +882,57 @@ for(i in 1:length(names_short)){
 
 #opal.file_upload(erasmus_opal,paste0("csv_files/",names_short[1],"_Harmo_Table_",str_replace_all(today(),"-",""),".csv"),paste0("/projects/",names_opal_proj[i]))  
 # opal.file_upload(erasmus_opal, "lasa1_Harmo_Table.csv", "/projects/LASA")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# TRY 
+
+
+hunt_total_sub <-  hunt_total[1000,]
+
+hunt_total_char <- 
+  hunt_total_sub %>%
+  mutate_all(as.character)
+
+
+
+
+hunt_total_sub
+hunt_total_char
+
+# record_total
+# lasa1_total
+# lasa2_total
+# lucas_total
+# hapiee_cz_total
+# hapiee_lt_total
+# hapiee_ru_total
+# globe_total
+# clsa_total
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

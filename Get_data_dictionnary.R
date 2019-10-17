@@ -29,7 +29,9 @@ if(answer_dd == 1){
 
 create_dd <- function(path_study,name_study,harmo_data_set){
   #run variables
-  
+# 
+#     path_study = path_hunt
+#     name_study = 'HUNT'
   
  {
   dd_allvar = list()
@@ -49,6 +51,7 @@ create_dd <- function(path_study,name_study,harmo_data_set){
   name        <- dd_allvar %>% filter(str_detect(Text,'Variable name\\*')) %>% mutate(Text = str_trim(gsub('.*\\*\\:', '',Text))) %>% as_tibble() 
   description <- dd_allvar %>% filter(str_detect(Text,'Variable description\\*')) %>% mutate(Text = str_trim(gsub('.*\\*\\:', '',Text))) %>% as_tibble() 
   type        <- dd_allvar %>% filter(str_detect(Text,'Value type|Variable type\\*')) %>% mutate(Text = str_trim(gsub('.*\\*\\:', '',Text))) %>% as_tibble() 
+ # type        <- dd_allvar %>% mutate_all(tolower)
   unit        <- dd_allvar %>% filter(str_detect(Text,'Variable unit\\*')) %>% mutate(Text = str_trim(gsub('.*\\*\\:', '',Text))) %>% as_tibble() 
   comment     <- dd_allvar %>% filter(str_detect(Text,'Harmonization comment\\*')) %>% mutate(Text = str_trim(gsub('.*\\*\\:', '',Text))) %>% as_tibble() 
   status      <- dd_allvar %>% filter(str_detect(Text,'nization status\\*')) %>% mutate(Text = str_trim(gsub('.*\\*\\:', '',Text))) %>% as_tibble() 
@@ -231,15 +234,15 @@ dd_physenv <- create_dd(path_env, "PHYSENV")
 
 
 #dd_clsa      <- create_dd(path_clsa , 'CLSA' )
-dd_globe$Variables     <- dd_globe$Variables %>% bind_rows(dd_physenv$Variables)
-dd_hapiee_cz$Variables <- dd_hapiee_cz$Variables %>% bind_rows(dd_physenv$Variables)
-dd_hapiee_lt$Variables <- dd_hapiee_lt$Variables %>% bind_rows(dd_physenv$Variables)
-dd_hapiee_ru$Variables <- dd_hapiee_ru$Variables %>% bind_rows(dd_physenv$Variables)
-dd_hunt$Variables      <- dd_hunt$Variables %>% bind_rows(dd_physenv$Variables)
-dd_lasa1$Variables     <- dd_lasa1$Variables %>% bind_rows(dd_physenv$Variables)
-dd_lasa2$Variables     <- dd_lasa2$Variables %>% bind_rows(dd_physenv$Variables)
-dd_lucas$Variables     <- dd_lucas$Variables %>% bind_rows(dd_physenv$Variables) %>% filter(str_detect(name,"_0"))
-dd_record$Variables    <- dd_record$Variables %>% bind_rows(dd_physenv$Variables)
+dd_globe$Variables     <- dd_globe$Variables %>% bind_rows(dd_physenv$Variables) #@ %>% mutate(valueType = tolower(valueType))
+dd_hapiee_cz$Variables <- dd_hapiee_cz$Variables %>% bind_rows(dd_physenv$Variables) #@ %>% mutate(valueType = tolower(valueType))
+dd_hapiee_lt$Variables <- dd_hapiee_lt$Variables %>% bind_rows(dd_physenv$Variables) #@ %>% mutate(valueType = tolower(valueType))
+dd_hapiee_ru$Variables <- dd_hapiee_ru$Variables %>% bind_rows(dd_physenv$Variables) #@ %>% mutate(valueType = tolower(valueType))
+dd_hunt$Variables      <- dd_hunt$Variables %>% bind_rows(dd_physenv$Variables) %>% mutate(valueType = tolower(valueType))
+dd_lasa1$Variables     <- dd_lasa1$Variables %>% bind_rows(dd_physenv$Variables) #@ %>% mutate(valueType = tolower(valueType))
+dd_lasa2$Variables     <- dd_lasa2$Variables %>% bind_rows(dd_physenv$Variables) #@ %>% mutate(valueType = tolower(valueType))
+dd_lucas$Variables     <- dd_lucas$Variables %>% bind_rows(dd_physenv$Variables) %>% filter(str_detect(name,"_0")) #@ %>% mutate(valueType = tolower(valueType))
+dd_record$Variables    <- dd_record$Variables %>% bind_rows(dd_physenv$Variables) #@ %>% mutate(valueType = tolower(valueType))
   
 dd_globe$Categories     <- dd_globe$Categories %>% bind_rows(dd_physenv$Categories)
 dd_hapiee_cz$Categories <- dd_hapiee_cz$Categories %>% bind_rows(dd_physenv$Categories)
