@@ -1,7 +1,7 @@
 answer_getData = menu(c("Yes", "No"), title="Do you want to load all_total.Rdata?")
 
 if(answer_getData == 1){
-  load("all_total.Rdata")
+  load("all_total.RData")
 }
 
 library(naniar)
@@ -869,12 +869,6 @@ rm(path_file,
 library(opalr)
 erasmus_opal = opal.login()
 
-
-
-
-
-
-
 for(i in 1:length(names_short)){
   try(opal.file_upload(erasmus_opal,paste0("csv_files/",names_short[i],"_Harmo_Table_",str_replace_all(today(),"-",""),".csv"),paste0("/projects/",names_opal_proj[i])))  
 }
@@ -900,17 +894,143 @@ for(i in 1:length(names_short)){
 # TRY 
 
 
-hunt_total_sub <-  hunt_total[1000,]
+# 1 separate into less than 998
+ceiling(nrow(dd_hunt_3$Variables) / 900) 
+
+dd_hunt_1 <- dd_hunt
+dd_hunt_2 <- dd_hunt
+dd_hunt_3 <- dd_hunt
+
+dd_hunt_1$Variables <- dd_hunt_1$Variables[1:900,]
+dd_hunt_2$Variables <- dd_hunt_2$Variables[901:1800,]
+dd_hunt_3$Variables <- dd_hunt_3$Variables[1801:2571,]
+
+
+
+# 2 get the names of the categories included into the variables subsetted
+
+dd_hunt_1$Categories <- dd_hunt_1$Categories %>% filter(variable %in% dd_hunt_1$Variables$name)
+dd_hunt_2$Categories <- dd_hunt_2$Categories %>% filter(variable %in% dd_hunt_2$Variables$name)
+dd_hunt_3$Categories <- dd_hunt_3$Categories %>% filter(variable %in% dd_hunt_3$Variables$name)
+
+# separate datasests by name of colomuts in dd subset
+
+names_to_retain_1 = names(hunt_total)[hunt_total %>% names %in% dd_hunt_1$Variables$name]
+names_to_retain_2 = names(hunt_total)[hunt_total %>% names %in% dd_hunt_2$Variables$name]
+names_to_retain_3 = names(hunt_total)[hunt_total %>% names %in% dd_hunt_3$Variables$name]
+
+hunt_total_1 <- hunt_total %>% select(id) %>% bind_cols( hunt_total %>% subset(select = names_to_retain_1)) 
+hunt_total_2 <- hunt_total %>% select(id) %>% bind_cols( hunt_total %>% subset(select = names_to_retain_2))
+hunt_total_3 <- hunt_total %>% select(id) %>% bind_cols( hunt_total %>% subset(select = names_to_retain_3))
+
+### upload CSV to opal
+# csv creation
+write_csv(hunt_total_1,"csv_files/hunt_total_1.csv")
+write_csv(hunt_total_2,"csv_files/hunt_total_2.csv")
+write_csv(hunt_total_3,"csv_files/hunt_total_3.csv")
+
+# xlsx creation
+save_xls(dd_hunt_1$Variables     , dd_hunt_1$Categories     , 'HUNT_1' )
+save_xls(dd_hunt_2$Variables     , dd_hunt_2$Categories     , 'HUNT_2' )
+save_xls(dd_hunt_3$Variables     , dd_hunt_3$Categories     , 'HUNT_3' )
+
+
+# try with CSV
+library(opalr)
+erasmus_opal = opal.login()
+
+try(opal.file_upload(erasmus_opal,"csv_files/hunt_total_1.csv",paste0("/projects/",names_opal_proj[5])))
+try(opal.file_upload(erasmus_opal,"csv_files/hunt_total_2.csv",paste0("/projects/",names_opal_proj[5])))
+try(opal.file_upload(erasmus_opal,"csv_files/hunt_total_3.csv",paste0("/projects/",names_opal_proj[5])))
+
+
+# try with create table opal
+try(opal.file_upload(erasmus_opal,"DD_HUNT_1.xlsx",paste0("/projects/",names_opal_proj[5])))
+try(opal.file_upload(erasmus_opal,"DD_HUNT_2.xlsx",paste0("/projects/",names_opal_proj[5])))
+try(opal.file_upload(erasmus_opal,"DD_HUNT_3.xlsx",paste0("/projects/",names_opal_proj[5])))
+
+
+
+hunt_total_sub <-  hunt_total[1:1000,] %>%
+  select(-physenv_cn_bf_lu3000_facil_2)
 
 hunt_total_char <- 
   hunt_total_sub %>%
   mutate_all(as.character)
 
+hunt_total_ddlike <- hunt_total_sub 
+
+tbl = tibble(class = rep(NA,ncol(hunt_total_ddlike)),name = rep(NA,ncol(hunt_total_ddlike)))
+for(i in 1:ncol(hunt_total_ddlike)){
+  tbl$class[i] = class(hunt_total_ddlike[,i] %>% .[[1]])
+  tbl$name[i] = names(hunt_total_ddlike[,i])}
+
+type_of_value <- dd_hunt$Variables %>%
+  select(name, valueType) %>% 
+  group_by(valueType) %>%
+  inner_join(tbl) %>%
+  mutate(
+    script = 
+    case_when(
+      valueType == "integer" ~ paste0("hunt_total_ddlike <<- hunt_total_ddlike %>% mutate(",name," = ",name," %>% as.integer)"),
+      valueType == "decimal" ~ paste0("hunt_total_ddlike <<- hunt_total_ddlike %>% mutate(",name," = ",name," %>% as.numeric)"),
+      valueType == "text"    ~ paste0("hunt_total_ddlike <<- hunt_total_ddlike %>% mutate(",name," = ",name," %>% as.character)")))
+
+for(i in 1:nrow(type_of_value)){
+  parceval(type_of_value$script[i]) 
+}
 
 
 
 hunt_total_sub
 hunt_total_char
+hunt_total_ddlike
+
+hunt_total_sub_out_physenv <- hunt_total_sub %>% select(-contains("physenv"))
+hunt_total_char_out_physenv <- hunt_total_char %>% select(-contains("physenv"))
+hunt_total_ddlike_out_physenv <- hunt_total_ddlike %>% select(-contains("physenv"))
+
+hunt_total_sub_only_physenv <- hunt_total_sub %>% select(contains("physenv"))
+hunt_total_char_only_physenv <- hunt_total_char %>% select(contains("physenv"))
+hunt_total_ddlike_only_physenv <- hunt_total_ddlike %>% select(contains("physenv"))
+
+name_tbl= c(
+  "hunt_total_sub",
+  "hunt_total_char",
+  "hunt_total_ddlike",
+  "hunt_total_sub_out_physenv",
+  "hunt_total_char_out_physenv",
+  "hunt_total_ddlike_out_physenv",
+  "hunt_total_sub_only_physenv",
+  "hunt_total_char_only_physenv",
+  "hunt_total_ddlike_only_physenv")
+
+
+# csv creation
+for(i in 1:length(name_tbl)){
+  try(write_csv(
+    parceval(name_tbl[i]),
+    paste0("csv_files/",name_tbl[i],"_Harmo_Table_",str_replace_all(today(),"-",""),".csv"),
+    col_names = TRUE, na=""))
+}
+
+
+# try with CSV
+library(opalr)
+erasmus_opal = opal.login()
+
+for(i in 1:length(name_tbl)){
+  try(opal.file_upload(erasmus_opal,
+    paste0("csv_files/",name_tbl[i],"_Harmo_Table_",str_replace_all(today(),"-",""),".csv"),
+    paste0("/projects/",names_opal_proj[5])))}
+
+# try with create table opal
+try(opal.file_upload(erasmus_opal,"DD_HUNT.xlsx",paste0("/projects/",names_opal_proj[5])))
+
+
+
+
+
 
 # record_total
 # lasa1_total
