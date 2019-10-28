@@ -19,7 +19,7 @@ library(lubridate)
 answer_dd = menu(c("Yes", "No"), title="Do you want to load all_total.Rdata?")
 
 if(answer_dd == 1){
-  load("all_total.Rdata")
+  load("all_total.RData")
 }
 
 
@@ -241,7 +241,7 @@ dd_hapiee_ru$Variables <- dd_hapiee_ru$Variables %>% bind_rows(dd_physenv$Variab
 dd_hunt$Variables      <- dd_hunt$Variables %>% bind_rows(dd_physenv$Variables) %>% mutate(valueType = tolower(valueType))
 dd_lasa1$Variables     <- dd_lasa1$Variables %>% bind_rows(dd_physenv$Variables) #@ %>% mutate(valueType = tolower(valueType))
 dd_lasa2$Variables     <- dd_lasa2$Variables %>% bind_rows(dd_physenv$Variables) #@ %>% mutate(valueType = tolower(valueType))
-dd_lucas$Variables     <- dd_lucas$Variables %>% bind_rows(dd_physenv$Variables) %>% filter(str_detect(name,"_0")) #@ %>% mutate(valueType = tolower(valueType))
+dd_lucas$Variables     <- dd_lucas$Variables %>% bind_rows(dd_physenv$Variables)  #@ %>% mutate(valueType = tolower(valueType))
 dd_record$Variables    <- dd_record$Variables %>% bind_rows(dd_physenv$Variables) #@ %>% mutate(valueType = tolower(valueType))
   
 dd_globe$Categories     <- dd_globe$Categories %>% bind_rows(dd_physenv$Categories)
@@ -251,7 +251,7 @@ dd_hapiee_ru$Categories <- dd_hapiee_ru$Categories %>% bind_rows(dd_physenv$Cate
 dd_hunt$Categories      <- dd_hunt$Categories %>% bind_rows(dd_physenv$Categories)
 dd_lasa1$Categories     <- dd_lasa1$Categories %>% bind_rows(dd_physenv$Categories)
 dd_lasa2$Categories     <- dd_lasa2$Categories %>% bind_rows(dd_physenv$Categories)
-dd_lucas$Categories     <- dd_lucas$Categories %>% bind_rows(dd_physenv$Categories) %>% filter(str_detect(variable,"_0"))
+dd_lucas$Categories     <- dd_lucas$Categories %>% bind_rows(dd_physenv$Categories)
 dd_record$Categories    <- dd_record$Categories %>% bind_rows(dd_physenv$Categories)
   
 
