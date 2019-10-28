@@ -817,9 +817,48 @@ answer_TotalData = menu(c("Yes", "No"), title="Do you want to load all_total.Rda
 if(answer_TotalData == 1){
   load("all_total.Rdata")
 }
+lasa1_total.<-lasa1_total
+lasa1_total.<-as_tibble(lasa1_total.)
+lasa1_total.<-mutate(lasa1_total. %>% select(contains("physenv_ua_urbcy"))==recode(lasa1_total. %>% select(contains("physenv_ua_urbcy"))),"Continuous urban fabric (S.L. > 80%)"=1L)
+
+is_tibble(lasa1_total.)
+
+lasa1_total. %>% mutate(lasa1_total. %>% select(contains("physenv_ua_urbcy"))=recode(lasa1_total. %>% select(contains("physenv_ua_urbcy")), 
+                         `Continuous urban fabric (S.L. > 80%)`=1L,
+                         `Discontinuous dense urban fabric (S.L.: 50% - 80%)`=2L%>% as_tibble()))
+
+a<-recode(lasa1_total$physenv_ua_urbcy_4, "'Continuous urban fabric (S.L. > 80%)'=1L; 'Discontinuous dense urban fabric (S.L.: 50% - 80%)'=2L; 
+                                       'Discontinuous medium density urban fabric (S.L.: 30% - 50%)'=3L; 'Discontinuous low density urban fabric (S.L.: 10% - 30%)'=4L; 
+                                       'Discontinuous very low density urban fabric (S.L.: < 10%)'=5L")
+
+lasa1_total$physenv_ua_urbcy_4[lasa1_total$physenv_ua_urbcy_4== "Continuous urban fabric (S.L. : > 80%)"]<-1L
+lasa1_total$physenv_ua_urbcy_4[lasa1_total$physenv_ua_urbcy_4== "Discontinuous dense urban fabric (S.L. : 50% -  80%)"]<-2L
+lasa1_total$physenv_ua_urbcy_4[lasa1_total$physenv_ua_urbcy_4== "Discontinuous medium density urban fabric (S.L. : 30% - 50%)"]<-3L
+lasa1_total$physenv_ua_urbcy_4[lasa1_total$physenv_ua_urbcy_4== "Discontinuous low density urban fabric (S.L. : 10% - 30%)"]<-4L
+lasa1_total$physenv_ua_urbcy_4[lasa1_total$physenv_ua_urbcy_4== "Discontinuous very low density urban fabric (S.L. : < 10%)"]<-5L
+lasa1_total$physenv_ua_urbcy_4<-as.integer(lasa1_total$physenv_ua_urbcy_4)
+
+lasa1_total$physenv_ua_urbcy_6[lasa1_total$physenv_ua_urbcy_6== "Continuous urban fabric (S.L. : > 80%)"]<-1L
+lasa1_total$physenv_ua_urbcy_6[lasa1_total$physenv_ua_urbcy_6== "Discontinuous dense urban fabric (S.L. : 50% -  80%)"]<-2L
+lasa1_total$physenv_ua_urbcy_6[lasa1_total$physenv_ua_urbcy_6== "Discontinuous medium density urban fabric (S.L. : 30% - 50%)"]<-3L
+lasa1_total$physenv_ua_urbcy_6[lasa1_total$physenv_ua_urbcy_6== "Discontinuous low density urban fabric (S.L. : 10% - 30%)"]<-4L
+lasa1_total$physenv_ua_urbcy_6[lasa1_total$physenv_ua_urbcy_6== "Discontinuous very low density urban fabric (S.L. : < 10%)"]<-5L
+lasa1_total$physenv_ua_urbcy_6<-as.integer(lasa1_total$physenv_ua_urbcy_6)
 
 
+lasa2_total$physenv_ua_urbcy_1[lasa2_total$physenv_ua_urbcy_1== "Continuous urban fabric (S.L. : > 80%)"]<-1L
+lasa2_total$physenv_ua_urbcy_1[lasa2_total$physenv_ua_urbcy_1== "Discontinuous dense urban fabric (S.L. : 50% -  80%)"]<-2L
+lasa2_total$physenv_ua_urbcy_1[lasa2_total$physenv_ua_urbcy_1== "Discontinuous medium density urban fabric (S.L. : 30% - 50%)"]<-3L
+lasa2_total$physenv_ua_urbcy_1[lasa2_total$physenv_ua_urbcy_1== "Discontinuous low density urban fabric (S.L. : 10% - 30%)"]<-4L
+lasa2_total$physenv_ua_urbcy_1[lasa2_total$physenv_ua_urbcy_1== "Discontinuous very low density urban fabric (S.L. : < 10%)"]<-5L
+lasa2_total$physenv_ua_urbcy_1<-as.integer(lasa2_total$physenv_ua_urbcy_1)
 
+lasa2_total$physenv_ua_urbcy_3[lasa2_total$physenv_ua_urbcy_3== "Continuous urban fabric (S.L. : > 80%)"]<-1L
+lasa2_total$physenv_ua_urbcy_3[lasa2_total$physenv_ua_urbcy_3== "Discontinuous dense urban fabric (S.L. : 50% -  80%)"]<-2L
+lasa2_total$physenv_ua_urbcy_3[lasa2_total$physenv_ua_urbcy_3== "Discontinuous medium density urban fabric (S.L. : 30% - 50%)"]<-3L
+lasa2_total$physenv_ua_urbcy_3[lasa2_total$physenv_ua_urbcy_3== "Discontinuous low density urban fabric (S.L. : 10% - 30%)"]<-4L
+lasa2_total$physenv_ua_urbcy_3[lasa2_total$physenv_ua_urbcy_3== "Discontinuous very low density urban fabric (S.L. : < 10%)"]<-5L
+lasa2_total$physenv_ua_urbcy_3<-as.integer(lasa2_total$physenv_ua_urbcy_3)
 
 # csv creation
 for(i in 1:length(names_short)){
@@ -828,8 +867,6 @@ for(i in 1:length(names_short)){
     paste0("csv_files/",names_short[i],"_Harmo_Table_",str_replace_all(today(),"-",""),".csv"),
     col_names = TRUE, na=""))
 }
-
-a<-read_csv("csv_files/globe_Harmo_Table_20191011.csv")
 
 
 rm(path_file,
@@ -873,7 +910,6 @@ for(i in 1:length(names_short)){
   try(opal.file_upload(erasmus_opal,paste0("csv_files/",names_short[i],"_Harmo_Table_",str_replace_all(today(),"-",""),".csv"),paste0("/projects/",names_opal_proj[i])))  
 }
 
-
 #opal.file_upload(erasmus_opal,paste0("csv_files/",names_short[1],"_Harmo_Table_",str_replace_all(today(),"-",""),".csv"),paste0("/projects/",names_opal_proj[i]))  
 # opal.file_upload(erasmus_opal, "lasa1_Harmo_Table.csv", "/projects/LASA")
 
@@ -881,18 +917,9 @@ for(i in 1:length(names_short)){
 
 
 
-
-
-
-
-
-
-
-
-
-
 # TRY 
 
+##Codes for seperating the tables into number of variables Opal used to accept
 
 # 1 separate into less than 998
 ceiling(nrow(dd_hunt_3$Variables) / 900) 
@@ -906,12 +933,27 @@ dd_hunt_2$Variables <- dd_hunt_2$Variables[901:1800,]
 dd_hunt_3$Variables <- dd_hunt_3$Variables[1801:2571,]
 
 
+dd_lasa1_1 <- dd_lasa1
+dd_lasa1_2 <- dd_lasa1
+dd_lasa1_3 <- dd_lasa1
+
+dd_lasa1_1$Variables <- dd_lasa1_1$Variables[1:710,]
+dd_lasa1_2$Variables <- dd_lasa1_2$Variables[711:1700,]
+dd_lasa1_3$Variables <- dd_lasa1_3$Variables[1701:2302,]
+
+
 
 # 2 get the names of the categories included into the variables subsetted
 
 dd_hunt_1$Categories <- dd_hunt_1$Categories %>% filter(variable %in% dd_hunt_1$Variables$name)
 dd_hunt_2$Categories <- dd_hunt_2$Categories %>% filter(variable %in% dd_hunt_2$Variables$name)
 dd_hunt_3$Categories <- dd_hunt_3$Categories %>% filter(variable %in% dd_hunt_3$Variables$name)
+
+
+dd_lasa1_1$Categories <- dd_lasa1_1$Categories %>% filter(variable %in% dd_lasa1_1$Variables$name)
+dd_lasa1_2$Categories <- dd_lasa1_2$Categories %>% filter(variable %in% dd_lasa1_2$Variables$name)
+dd_lasa1_3$Categories <- dd_lasa1_3$Categories %>% filter(variable %in% dd_lasa1_3$Variables$name)
+
 
 # separate datasests by name of colomuts in dd subset
 
@@ -923,17 +965,33 @@ hunt_total_1 <- hunt_total %>% select(id) %>% bind_cols( hunt_total %>% subset(s
 hunt_total_2 <- hunt_total %>% select(id) %>% bind_cols( hunt_total %>% subset(select = names_to_retain_2))
 hunt_total_3 <- hunt_total %>% select(id) %>% bind_cols( hunt_total %>% subset(select = names_to_retain_3))
 
+
+names_to_retain_1 = names(lasa1_total)[lasa1_total %>% names %in% dd_lasa1_1$Variables$name]
+names_to_retain_2 = names(lasa1_total)[lasa1_total %>% names %in% dd_lasa1_2$Variables$name]
+names_to_retain_3 = names(lasa1_total)[lasa1_total %>% names %in% dd_lasa1_3$Variables$name]
+
+lasa1_total_1 <- lasa1_total %>% select(id) %>% bind_cols( lasa1_total %>% subset(select = names_to_retain_1)) 
+lasa1_total_2 <- lasa1_total %>% select(id) %>% bind_cols( lasa1_total %>% subset(select = names_to_retain_2))
+lasa1_total_3 <- lasa1_total %>% select(id) %>% bind_cols( lasa1_total %>% subset(select = names_to_retain_3))
+
 ### upload CSV to opal
 # csv creation
 write_csv(hunt_total_1,"csv_files/hunt_total_1.csv")
 write_csv(hunt_total_2,"csv_files/hunt_total_2.csv")
 write_csv(hunt_total_3,"csv_files/hunt_total_3.csv")
 
+write_csv(lasa1_total_1,"csv_files/lasa1_total_1.csv", na="")
+write_csv(lasa1_total_2,"csv_files/lasa1_total_2.csv", na="")
+write_csv(lasa1_total_3,"csv_files/lasa1_total_3.csv", na="")
+
 # xlsx creation
+save_xls(dd_lasa1_1$Variables     , dd_lasa1_1$Categories     , 'LASA1_1' )
+save_xls(dd_lasa1_2$Variables     , dd_lasa1_2$Categories     , 'LASA1_2' )
+save_xls(dd_lasa1_3$Variables     , dd_lasa1_3$Categories     , 'LASA1_3' )
+
 save_xls(dd_hunt_1$Variables     , dd_hunt_1$Categories     , 'HUNT_1' )
 save_xls(dd_hunt_2$Variables     , dd_hunt_2$Categories     , 'HUNT_2' )
 save_xls(dd_hunt_3$Variables     , dd_hunt_3$Categories     , 'HUNT_3' )
-
 
 # try with CSV
 library(opalr)
@@ -943,11 +1001,19 @@ try(opal.file_upload(erasmus_opal,"csv_files/hunt_total_1.csv",paste0("/projects
 try(opal.file_upload(erasmus_opal,"csv_files/hunt_total_2.csv",paste0("/projects/",names_opal_proj[5])))
 try(opal.file_upload(erasmus_opal,"csv_files/hunt_total_3.csv",paste0("/projects/",names_opal_proj[5])))
 
+try(opal.file_upload(erasmus_opal,"csv_files/lasa1_total_1.csv",paste0("/projects/",names_opal_proj[6])))
+try(opal.file_upload(erasmus_opal,"csv_files/lasa1_total_2.csv",paste0("/projects/",names_opal_proj[6])))
+try(opal.file_upload(erasmus_opal,"csv_files/lasa1_total_3.csv",paste0("/projects/",names_opal_proj[6])))
+
 
 # try with create table opal
 try(opal.file_upload(erasmus_opal,"DD_HUNT_1.xlsx",paste0("/projects/",names_opal_proj[5])))
 try(opal.file_upload(erasmus_opal,"DD_HUNT_2.xlsx",paste0("/projects/",names_opal_proj[5])))
 try(opal.file_upload(erasmus_opal,"DD_HUNT_3.xlsx",paste0("/projects/",names_opal_proj[5])))
+
+try(opal.file_upload(erasmus_opal,"DD_LASA1_1.xlsx",paste0("/projects/",names_opal_proj[6])))
+try(opal.file_upload(erasmus_opal,"DD_LASA1_2.xlsx",paste0("/projects/",names_opal_proj[6])))
+try(opal.file_upload(erasmus_opal,"DD_LASA1_3.xlsx",paste0("/projects/",names_opal_proj[6])))
 
 
 
@@ -1045,14 +1111,19 @@ try(opal.file_upload(erasmus_opal,"DD_HUNT.xlsx",paste0("/projects/",names_opal_
 
 
 
+try(opal.file_upload(erasmus_opal,"csv_files/hunt_Harmo_Table_20191022.csv",paste0("/projects/",names_opal_proj[5])))
+try(opal.file_upload(erasmus_opal,"csv_files/lucas_Harmo_Table_20191022.csv",paste0("/projects/",names_opal_proj[8])))
+try(opal.file_upload(erasmus_opal,"csv_files/globe_Harmo_Table_20191025.csv",paste0("/projects/",names_opal_proj[5])))
 
 
 
 
 
 
+globe_total$lsb_pa_hou
 
 
-
+names(globe_total)[names(globe_total)=="env_nbs_theft_2"] <- "env_nbh_theft_2"
+names(globe_total)[names(globe_total)=="env_nbs_theft_2"] <- "env_nbh_theft_2"
 
 
