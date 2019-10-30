@@ -518,12 +518,16 @@ names_opal_proj = c(
   'LUCAS',
   'RECORD')
 
-
 # csv creation
+
+# last release file
+total_release <- readLines("~/Harmonized-Datasets/version_release.info")
+last_release <- total_release[length(total_release)]
+
 for(i in 1:length(names_short)){
   try(write_csv(
     parceval(paste0(names_short[i],"_total")),
-    paste0("csv_files/",names_short[i],"_Harmo_Table_",str_replace_all(today(),"-",""),".csv"),
+    paste0("csv_files/",names_short[i],"_Harmo_Table_",last_release,".csv"),
     col_names = TRUE, na=""))
 }
 
@@ -540,22 +544,24 @@ rm(answer_sourceData,i,
 library(opalr)
 erasmus_opal = opal.login()
 
-for(i in 1:length(names_short)){
-  try(opal.file_upload(erasmus_opal,
-    paste0("csv_files/",names_short[i],"_Harmo_Table_",
-           str_replace_all(today(),"-",""),".csv"),
-    paste0("/projects/",names_opal_proj[i])))
-}
+# for(i in 1:length(names_short)){
+#   try(opal.file_upload(erasmus_opal,
+#     paste0("csv_files/",names_short[i],"_Harmo_Table_",
+#            str_replace_all(today(),"-",""),".csv"),
+#     paste0("/projects/",names_opal_proj[i])))
+# }
 
 
 # TRY 
-# csv creation
-for(i in 1:length(name_tbl)){
-  try(write_csv(
-    parceval(name_tbl[i]),
-    paste0("csv_files/",name_tbl[i],"_Harmo_Table_",str_replace_all(today(),"-",""),".csv"),
-    col_names = TRUE, na=""))}
+# csv creation (to trash?)
+# for(i in 1:length(name_tbl)){
+#   try(write_csv(
+#     parceval(name_tbl[i]),
+#     paste0("csv_files/",name_tbl[i],"_Harmo_Table_",str_replace_all(today(),"-",""),".csv"),
+#     col_names = TRUE, na=""))}
 
+
+# DD xls creation
 save_xls(dd_globe$Variables     , "xls_files/", dd_globe$Categories     , 'GLOBE' )
 save_xls(dd_hapiee_cz$Variables , "xls_files/", dd_hapiee_cz$Categories , 'HAPIEE_CZ' )
 save_xls(dd_hapiee_lt$Variables , "xls_files/", dd_hapiee_lt$Categories , 'HAPIEE_LT' )
