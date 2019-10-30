@@ -6,3 +6,4 @@
 *.xlsx
 *.csv
 *.RData
+version_release.R
