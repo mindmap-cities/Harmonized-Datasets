@@ -524,6 +524,7 @@ names_opal_proj = c(
 total_release <- readLines("~/Harmonized-Datasets/version_release.info")
 last_release <- total_release[length(total_release)]
 
+
 for(i in 1:length(names_short)){
   try(write_csv(
     parceval(paste0(names_short[i],"_total")),
