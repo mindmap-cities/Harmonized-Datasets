@@ -91,10 +91,10 @@ physenv_GLOBE_4 <- data.frame(physenv_GLOBE_2014)
 
 # Missing variables describing the distance to the nearest area marked as 'facility'
 # We will upload these at a later time (not a very important variable)
-  # physenv_ua_be_facil_XX
-  # physenv_ua_be_facil_as_XX
-  # physenv_cn_be_facil_XX
-  # physenv_cn_be_facil_as_XX
+# physenv_ua_be_facil_XX
+# physenv_ua_be_facil_as_XX
+# physenv_cn_be_facil_XX
+# physenv_cn_be_facil_as_XX
 
 
 # Check changes in column names
@@ -213,6 +213,30 @@ colnames(physenv_LASA1_6)
 colnames(physenv_LASA2_1)
 colnames(physenv_LASA2_3)
 
+
+
+# recategorization
+physenv_LASA1_4 <- physenv_LASA1_4 %>% as_tibble
+physenv_LASA1_6 <- physenv_LASA1_6 %>% as_tibble
+physenv_LASA2_1 <- physenv_LASA2_1 %>% as_tibble
+physenv_LASA2_3 <- physenv_LASA2_3 %>% as_tibble
+
+# 
+physenv_LASA1_4 %>%
+  select(physenv_ua_urbcy_4) %>%
+  unique %>% na.omit()
+
+level_key <- c("Continuous urban fabric (S.L. : > 80%)" = 1, 
+               "Discontinuous dense urban fabric (S.L. : 50% -  80%)" = 2, 
+               "Discontinuous medium density urban fabric (S.L. : 30% - 50%)" = 3, 
+               "Discontinuous low density urban fabric (S.L. : 10% - 30%)" = 4,
+               "Discontinuous very low density urban fabric (S.L. : < 10%)" = 5)
+
+physenv_LASA1_4 <- physenv_LASA1_4 %>% mutate(physenv_ua_urbcy_4 = recode(physenv_ua_urbcy_4, !!!level_key)) %>% as.data.frame()
+physenv_LASA1_6 <- physenv_LASA1_6 %>% mutate(physenv_ua_urbcy_6 = recode(physenv_ua_urbcy_6, !!!level_key)) %>% as.data.frame()
+physenv_LASA2_1 <- physenv_LASA2_1 %>% mutate(physenv_ua_urbcy_1 = recode(physenv_ua_urbcy_1, !!!level_key)) %>% as.data.frame()
+physenv_LASA2_3 <- physenv_LASA2_3 %>% mutate(physenv_ua_urbcy_3 = recode(physenv_ua_urbcy_3, !!!level_key)) %>% as.data.frame()
+rm(level_key)
 
 ### LASA FINISHED ###
 
@@ -341,5 +365,4 @@ colnames(physenv_HAPIEE_CZ_1)
 
 
 ### HAPIEE PENDING ###
-
 

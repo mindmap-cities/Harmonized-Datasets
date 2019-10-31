@@ -29,45 +29,45 @@ library(lubridate)
 
 create_dd <- function(path_study,name_study){
   #run variables
-# 
+  # 
   # path_study = path_hunt
   # name_study = 'HUNT'
   
- {
-  dd_allvar = list()
-  for(i in 1:length(path_study)){
-    dd_allvar_i = fread(path_study[i],colClasses = 'characters',na.strings = '', fill = TRUE, sep ='')
-    detection_of_first_variable_i = which(str_detect(string = t(dd_allvar_i), pattern="Variable label"))[1]
-    dd_allvar[[i]] = dd_allvar_i[detection_of_first_variable_i:dim(dd_allvar_i)[1]]}
-  dd_allvar = Reduce(rbind,dd_allvar)
-  names(dd_allvar) = "Text"
-  
-  
-  #dd_allvar = tibble("Text" = dd_allvar) %>% select(Text = contains("Text"))
-  dd_allvar[172:195]
-  
-  ####__2__ FROM ALL_VAR, SEPARATE EACH ROW BY ITS CHUNK - CREATE VARIABLE PART OF DD ########
-  label       <- dd_allvar %>% filter(str_detect(Text,'Variable label\\*')) %>% mutate(Text = str_trim(gsub('.*\\*\\:', '',Text))) %>% as_tibble() 
-  name        <- dd_allvar %>% filter(str_detect(Text,'Variable name\\*')) %>% mutate(Text = str_trim(gsub('.*\\*\\:', '',Text))) %>% as_tibble() 
-  description <- dd_allvar %>% filter(str_detect(Text,'Variable description\\*')) %>% mutate(Text = str_trim(gsub('.*\\*\\:', '',Text))) %>% as_tibble() 
-  type        <- dd_allvar %>% filter(str_detect(Text,'Value type|Variable type\\*')) %>% mutate(Text = str_trim(gsub('.*\\*\\:', '',Text))) %>% as_tibble() 
-      type    <- type %>% mutate(Text = tolower(Text))
-  unit        <- dd_allvar %>% filter(str_detect(Text,'Variable unit\\*')) %>% mutate(Text = str_trim(gsub('.*\\*\\:', '',Text))) %>% as_tibble() 
-      unit    <- unit %>% mutate(Text = ifelse( Text == "N/A",NA,Text))
-  comment     <- dd_allvar %>% filter(str_detect(Text,'Harmonization comment\\*')) %>% mutate(Text = str_trim(gsub('.*\\*\\:', '',Text))) %>% as_tibble() 
-      comment <- comment %>% mutate(Text = ifelse( Text == "",NA,Text))
-  status      <- dd_allvar %>% filter(str_detect(Text,'nization status\\*')) %>% mutate(Text = str_trim(gsub('.*\\*\\:', '',Text))) %>% as_tibble() 
-      status  <- status %>% mutate(Text = ifelse( Text == "","impossible",Text))
-  
+  {
+    dd_allvar = list()
+    for(i in 1:length(path_study)){
+      dd_allvar_i = fread(path_study[i],colClasses = 'characters',na.strings = '', fill = TRUE, sep ='')
+      detection_of_first_variable_i = which(str_detect(string = t(dd_allvar_i), pattern="Variable label"))[1]
+      dd_allvar[[i]] = dd_allvar_i[detection_of_first_variable_i:dim(dd_allvar_i)[1]]}
+    dd_allvar = Reduce(rbind,dd_allvar)
+    names(dd_allvar) = "Text"
+    
+    
+    #dd_allvar = tibble("Text" = dd_allvar) %>% select(Text = contains("Text"))
+    dd_allvar[172:195]
+    
+    ####__2__ FROM ALL_VAR, SEPARATE EACH ROW BY ITS CHUNK - CREATE VARIABLE PART OF DD ########
+    label       <- dd_allvar %>% filter(str_detect(Text,'Variable label\\*')) %>% mutate(Text = str_trim(gsub('.*\\*\\:', '',Text))) %>% as_tibble() 
+    name        <- dd_allvar %>% filter(str_detect(Text,'Variable name\\*')) %>% mutate(Text = str_trim(gsub('.*\\*\\:', '',Text))) %>% as_tibble() 
+    description <- dd_allvar %>% filter(str_detect(Text,'Variable description\\*')) %>% mutate(Text = str_trim(gsub('.*\\*\\:', '',Text))) %>% as_tibble() 
+    type        <- dd_allvar %>% filter(str_detect(Text,'Value type|Variable type\\*')) %>% mutate(Text = str_trim(gsub('.*\\*\\:', '',Text))) %>% as_tibble() 
+    type    <- type %>% mutate(Text = tolower(Text))
+    unit        <- dd_allvar %>% filter(str_detect(Text,'Variable unit\\*')) %>% mutate(Text = str_trim(gsub('.*\\*\\:', '',Text))) %>% as_tibble() 
+    unit    <- unit %>% mutate(Text = ifelse( Text == "N/A",NA,Text))
+    comment     <- dd_allvar %>% filter(str_detect(Text,'Harmonization comment\\*')) %>% mutate(Text = str_trim(gsub('.*\\*\\:', '',Text))) %>% as_tibble() 
+    comment <- comment %>% mutate(Text = ifelse( Text == "",NA,Text))
+    status      <- dd_allvar %>% filter(str_detect(Text,'nization status\\*')) %>% mutate(Text = str_trim(gsub('.*\\*\\:', '',Text))) %>% as_tibble() 
+    status  <- status %>% mutate(Text = ifelse( Text == "","impossible",Text))
+    
     #test
-  label %>% nrow %>% print
-  name %>% nrow %>% print
-  description %>% nrow %>% print
-  type %>% nrow %>% print
-  unit %>% nrow %>% print
-  comment %>% nrow %>% print
-  status %>% nrow %>% print
- } 
+    label %>% nrow %>% print
+    name %>% nrow %>% print
+    description %>% nrow %>% print
+    type %>% nrow %>% print
+    unit %>% nrow %>% print
+    comment %>% nrow %>% print
+    status %>% nrow %>% print
+  } 
   #run variables
   study.variable <- tibble(label$Text,name$Text,description$Text,type$Text,unit$Text,comment$Text,status$Text) 
   study.variable <- study.variable %>%
@@ -113,24 +113,54 @@ create_dd <- function(path_study,name_study){
   
   dd <- list(study.variable,study.categories)
   names(dd) = c("Variables", "Categories")
+  return(dd)
+}
+
+order_dd <- function(dd){
+  domain_short <- c(
+    'sdc_',
+    'lsb_',
+    'oth_',
+    'bio_',
+    'mho_',
+    'soc_',
+    'env_',
+    'socenv_',
+    'physenv_')
+  
+  dd$Variables <-   dd$Variables %>% filter(str_detect(name, "_0$")) %>%
+    bind_rows(dd$Variables %>% filter(str_detect(name, "_1$"))) %>% 
+    bind_rows(dd$Variables %>% filter(str_detect(name, "_2$"))) %>%
+    bind_rows(dd$Variables %>% filter(str_detect(name, "_3$"))) %>%
+    bind_rows(dd$Variables %>% filter(str_detect(name, "_4$"))) %>%
+    bind_rows(dd$Variables %>% filter(str_detect(name, "_5$"))) %>%
+    bind_rows(dd$Variables %>% filter(str_detect(name, "_6$")))
+  
+  dd$Categories <-    dd$Categories %>% filter(str_detect(variable, "_0$")) %>%
+    bind_rows(dd$Categories %>% filter(str_detect(variable, "_1$"))) %>% 
+    bind_rows(dd$Categories %>% filter(str_detect(variable, "_2$"))) %>%
+    bind_rows(dd$Categories %>% filter(str_detect(variable, "_3$"))) %>%
+    bind_rows(dd$Categories %>% filter(str_detect(variable, "_4$"))) %>%
+    bind_rows(dd$Categories %>% filter(str_detect(variable, "_5$"))) %>%
+    bind_rows(dd$Categories %>% filter(str_detect(variable, "_6$")))
   print(dd)
   return(dd)
-  }
+}
 
 add_row_in_dd <-function(dd,name_var,name_study,label_var, harmo_data_set){
-
+  
   temp <- dd$Variable %>%
-  add_row(.,
-    table = paste("DS",name_study,gsub("-","",today()), sep = "_"),            
-    name =  name_var,  
-    `label:en` =  label_var,
-    `description:en` = label_var,
-    script =   paste0("$('",name_var, "')"),
-    valueType = "text",
-    unit    =    "",
-    `Mlstr_harmo::status` = "complete",
-    `Mlstr_harmo::comment` = "")
-
+    add_row(.,
+            table = paste("DS",name_study,gsub("-","",today()), sep = "_"),            
+            name =  name_var,  
+            `label:en` =  label_var,
+            `description:en` = label_var,
+            script =   paste0("$('",name_var, "')"),
+            valueType = "text",
+            unit    =    "",
+            `Mlstr_harmo::status` = "complete",
+            `Mlstr_harmo::comment` = "")
+  
   # to_complete = temp %>%
   #   filter(name == name_var) %>% .$name %>% tibble() %>%
   #   left_join(.,harmo_data_set %>%
@@ -144,29 +174,29 @@ add_row_in_dd <-function(dd,name_var,name_study,label_var, harmo_data_set){
   return(temp)}
 
 complete_dd <- function(dd, harmo_data_set,name_study){
- 
-#   dd = dd_hunt
-#   harmo_data_set = hunt_total
-#   name_study = 'HUNT'
- 
+  
+  #   dd = dd_hunt
+  #   harmo_data_set = hunt_total
+  #   name_study = 'HUNT'
+  
   to_complete = dd$Variables %>%
     filter(str_detect(name,"physenv_")) %>% .$name %>% tibble() %>%
     inner_join(.,harmo_data_set %>%
                  select(contains("physenv_")) %>% names %>% tibble())
-   
+  
   dd$Variables <- dd$Variables %>%
     mutate(
       `Mlstr_harmo::status` = ifelse(str_detect(name,"physenv_"), 
-            ifelse(name %in% to_complete[[1]], "complete","impossible"),`Mlstr_harmo::status`)
+                                     ifelse(name %in% to_complete[[1]], "complete","impossible"),`Mlstr_harmo::status`)
       
       ,
       script =                ifelse(str_detect(name,"physenv_"),
-            ifelse(name %in% to_complete[[1]], paste0("$('",name, "')"),NA), script))
-            
-            
+                                     ifelse(name %in% to_complete[[1]], paste0("$('",name, "')"),NA), script))
+  
+  
   dd$Variables$table =  paste("DS",name_study,gsub("-","",today()), sep = "_")
   dd$Categories$table =  paste("DS",name_study,gsub("-","",today()), sep = "_")
-
+  
   dd$Variables <- add_row_in_dd(dd,'baseline_yr',name_study, "Baseline Year",   harmo_data_set)
   dd$Variables <- add_row_in_dd(dd,'followup1_yr',name_study,"Follow-up 1 year",harmo_data_set)
   dd$Variables <- add_row_in_dd(dd,'followup2_yr',name_study,"Follow-up 2 year",harmo_data_set)
@@ -217,13 +247,13 @@ path_lasa1     = try(path_list_todo[str_detect(string = path_list_todo,pattern="
 path_lasa2     = try(path_list_todo[str_detect(string = path_list_todo,pattern="LASA2")])
 path_lucas     = try(path_list_todo[str_detect(string = path_list_todo,pattern="LUCAS")])
 path_record    = try(path_list_todo[str_detect(string = path_list_todo,pattern="RECORD")])
- 
+
 
 
 
 #For each .Rmd file, detect the first d variable. It will exclude all before, et rbind for each study, domain after domain. 
 #creation of a dataframe containing 1 column, with rows containing variable information (label, description, status, etc.)
-#the followin code separates each variable from its information, and put them in a opal-compatible format (CSV)
+#the following code separates each variable from its information, and put them in a opal-compatible format (CSV)
 
 #dd_clsa      <- create_dd(path_clsa , 'CLSA' )
 dd_globe     <- create_dd(path_globe , 'GLOBE' )
@@ -239,8 +269,8 @@ dd_record    <- create_dd(path_record , 'RECORD' ) #ok
 
 path_env = "../physical_environmental/PHYSENV_DS.Rmd"
 dd_physenv <- create_dd(path_env, "PHYSENV")
-  message("replace m²")
-  #dd_physenv <- dd_physenv$Variables %>% mutate (unit = ifelse(unit == "m²", "m2",unit))
+message("replace m²")
+#dd_physenv <- dd_physenv$Variables %>% mutate (unit = ifelse(unit == "m²", "m2",unit))
 
 
 #dd_clsa      <- create_dd(path_clsa , 'CLSA' )
@@ -253,7 +283,7 @@ dd_lasa1$Variables     <- dd_lasa1$Variables %>% bind_rows(dd_physenv$Variables)
 dd_lasa2$Variables     <- dd_lasa2$Variables %>% bind_rows(dd_physenv$Variables) #@ %>% mutate(valueType = tolower(valueType))
 dd_lucas$Variables     <- dd_lucas$Variables %>% bind_rows(dd_physenv$Variables)  #@ %>% mutate(valueType = tolower(valueType))
 dd_record$Variables    <- dd_record$Variables %>% bind_rows(dd_physenv$Variables) #@ %>% mutate(valueType = tolower(valueType))
-  
+
 dd_globe$Categories     <- dd_globe$Categories %>% bind_rows(dd_physenv$Categories)
 dd_hapiee_cz$Categories <- dd_hapiee_cz$Categories %>% bind_rows(dd_physenv$Categories)
 dd_hapiee_lt$Categories <- dd_hapiee_lt$Categories %>% bind_rows(dd_physenv$Categories)
@@ -263,9 +293,21 @@ dd_lasa1$Categories     <- dd_lasa1$Categories %>% bind_rows(dd_physenv$Categori
 dd_lasa2$Categories     <- dd_lasa2$Categories %>% bind_rows(dd_physenv$Categories)
 dd_lucas$Categories     <- dd_lucas$Categories %>% bind_rows(dd_physenv$Categories)
 dd_record$Categories    <- dd_record$Categories %>% bind_rows(dd_physenv$Categories)
-  
+
 
 #### 
+
+#dd_clsa     <- complete_dd(dd_clsa ,    clsa_total,      'CLSA' )
+dd_globe     <- order_dd(dd_globe)
+dd_hapiee_cz <- order_dd(dd_hapiee_cz)
+dd_hapiee_lt <- order_dd(dd_hapiee_lt)
+dd_hapiee_ru <- order_dd(dd_hapiee_ru)
+dd_hunt      <- order_dd(dd_hunt)
+dd_lasa1     <- order_dd(dd_lasa1)
+dd_lasa2     <- order_dd(dd_lasa2)
+dd_lucas     <- order_dd(dd_lucas)
+dd_record    <- order_dd(dd_record)
+
 
 
 #dd_clsa     <- complete_dd(dd_clsa ,    clsa_total,      'CLSA' )
@@ -279,80 +321,9 @@ dd_lasa2     <- complete_dd(dd_lasa2,     lasa2_total,     'LASA2')
 dd_lucas     <- complete_dd(dd_lucas,     lucas_total,     'LUCAS')
 dd_record    <- complete_dd(dd_record,    record_total,    'RECORD')
 
-
-# ##checking for any issues
-# dd_record$Variables %>% select(table) %>% unique 
-# dd_record$Variables %>% filter(script == "") %>% select(`Mlstr_harmo::status`) %>% unique
-#   #if any trouble
-#   dd_record$Variables %>% filter(`Mlstr_harmo::status` == "") %>% select(table,name) %>%
-#     filter(!str_detect(name,"physenv_"))
-# dd_record$Variables %>% filter(script != "") %>% select(`Mlstr_harmo::status`) %>% unique
-# 
-# 
-# dd_globe$Variables %>% select(table) %>% unique 
-# dd_globe$Variables %>% filter(script == "") %>% select(`Mlstr_harmo::status`) %>% unique
-# dd_globe$Variables %>% filter(`Mlstr_harmo::status` == "") %>% select(table,name) %>%
-#   filter(!str_detect(name,"physenv_"))
-# dd_globe$Variables %>% filter(script != "") %>% select(`Mlstr_harmo::status`) %>% unique
-# 
-# 
-# dd_lasa1$Variables %>% select(table) %>% unique 
-# dd_lasa1$Variables %>% filter(script == "") %>% select(`Mlstr_harmo::status`) %>% unique
-# dd_lasa1$Variables %>% filter(`Mlstr_harmo::status` == "") %>% select(table,name) %>%
-#   filter(!str_detect(name,"physenv_"))
-# dd_lasa1$Variables %>% filter(script != "") %>% select(`Mlstr_harmo::status`) %>% unique
-# 
-# 
-# dd_lasa2$Variables %>% select(table) %>% unique 
-# dd_lasa2$Variables %>% filter(script == "") %>% select(`Mlstr_harmo::status`) %>% unique
-# dd_lasa2$Variables %>% filter(`Mlstr_harmo::status` == "") %>% select(table,name) %>%
-#   filter(!str_detect(name,"physenv_"))
-# dd_lasa2$Variables %>% filter(script != "") %>% select(`Mlstr_harmo::status`) %>% unique
-# 
-# 
-# dd_lucas$Variables %>% select(table) %>% unique 
-# dd_lucas$Variables %>% filter(script == "") %>% select(`Mlstr_harmo::status`) %>% unique
-# dd_lucas$Variables %>% filter(`Mlstr_harmo::status` == "") %>% select(table,name) %>%
-#   filter(!str_detect(name,"physenv_"))
-# #if any trouble
-# dd_lucas$Variables %>% filter(script != "") %>% select(`Mlstr_harmo::status`) %>% unique
-# 
-# 
-# dd_hapiee_cz$Variables %>% select(table) %>% unique 
-# dd_hapiee_cz$Variables %>% filter(script == "") %>% select(`Mlstr_harmo::status`) %>% unique
-# dd_hapiee_cz$Variables %>% filter(`Mlstr_harmo::status`== "impossible  impossible") %>% select(table,name) %>%
-#   filter(!str_detect(name,"physenv_"))
-# #if any trouble
-# dd_hapiee_cz$Variables %>% filter(script != "") %>% select(`Mlstr_harmo::status`) %>% unique
-# 
-# 
-# dd_hapiee_lt$Variables %>% select(table) %>% unique 
-# dd_hapiee_lt$Variables %>% filter(script == "") %>% select(`Mlstr_harmo::status`) %>% unique
-# #if any trouble
-# dd_hapiee_lt$Variables %>% filter(`Mlstr_harmo::status`== "") %>% select(table,name) %>%
-#   filter(!str_detect(name,"physenv_"))
-# dd_hapiee_lt$Variables %>% filter(script != "") %>% select(`Mlstr_harmo::status`) %>% unique
-# 
-# 
-# dd_hapiee_ru$Variables %>% select(table) %>% unique 
-# dd_hapiee_ru$Variables %>% filter(script == "") %>% select(`Mlstr_harmo::status`) %>% unique
-# #if any trouble
-# dd_hapiee_ru$Variables %>% filter(`Mlstr_harmo::status`== "") %>% select(table,name) %>%
-#   filter(!str_detect(name,"physenv_"))
-# dd_hapiee_ru$Variables %>% filter(script != "") %>% select(`Mlstr_harmo::status`) %>% unique
-# 
-# 
-# dd_hunt$Variables %>% select(table) %>% unique 
-# dd_hunt$Variables %>% filter(script == "") %>% select(`Mlstr_harmo::status`) %>% unique
-# #if any trouble
-# dd_hunt$Variables %>% filter(`Mlstr_harmo::status`== "") %>% select(table,name) %>%
-#   filter(!str_detect(name,"physenv_"))
-# dd_hunt$Variables %>% filter(script != "") %>% select(`Mlstr_harmo::status`) %>% unique
-# 
-
 # SAVE WORK  
 
-# changes
+# MANUAL CHANGES
 dd_globe$Variables$valueType <- dd_hunt$Variables$valueType
 dd_lasa2$Variables$valueType <- dd_lasa1$Variables$valueType
 
@@ -385,53 +356,10 @@ dd_lasa2$Variables$valueType <- dd_lasa1$Variables$valueType
 # # # 
 # outer(objs, objs, Vectorize(all.equal))
 # rm(a,b,c,d,e,f,g,h,i,objs)
+
 message("dis_diab_ever_0 in OTH_GLOBE was impossible but completed")
 message("phy_height_all_0 in OTH_HAPIEE_LT was impossible but completed")
 message("sdc_num_child_1 in SDC_RECORD was impossible but completed")
 message("lsb_alc_beer_0 in LSB_RECORD was impossible but completed")
 message("lsb_alc_beer_1 in LSB_RECORD was impossible but completed")
-
-
-#to be taken care of:
-# lasa1_total.<-lasa1_total
-# lasa1_total.<-as_tibble(lasa1_total.)
-# lasa1_total.<-mutate(lasa1_total. %>% select(contains("physenv_ua_urbcy"))==recode(lasa1_total. %>% select(contains("physenv_ua_urbcy"))),"Continuous urban fabric (S.L. > 80%)"=1L)
-# 
-# is_tibble(lasa1_total.)
-# 
-# lasa1_total. %>% mutate(lasa1_total. %>% select(contains("physenv_ua_urbcy"))=recode(lasa1_total. %>% select(contains("physenv_ua_urbcy")), 
-#                          `Continuous urban fabric (S.L. > 80%)`=1L,
-#                          `Discontinuous dense urban fabric (S.L.: 50% - 80%)`=2L%>% as_tibble()))
-# 
-# a<-recode(lasa1_total$physenv_ua_urbcy_4, "'Continuous urban fabric (S.L. > 80%)'=1L; 'Discontinuous dense urban fabric (S.L.: 50% - 80%)'=2L; 
-#                                        'Discontinuous medium density urban fabric (S.L.: 30% - 50%)'=3L; 'Discontinuous low density urban fabric (S.L.: 10% - 30%)'=4L; 
-#                                        'Discontinuous very low density urban fabric (S.L.: < 10%)'=5L")
-# 
-# lasa1_total$physenv_ua_urbcy_4[lasa1_total$physenv_ua_urbcy_4== "Continuous urban fabric (S.L. : > 80%)"]<-1L
-# lasa1_total$physenv_ua_urbcy_4[lasa1_total$physenv_ua_urbcy_4== "Discontinuous dense urban fabric (S.L. : 50% -  80%)"]<-2L
-# lasa1_total$physenv_ua_urbcy_4[lasa1_total$physenv_ua_urbcy_4== "Discontinuous medium density urban fabric (S.L. : 30% - 50%)"]<-3L
-# lasa1_total$physenv_ua_urbcy_4[lasa1_total$physenv_ua_urbcy_4== "Discontinuous low density urban fabric (S.L. : 10% - 30%)"]<-4L
-# lasa1_total$physenv_ua_urbcy_4[lasa1_total$physenv_ua_urbcy_4== "Discontinuous very low density urban fabric (S.L. : < 10%)"]<-5L
-# lasa1_total$physenv_ua_urbcy_4<-as.integer(lasa1_total$physenv_ua_urbcy_4)
-# 
-# lasa1_total$physenv_ua_urbcy_6[lasa1_total$physenv_ua_urbcy_6== "Continuous urban fabric (S.L. : > 80%)"]<-1L
-# lasa1_total$physenv_ua_urbcy_6[lasa1_total$physenv_ua_urbcy_6== "Discontinuous dense urban fabric (S.L. : 50% -  80%)"]<-2L
-# lasa1_total$physenv_ua_urbcy_6[lasa1_total$physenv_ua_urbcy_6== "Discontinuous medium density urban fabric (S.L. : 30% - 50%)"]<-3L
-# lasa1_total$physenv_ua_urbcy_6[lasa1_total$physenv_ua_urbcy_6== "Discontinuous low density urban fabric (S.L. : 10% - 30%)"]<-4L
-# lasa1_total$physenv_ua_urbcy_6[lasa1_total$physenv_ua_urbcy_6== "Discontinuous very low density urban fabric (S.L. : < 10%)"]<-5L
-# lasa1_total$physenv_ua_urbcy_6<-as.integer(lasa1_total$physenv_ua_urbcy_6)
-# 
-# lasa2_total$physenv_ua_urbcy_1[lasa2_total$physenv_ua_urbcy_1== "Continuous urban fabric (S.L. : > 80%)"]<-1L
-# lasa2_total$physenv_ua_urbcy_1[lasa2_total$physenv_ua_urbcy_1== "Discontinuous dense urban fabric (S.L. : 50% -  80%)"]<-2L
-# lasa2_total$physenv_ua_urbcy_1[lasa2_total$physenv_ua_urbcy_1== "Discontinuous medium density urban fabric (S.L. : 30% - 50%)"]<-3L
-# lasa2_total$physenv_ua_urbcy_1[lasa2_total$physenv_ua_urbcy_1== "Discontinuous low density urban fabric (S.L. : 10% - 30%)"]<-4L
-# lasa2_total$physenv_ua_urbcy_1[lasa2_total$physenv_ua_urbcy_1== "Discontinuous very low density urban fabric (S.L. : < 10%)"]<-5L
-# lasa2_total$physenv_ua_urbcy_1<-as.integer(lasa2_total$physenv_ua_urbcy_1)
-# 
-# lasa2_total$physenv_ua_urbcy_3[lasa2_total$physenv_ua_urbcy_3== "Continuous urban fabric (S.L. : > 80%)"]<-1L
-# lasa2_total$physenv_ua_urbcy_3[lasa2_total$physenv_ua_urbcy_3== "Discontinuous dense urban fabric (S.L. : 50% -  80%)"]<-2L
-# lasa2_total$physenv_ua_urbcy_3[lasa2_total$physenv_ua_urbcy_3== "Discontinuous medium density urban fabric (S.L. : 30% - 50%)"]<-3L
-# lasa2_total$physenv_ua_urbcy_3[lasa2_total$physenv_ua_urbcy_3== "Discontinuous low density urban fabric (S.L. : 10% - 30%)"]<-4L
-# lasa2_total$physenv_ua_urbcy_3[lasa2_total$physenv_ua_urbcy_3== "Discontinuous very low density urban fabric (S.L. : < 10%)"]<-5L
-# lasa2_total$physenv_ua_urbcy_3<-as.integer(lasa2_total$physenv_ua_urbcy_3)
 
