@@ -67,10 +67,23 @@ join_data <- function(pattrn){
                           by = "id")}
   return(jointure)}
 
-change_class <- function(tbl, dd){
-#   tbl <- globe_total
-#   dd <- dd_globe
-  tbl <- tbl 
+change_class <- function(tbl, dd, name_stdy){
+  # tbl <- globe_total
+  # dd <- dd_globe
+  # name_stdy <- "GLOBE"
+  class_dd <- dd$Variables %>% select(variable = name, class_dd = valueType)
+  class_tbl <- tbl %>% 
+    dplyr::summarise_all(class) %>% 
+    tidyr::gather(variable, class_tbl) %>% select(variable, class_tbl)
+  
+  # test_same_class   
+  odd_classes <- inner_join(class_tbl,class_dd) %>%
+    filter(class_tbl != class_dd) %>%
+    filter(!(class_tbl == 'numeric' & class_dd == 'decimal')) %>% 
+    #  filter(!(class_tbl == 'integer' & class_dd == 'decimal')) %>% 
+    add_column(study = rep(name_stdy))
+  write_csv(odd_classes, paste0("csv_files/odd_",name_stdy,".csv"))
+  
   class_dd <- dd$Variables %>% select(name,valueType) %>% group_split(valueType)
   names(class_dd) = c(
     class_dd[[1]]$valueType %>% unique,
@@ -80,8 +93,9 @@ change_class <- function(tbl, dd){
   # get classes :
   message("before: \n")
   print(tbl %>% 
-    dplyr::summarise_all(class) %>% 
-    tidyr::gather(variable, class) %>% select(class) %>% unique)
+          dplyr::summarise_all(class) %>% 
+          tidyr::gather(variable, class) %>% select(class) %>% select(class) %>%
+          group_by(class) %>% summarise(count = n()))
   
   tbl <- tbl %>%
     modify_at(class_dd$text$name, as.character) %>%    
@@ -91,10 +105,10 @@ change_class <- function(tbl, dd){
   # get classes :
   message("after: \n")
   print(tbl %>% 
-    dplyr::summarise_all(class) %>% 
-    tidyr::gather(variable, class) %>% select(class) %>% unique)
-    return(tbl)
-  }
+          dplyr::summarise_all(class) %>% 
+          tidyr::gather(variable, class) %>% select(class) %>%
+          group_by(class) %>% summarise(count = n()))
+  return(tbl)}
 
 var_not_in_dd <- function(tbl,dd){
   left <- tibble(name = tbl %>% names)
@@ -104,34 +118,15 @@ var_not_in_dd <- function(tbl,dd){
 
 
 
-
 #################     OBJECTS    ###############################################
 #################                ###############################################
 
 
 
-
 {
-path_list = c(
-
-### BIO ### .
-# NOT READY YET 
-#    "../biomarkers_genetics/BIO_DS_LASA1.Rmd",
-#   "../biomarkers_genetics/BIO_DS_LASA2.Rmd", 
-
-### MHO ### 
-    "../mental_health_outcomes/MHO_DS_GLOBE.Rmd", 
-    "../mental_health_outcomes/MHO_DS_HAPIEE_CZ.Rmd",
-    "../mental_health_outcomes/MHO_DS_HAPIEE_LT.Rmd",
-    "../mental_health_outcomes/MHO_DS_HAPIEE_RU.Rmd",
-    "../mental_health_outcomes/MHO_DS_HUNT.Rmd",
-    "../mental_health_outcomes/MHO_DS_LASA1.Rmd",
-    "../mental_health_outcomes/MHO_DS_LASA2.Rmd",
-    "../mental_health_outcomes/MHO_DS_LUCAS.Rmd",
-    "../mental_health_outcomes/MHO_DS_RECORD.Rmd",
-
+  path_list = c(
     
-### SDC ### 
+    ### SDC ### 
     # NOT READY YET "../sociodem_characteristics/SDC_DS_CLSA.Rmd",
     "../sociodem_characteristics/SDC_DS_GLOBE.Rmd",
     "../sociodem_characteristics/SDC_DS_HAPIEE_CZ.Rmd",  
@@ -142,43 +137,8 @@ path_list = c(
     "../sociodem_characteristics/SDC_DS_LASA2.Rmd", 
     "../sociodem_characteristics/SDC_DS_LUCAS.Rmd",
     "../sociodem_characteristics/SDC_DS_RECORD.Rmd",
-
-### OTH ### 
-    # NOT READY YET  "../other_outcomes/OTH_DS_CLSA.Rmd",  
-    "../other_outcomes/OTH_DS_GLOBE.Rmd",  
-    "../other_outcomes/OTH_DS_HAPIEE_CZ.Rmd",        
-    "../other_outcomes/OTH_DS_HAPIEE_LT.Rmd",       
-    "../other_outcomes/OTH_DS_HAPIEE_RU.Rmd",      
-    "../other_outcomes/OTH_DS_HUNT.Rmd",     
-    "../other_outcomes/OTH_DS_LASA1.Rmd",    
-    "../other_outcomes/OTH_DS_LASA2.Rmd",   
-    "../other_outcomes/OTH_DS_LUCAS.Rmd",  
-    "../other_outcomes/OTH_DS_RECORD.Rmd",
-
-### ENV ### 
-    "../perceptions_urban_env/ENV_DS_GLOBE.Rmd",
-    "../perceptions_urban_env/ENV_DS_HAPIEE_CZ.Rmd",
-    "../perceptions_urban_env/ENV_DS_HAPIEE_LT.Rmd",
-    "../perceptions_urban_env/ENV_DS_HAPIEE_RU.Rmd",
-    "../perceptions_urban_env/ENV_DS_HUNT.Rmd",
-    "../perceptions_urban_env/ENV_DS_LASA1.Rmd",
-    "../perceptions_urban_env/ENV_DS_LASA2.Rmd",
-    "../perceptions_urban_env/ENV_DS_LUCAS.Rmd",
-    "../perceptions_urban_env/ENV_DS_RECORD.Rmd",
     
-### SOCENV ###    
-    #NOT READY YET "../social_environmental/SOCENV_DS_GLOBE.Rmd",
-    #NOT READY YET "../social_environmental/SOCENV_DS_HAPIEE_CZ.Rmd",
-    #NOT READY YET "../social_environmental/SOCENV_DS_HAPIEE_LT.Rmd",
-    #NOT READY YET "../social_environmental/SOCENV_DS_HAPIEE_RU.Rmd",
-    #NOT READY YET "../social_environmental/SOCENV_DS_HUNT.Rmd",
-    #NOT READY YET "../social_environmental/SOCENV_DS_LASA1.Rmd",
-    #NOT READY YET "../social_environmental/SOCENV_DS_LASA2.Rmd",
-    #NOT READY YET "../social_environmental/SOCENV_DS_LUCAS.Rmd",
-    #NOT READY YET "../social_environmental/SOCENV_DS_RECORD.Rmd",
-    
-    
-### LSB ###
+    ### LSB ###
     #NOT READY YET "../lifestyle_behaviours/LSB_DS_CLSA.Rmd",
     "../lifestyle_behaviours/LSB_DS_GLOBE.Rmd",
     "../lifestyle_behaviours/LSB_DS_HAPIEE_CZ.Rmd",
@@ -189,21 +149,71 @@ path_list = c(
     "../lifestyle_behaviours/LSB_DS_LASA2.Rmd",
     "../lifestyle_behaviours/LSB_DS_LUCAS.Rmd",
     "../lifestyle_behaviours/LSB_DS_RECORD.Rmd",
-
-### PHYSENV ###
-    # special file to do so
-
-### SOC ### 
-   "../social_factors/SOC_DS_GLOBE.Rmd",
-   "../social_factors/SOC_DS_HAPIEE_CZ.Rmd",
-   "../social_factors/SOC_DS_HAPIEE_LT.Rmd",
-   "../social_factors/SOC_DS_HAPIEE_RU.Rmd",
-   "../social_factors/SOC_DS_HUNT.Rmd",
+    
+    ### OTH ### 
+    # NOT READY YET  "../other_outcomes/OTH_DS_CLSA.Rmd",  
+    "../other_outcomes/OTH_DS_GLOBE.Rmd",  
+    "../other_outcomes/OTH_DS_HAPIEE_CZ.Rmd",        
+    "../other_outcomes/OTH_DS_HAPIEE_LT.Rmd",       
+    "../other_outcomes/OTH_DS_HAPIEE_RU.Rmd",      
+    "../other_outcomes/OTH_DS_HUNT.Rmd",     
+    "../other_outcomes/OTH_DS_LASA1.Rmd",    
+    "../other_outcomes/OTH_DS_LASA2.Rmd",   
+    "../other_outcomes/OTH_DS_LUCAS.Rmd",  
+    "../other_outcomes/OTH_DS_RECORD.Rmd",
+    
+    ### BIO ### .
+    # NOT READY YET 
+    #    "../biomarkers_genetics/BIO_DS_LASA1.Rmd",
+    #   "../biomarkers_genetics/BIO_DS_LASA2.Rmd", 
+    
+    ### MHO ### 
+    "../mental_health_outcomes/MHO_DS_GLOBE.Rmd", 
+    "../mental_health_outcomes/MHO_DS_HAPIEE_CZ.Rmd",
+    "../mental_health_outcomes/MHO_DS_HAPIEE_LT.Rmd",
+    "../mental_health_outcomes/MHO_DS_HAPIEE_RU.Rmd",
+    "../mental_health_outcomes/MHO_DS_HUNT.Rmd",
+    "../mental_health_outcomes/MHO_DS_LASA1.Rmd",
+    "../mental_health_outcomes/MHO_DS_LASA2.Rmd",
+    "../mental_health_outcomes/MHO_DS_LUCAS.Rmd",
+    "../mental_health_outcomes/MHO_DS_RECORD.Rmd",
+    
+    ### SOC ### 
+    "../social_factors/SOC_DS_GLOBE.Rmd",
+    "../social_factors/SOC_DS_HAPIEE_CZ.Rmd",
+    "../social_factors/SOC_DS_HAPIEE_LT.Rmd",
+    "../social_factors/SOC_DS_HAPIEE_RU.Rmd",
+    "../social_factors/SOC_DS_HUNT.Rmd",
     #NOT READY YET "../social_factors/SOC_DS_LASA1.Rmd",
     #NOT READY YET "../social_factors/SOC_DS_LASA2.Rmd",
-   "../social_factors/SOC_DS_LUCAS.Rmd",
-   "../social_factors/SOC_DS_RECORD.Rmd"
- )
+    "../social_factors/SOC_DS_LUCAS.Rmd",
+    "../social_factors/SOC_DS_RECORD.Rmd",
+    
+    ### ENV ### 
+    "../perceptions_urban_env/ENV_DS_GLOBE.Rmd",
+    "../perceptions_urban_env/ENV_DS_HAPIEE_CZ.Rmd",
+    "../perceptions_urban_env/ENV_DS_HAPIEE_LT.Rmd",
+    "../perceptions_urban_env/ENV_DS_HAPIEE_RU.Rmd",
+    "../perceptions_urban_env/ENV_DS_HUNT.Rmd",
+    "../perceptions_urban_env/ENV_DS_LASA1.Rmd",
+    "../perceptions_urban_env/ENV_DS_LASA2.Rmd",
+    "../perceptions_urban_env/ENV_DS_LUCAS.Rmd",
+    "../perceptions_urban_env/ENV_DS_RECORD.Rmd"
+    
+    ### SOCENV ###    
+    #NOT READY YET "../social_environmental/SOCENV_DS_GLOBE.Rmd",
+    #NOT READY YET "../social_environmental/SOCENV_DS_HAPIEE_CZ.Rmd",
+    #NOT READY YET "../social_environmental/SOCENV_DS_HAPIEE_LT.Rmd",
+    #NOT READY YET "../social_environmental/SOCENV_DS_HAPIEE_RU.Rmd",
+    #NOT READY YET "../social_environmental/SOCENV_DS_HUNT.Rmd",
+    #NOT READY YET "../social_environmental/SOCENV_DS_LASA1.Rmd",
+    #NOT READY YET "../social_environmental/SOCENV_DS_LASA2.Rmd",
+    #NOT READY YET "../social_environmental/SOCENV_DS_LUCAS.Rmd",
+    #NOT READY YET "../social_environmental/SOCENV_DS_RECORD.Rmd",
+    
+    ### PHYSENV ###
+    # special file to do so
+  )
 }
 
 
@@ -213,13 +223,14 @@ path_list = c(
 
 
 
-#   for (i in 1:length(path_list)) {
-#     try(ksource(path_list[i]))}
-#   source("Recoding data in R_physenv.r")
-#   }
-# save.image(file="all_data_from_sourcing_0.RData")
-# load("all_data_from_sourcing_0.RData")
- 
+# for (i in 1:length(path_list)) {
+#   try(ksource(path_list[i]))}
+# source("Recoding data in R_physenv.r")
+
+# if(!file.exists("rdata_files/")){dir.create("rdata_files")}
+# save.image(file="rdata_files/all_data_from_sourcing_0.RData")
+ load("rdata_files/0_all_data_from_sourcing.RData")
+
 rm(erasmus_opal, smk_table, MyMerge2, med_table,
    GLOBE1991,
     GLOBE1997,GLOBE2004,GLOBE2011,GLOBE2014,
@@ -240,18 +251,18 @@ rm(erasmus_opal, smk_table, MyMerge2, med_table,
    physenv_GLOBE_1997, physenv_GLOBE_2004, physenv_GLOBE_2011,
    physenv_GLOBE_2014, physenv_HUNT3_2000, physenv_HUNT3_2006,
    physenv_HUNT3_2012, physenv_LASA2_2006, physenv_LASA2_2012,
-   physenv_RECORD_2006, physenv_RECORD_2012, 
+   physenv_RECORD_2006, physenv_RECORD_2012,
    physenv_LASA1_2006, physenv_LASA1_2012
    )
-# 
-# 
 
 
-# save.image(file="all_dom_data_1.RData")
-# load("all_dom_data_1.RData")
+
+# if(!file.exists("rdata_files/")){dir.create("rdata_files")}
+# save.image(file="rdata_files/1_all_dom_data.RData")
+load("rdata_files/1_all_dom_data.RData")
 
 
-try({clsa_total <- join_data("CLSA"); base::rm(list=ls(pattern = "CLSA", envir = .GlobalEnv))})
+# try({clsa_total <- join_data("CLSA"); base::rm(list=ls(pattern = "CLSA", envir = .GlobalEnv))})
 try({globe_total <- join_data("GLOBE"); base::rm(list=ls(pattern = "GLOBE", envir = .GlobalEnv))})
 try({hapiee_cz_total <- join_data("HAPIEE_CZ"); base::rm(list=ls(pattern = "HAPIEE_CZ", envir = .GlobalEnv))})
 try({hapiee_lt_total <- join_data("HAPIEE_LT"); base::rm(list=ls(pattern = "HAPIEE_LT", envir = .GlobalEnv))})
@@ -263,41 +274,43 @@ try({lucas_total <- join_data("LUCAS"); base::rm(list=ls(pattern = "LUCAS", envi
 try({record_total <- join_data("RECORD"); base::rm(list=ls(pattern = "RECORD", envir = .GlobalEnv))})
 
 
-# save.image(file="all_total_data_2.RData")
-#   load("all_total_data_2.RData")
-
-
 source("Get_data_dictionnary.R")
 
+# if(!file.exists("rdata_files/")){dir.create("rdata_files")}
+# save.image(file="rdata_files/2_all_total_data.RData")
+load("rdata_files/2_all_total_data.RData")
+
+
+
 # clsa_total <- change_class(clsa_total,clsa_globe)
-globe_total <- change_class(globe_total,dd_globe)
-hapiee_lt_total <- change_class(hapiee_lt_total,dd_hapiee_lt)
-hapiee_cz_total <- change_class(hapiee_cz_total,dd_hapiee_cz)
-hapiee_ru_total <- change_class(hapiee_ru_total,dd_hapiee_ru)
-lasa1_total <- change_class(lasa1_total,dd_lasa1)
-lasa2_total <- change_class(lasa2_total,dd_lasa2)
-lucas_total <- change_class(lucas_total,dd_lucas)
-hunt_total <- change_class(hunt_total,dd_hunt)
-record_total <- change_class(record_total,dd_record)
+globe_total     <- change_class(globe_total,dd_globe, "GLOBE")
+hapiee_lt_total <- change_class(hapiee_lt_total,dd_hapiee_lt, "HAPIEE_LT")
+hapiee_cz_total <- change_class(hapiee_cz_total,dd_hapiee_cz, "HAPIEE_CZ")
+hapiee_ru_total <- change_class(hapiee_ru_total,dd_hapiee_ru, "HAPIEE_RU")
+lasa1_total     <- change_class(lasa1_total,dd_lasa1, "LASA1")
+lasa2_total     <- change_class(lasa2_total,dd_lasa2, "LASA2")
+lucas_total     <- change_class(lucas_total,dd_lucas, "LUCAS")
+hunt_total      <- change_class(hunt_total,dd_hunt, "HUNT")
+record_total    <- change_class(record_total,dd_record, "RECORD")
 
 # test var not in DD
-var_not_in_dd(globe_total, dd_globe$Variables) #physenv_cn_bf_facil300_1
-var_not_in_dd(hapiee_cz_total, dd_hapiee_cz$Variables)
-var_not_in_dd(hapiee_lt_total, dd_hapiee_lt$Variables)
-var_not_in_dd(hapiee_ru_total, dd_hapiee_ru$Variables)
-var_not_in_dd(hunt_total, dd_hunt$Variables) #physenv_cn_bf_lu3000_facil_2
-var_not_in_dd(lasa1_total, dd_lasa1$Variables)
-var_not_in_dd(lasa2_total, dd_lasa2$Variables)
-var_not_in_dd(lucas_total, dd_lucas$Variables)
-var_not_in_dd(record_total, dd_record$Variables)
-# "physenv_cn_ne_facil_as_0"     "physenv._cn_ne_facil_0"      
-# "physenv._cn_bf_ttbsgr800_0"   "physenv_cn_lu100_agri_0"     
-# "physenv_cn_bf_lu100_infra_0"  "physenv._cn_bf_lu100_on_0"   
-# "physenv_cn_bf_lu3000_facil_0" "physenv_ua_bf_forests100_0"  
-# "physenv_ua_bf_lu3000_facil_0" "physenv_ua_ne_facil_as_0"    
-# "physenv_ua_ne_facil_0"        "phenv_ua_ne_water_as_1"      
-# "phenv_ua_ne_water_1"          "commune"                     
-# "codepostal"                   "pays"                        
+# var_not_in_dd(globe_total, dd_globe$Variables) #physenv_cn_bf_facil300_1
+# var_not_in_dd(hapiee_cz_total, dd_hapiee_cz$Variables)
+# var_not_in_dd(hapiee_lt_total, dd_hapiee_lt$Variables)
+# var_not_in_dd(hapiee_ru_total, dd_hapiee_ru$Variables)
+# var_not_in_dd(hunt_total, dd_hunt$Variables) #physenv_cn_bf_lu3000_facil_2
+# var_not_in_dd(lasa1_total, dd_lasa1$Variables)
+# var_not_in_dd(lasa2_total, dd_lasa2$Variables)
+# var_not_in_dd(lucas_total, dd_lucas$Variables)
+# var_not_in_dd(record_total, dd_record$Variables)
+# "physenv_cn_ne_facil_as_0"     "physenv._cn_ne_facil_0"
+# "physenv._cn_bf_ttbsgr800_0"   "physenv_cn_lu100_agri_0"
+# "physenv_cn_bf_lu100_infra_0"  "physenv._cn_bf_lu100_on_0"
+# "physenv_cn_bf_lu3000_facil_0" "physenv_ua_bf_forests100_0"
+# "physenv_ua_bf_lu3000_facil_0" "physenv_ua_ne_facil_as_0"
+# "physenv_ua_ne_facil_0"        "phenv_ua_ne_water_as_1"
+# "phenv_ua_ne_water_1"          "commune"
+# "codepostal"                   "pays"
 # "IN_PARIS"                     "area"
 
 
@@ -486,13 +499,9 @@ dd_record$Variables <- dd_record$Variables %>%
 # anti_join(a,b)
 
 
-save.image(file="all_total_3.RData")
-# 
-# answer_TotalData = menu(c("Yes", "No"), title="Do you want to load all_total.Rdata?")
-# if(answer_TotalData == 1){
-#   load("all_total_3.Rdata")
-# }
-
+# if(!file.exists("rdata_files/")){dir.create("rdata_files")}
+# save.image(file="rdata_files/3_all_final_data.RData")
+load("rdata_files/3_all_final_data.RData")
 
 names_short = c(
   #'clsa',
@@ -533,17 +542,16 @@ for(i in 1:length(names_short)){
 }
 
 
-rm(answer_sourceData,i,
-   path_clsa,path_globe, path_env, path_hapiee_cz, 
+rm(i,path_clsa,path_globe, path_env, path_hapiee_cz, 
    path_hapiee_lt, path_hapiee_ru, path_hunt, path_lasa1,
-   path_lasa2, path_lucas,path_record, nbDomains)
+   path_lasa2, path_lucas,path_record)
 
 
 
 
 # Opal upload files
-library(opalr)
-erasmus_opal = opal.login()
+# library(opalr)
+# erasmus_opal = opal.login()
 
 # for(i in 1:length(names_short)){
 #   try(opal.file_upload(erasmus_opal,
@@ -580,40 +588,10 @@ save_xls(dd_record$Variables    , "xls_files/", dd_record$Categories    , 'RECOR
 #try(opal.file_upload(erasmus_opal,"DD_HUNT.xlsx",paste0("/projects/",names_opal_proj[5])))
 
 
-hunt_total %>% select(baseline_yr)
-dd_hunt$Variables %>% filter(name =="baseline_yr") 
 
 
 message("hunt has multiple id entry")
 
-# path_file = list()
-# 
-# for (i in 1:nbDomains){
-#   path_file[[i]] = list.files(path = paste0("../",list_domain[i]), pattern = "*.Rmd", all.files = FALSE,
-#                               full.names = TRUE, recursive = TRUE,
-#                               ignore.case = FALSE, include.dirs = FALSE )
-#   path_file[[i]] = path_file[[i]][!str_detect(string=path_file[[i]],pattern="validation|Validation")]
-#   path_file[[i]] = path_file[[i]][!str_detect(string=path_file[[i]],pattern="DS.Rmd")]
-#   path_file[[i]] = path_file[[i]][!str_detect(string=path_file[[i]],pattern="PHYSENV_DS")]
-#   
-# }
-# 
-# 
-# 
-# names(path_file) = list_domain
-# 
-# path_list = path_file %>% unlist
-# list_domain = c(
-#' 'sociodem_characteristics',
-#' 'lifestyle_behaviours',
-#' 'other_outcomes',
-#' # 'biomarkers_genetics',   
-#' 'mental_health_outcomes',
-#' 'social_factors',
-#' 'perceptions_urban_env',
-#' #'social_environmental',
-#' 'physical_environmental')
-#' nbDomains = length(list_domain)
 
 
 
