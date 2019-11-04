@@ -23,10 +23,10 @@ colnames(physenv_RECORD_2012)
 
 
 # Recode all _06 into _0
-names(physenv_RECORD_2006) <- gsub("_06", "_0", names(physenv_RECORD_2006))
+# names(physenv_RECORD_2006) <- gsub("_06", "_0", names(physenv_RECORD_2006))
 
 # Recode all _2012 into _1
-names(physenv_RECORD_2012) <- gsub("_2012", "_1", names(physenv_RECORD_2012))
+# names(physenv_RECORD_2012) <- gsub("_2012", "_1", names(physenv_RECORD_2012))
 
 
 # Rename data files
@@ -40,11 +40,27 @@ physenv_RECORD_1 <- data.frame(physenv_RECORD_2012)
 colnames(physenv_RECORD_0)
 colnames(physenv_RECORD_1)
 
+# remove and rename variables 
+physenv_RECORD_0 <- rename(physenv_RECORD_0, 'physenv_cn_be_facil_as_0' = inphysenv_cn_ne_facil_as_0) 
+physenv_RECORD_0 <- rename(physenv_RECORD_0, 'physenv_cn_be_facil_0' = inphysenv._cn_ne_facil_0) 
+physenv_RECORD_0 <- rename(physenv_RECORD_0, 'physenv_cn_bf_ttbsgr800_0' = physenv._cn_bf_ttbsgr800_0) 
+physenv_RECORD_0 <- rename(physenv_RECORD_0, 'physenv_cn_bf_lu100_agri_0' = physenv_cn_lu100_agri_0) 
+physenv_RECORD_0 <- rename(physenv_RECORD_0, 'physenv_cn_bf_lu100_in_0' = physenv_cn_bf_lu100_infra_0) 
+physenv_RECORD_0 <- rename(physenv_RECORD_0, 'physenv_cn_bf_lu100_on_0' = physenv._cn_bf_lu100_on_0) 
+physenv_RECORD_0 <- subset(physenv_RECORD_0, select = -c(physenv_cn_bf_lu3000_facil_0)) 
+physenv_RECORD_0 <- rename(physenv_RECORD_0, 'physenv_ua_bf_forest100_0' = physenv_ua_bf_forests100_0) 
+physenv_RECORD_0 <- subset(physenv_RECORD_0, select = -c(physenv_ua_bf_lu3000_facil_0))
+physenv_RECORD_0 <- rename(physenv_RECORD_0, 'physenv_ua_be_facil_as_0' = physenv_ua_ne_facil_as_0) 
+physenv_RECORD_0 <- rename(physenv_RECORD_0, 'physenv_ua_be_facil_0' = physenv_ua_ne_facil_0) 
+physenv_RECORD_1 <- rename(physenv_RECORD_1, 'physenv_ua_ne_water_as_1' = phenv_ua_ne_water_as_1) 
+physenv_RECORD_1 <- rename(physenv_RECORD_1, 'physenv_ua_ne_water_1' = phenv_ua_ne_water_1) 
+physenv_RECORD_1 <- subset(physenv_RECORD_1, select = -c(commune))
+physenv_RECORD_1 <- subset(physenv_RECORD_1, select = -c(codepostal))
+physenv_RECORD_1 <- subset(physenv_RECORD_1, select = -c(pays))
+physenv_RECORD_1 <- subset(physenv_RECORD_1, select = -c(IN_PARIS))
+physenv_RECORD_1 <- subset(physenv_RECORD_1, select = -c(area))
 
 ### RECORD FINISHED ###
-
-
-
 
 
 ### GLOBE ###
@@ -64,10 +80,10 @@ physenv_GLOBE_2014 <- opal.execute(erasmus_opal,'GLOBE_physenv_2014_table')
 
 
 # Explore data
-colnames(physenv_GLOBE_1997)
-colnames(physenv_GLOBE_2004)
-colnames(physenv_GLOBE_2011)
-colnames(physenv_GLOBE_2014)
+# colnames(physenv_GLOBE_1997)
+# colnames(physenv_GLOBE_2004)
+# colnames(physenv_GLOBE_2011)
+# colnames(physenv_GLOBE_2014)
 
 
 # Recode all _1997 into _1
@@ -98,10 +114,15 @@ physenv_GLOBE_4 <- data.frame(physenv_GLOBE_2014)
 
 
 # Check changes in column names
-colnames(physenv_GLOBE_1)
-colnames(physenv_GLOBE_2)
-colnames(physenv_GLOBE_3)
-colnames(physenv_GLOBE_4)
+# colnames(physenv_GLOBE_1)
+# colnames(physenv_GLOBE_2)
+# colnames(physenv_GLOBE_3)
+# colnames(physenv_GLOBE_4)
+
+# remove unwanted variables 
+physenv_GLOBE_1 = subset(physenv_GLOBE_1, select = -c(physenv_cn_bf_facil300_1)) 
+
+
 
 ### GLOBE PENDING ###
 
@@ -127,10 +148,10 @@ physenv_LASA2_2012 <- opal.execute(erasmus_opal,'LASA2_2012')
 
 
 # Explore data
-colnames(physenv_LASA1_2006)
-colnames(physenv_LASA1_2012)
-colnames(physenv_LASA2_2006)
-colnames(physenv_LASA2_2012)
+# colnames(physenv_LASA1_2006)
+# colnames(physenv_LASA1_2012)
+# colnames(physenv_LASA2_2006)
+# colnames(physenv_LASA2_2012)
 
 
 # Recode all _2006 into _4 for LASA1
@@ -147,10 +168,10 @@ names(physenv_LASA2_2012) <- gsub("_12", "_3", names(physenv_LASA2_2012))
 
 
 # Check changes in column names
-colnames(physenv_LASA1_2006)
-colnames(physenv_LASA1_2012)
-colnames(physenv_LASA2_2006)
-colnames(physenv_LASA2_2012)
+# colnames(physenv_LASA1_2006)
+# colnames(physenv_LASA1_2012)
+# colnames(physenv_LASA2_2006)
+# colnames(physenv_LASA2_2012)
 
 
 # Rename data files
@@ -259,13 +280,13 @@ opal.assign.table.tibble(erasmus_opal, 'HUNT3_2006', 'HUNT.physenv_hunt_2006_PID
 physenv_HUNT3_2006 <- opal.execute(erasmus_opal,'HUNT3_2006')
 
 # Explore data
-colnames(physenv_HUNT3_2006)
+# colnames(physenv_HUNT3_2006)
 
 # Recode all _06 into _2 for HUNT3
 names(physenv_HUNT3_2006) <- gsub("_06", "_2", names(physenv_HUNT3_2006))
 
 # Explore data
-colnames(physenv_HUNT3_2006)
+# colnames(physenv_HUNT3_2006)
 
 # Rename data files
 physenv_HUNT_2 <- data.frame(physenv_HUNT3_2006)
@@ -280,8 +301,8 @@ opal.assign.table.tibble(erasmus_opal, 'HUNT3_2012', 'HUNT.physenv_hunt_2012_PID
 physenv_HUNT3_2012 <- opal.execute(erasmus_opal,'HUNT3_2012')
 
 # Explore data
-colnames(physenv_HUNT3_2000)
-colnames(physenv_HUNT3_2012)
+# colnames(physenv_HUNT3_2000)
+# colnames(physenv_HUNT3_2012)
 
 ## Correct all naming inconsistencies
 # Change _hu_lu to _cn_bf_lu for all HUNT_2, HUNT3_2000 and HUNT3_2012
@@ -313,13 +334,17 @@ colnames(physenv_HUNT_2)[colnames(physenv_HUNT_2)=="physenv_cn_bf_totalgreen400"
 # Change physenv_cn_bf_ttbs1600_XX to physenv_cn_bf_ttbs1600_12 for physenv_HUNT3_2012
 colnames(physenv_HUNT3_2012)[colnames(physenv_HUNT3_2012)=="physenv_cn_bf_ttbs1600_XX"] <- "physenv_cn_bf_ttbs1600_12"
 
+
+# Check changes in column names
+# colnames(physenv_HUNT_2)
+# colnames(physenv_HUNT3_2000)
+# colnames(physenv_HUNT3_2012)
+
 # drop 'PrimaryLast'
 physenv_HUNT3_2012 = subset(physenv_HUNT3_2012, select = -c(PrimaryLast)) 
 
-# Check changes in column names
-colnames(physenv_HUNT_2)
-colnames(physenv_HUNT3_2000)
-colnames(physenv_HUNT3_2012)
+# remove unwanted variables 
+physenv_HUNT_2 = subset(physenv_HUNT_2, select = -c(physenv_cn_bf_lu3000_facil_2)) 
 
 
 ### HUNT FINISHED ###
@@ -341,9 +366,9 @@ HAPIEE_UA_1 <- opal.execute(erasmus_opal,'HAPIEE_UA_0')
 
 
 # Explore data
-colnames(HAPIEE_Corine_0)
-colnames(HAPIEE_Corine_1)
-colnames(HAPIEE_UA_1)
+# colnames(HAPIEE_Corine_0)
+# colnames(HAPIEE_Corine_1)
+# colnames(HAPIEE_UA_1)
 
 
 # Merge and rename data files
@@ -352,8 +377,8 @@ physenv_HAPIEE_CZ_1 <- merge(HAPIEE_Corine_1, HAPIEE_UA_1, by = 'id')
 
 
 # check data
-colnames(physenv_HAPIEE_CZ_0)
-colnames(physenv_HAPIEE_CZ_1)
+# colnames(physenv_HAPIEE_CZ_0)
+# colnames(physenv_HAPIEE_CZ_1)
 
 
 # Missing variables describing the distance to the nearest area marked as 'facility'
@@ -366,3 +391,28 @@ colnames(physenv_HAPIEE_CZ_1)
 
 ### HAPIEE PENDING ###
 
+
+
+
+
+# remove unwanted variables 
+
+
+# physenv_cn_ne_facil_as_0 change inphysenv_cn_be_facil_as_0
+# physenv._cn_ne_facil_0 change inphysenv_cn_be_facil_0
+# physenv._cn_bf_ttbsgr800_0 --> Name should be physenv_cn_bf_ttbsgr800_0
+# physenv_cn_lu100_agri_0 --> Name should be physenv_cn_bf_lu100_agri_0
+# physenv_cn_bf_lu100_infra_0 --> Name should be physenv_cn_bf_lu100_in_0
+# physenv._cn_bf_lu100_on_0 --> Name should be physenv_cn_bf_lu100_on_0
+# physenv_cn_bf_lu3000_facil_0   --> remove variable 
+# physenv_ua_bf_forests100_0 -->  Name should be physenv_ua_bf_forest100_0
+# physenv_ua_bf_lu3000_facil_0  --> remove variable
+# physenv_ua_ne_facil_as_0 --> should be physenv_ua_be_facil_as_0 
+# physenv_ua_ne_facil_0 --> physenv_ua_be_facil_0
+# phenv_ua_ne_water_as_1 --> name should be physenv_ua_ne_water_as_1
+# phenv_ua_ne_water_1 --> name should be physenv_ua_ne_water_1
+# commune --> these are locational indicators. I believe Erik has these in his file too. They can be removed here
+# codepostal à see above
+# pays  à see above                      
+# IN_PARIS à see above
+# area à see above
