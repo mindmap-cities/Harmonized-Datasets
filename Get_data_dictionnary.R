@@ -353,13 +353,33 @@ dd_lasa2$Variables$valueType <- dd_lasa1$Variables$valueType
 # 
 # objs <- mget(c("a", "b", "c",  "d",  "e",  "f",  "g"))
 # objs <- mget(c( "h", "i"))
-# # # 
+# # #
 # outer(objs, objs, Vectorize(all.equal))
 # rm(a,b,c,d,e,f,g,h,i,objs)
 
-message("dis_diab_ever_0 in OTH_GLOBE was impossible but completed")
-message("phy_height_all_0 in OTH_HAPIEE_LT was impossible but completed")
-message("sdc_num_child_1 in SDC_RECORD was impossible but completed")
-message("lsb_alc_beer_0 in LSB_RECORD was impossible but completed")
-message("lsb_alc_beer_1 in LSB_RECORD was impossible but completed")
-
+# dd_globe$Variables %>% filter(str_detect(name,"^physenv")) %>% group_by( `Mlstr_harmo::status`) %>% summarise(n())
+# globe_total %>% select(starts_with("physenv")) %>% ncol()
+# 
+# dd_hapiee_cz$Variables %>% filter(str_detect(name,"^physenv")) %>% group_by( `Mlstr_harmo::status`) %>% summarise(n())
+# hapiee_cz_total %>% select(starts_with("physenv")) %>% ncol()
+# 
+# dd_hapiee_lt$Variables %>% filter(str_detect(name,"^physenv")) %>% group_by( `Mlstr_harmo::status`) %>% summarise(n())
+# hapiee_lt_total %>% select(starts_with("physenv")) %>% ncol()
+# 
+# dd_hapiee_ru$Variables %>% filter(str_detect(name,"^physenv")) %>% group_by( `Mlstr_harmo::status`) %>% summarise(n())
+# hapiee_ru_total %>% select(starts_with("physenv")) %>% ncol()
+# 
+# dd_hunt$Variables %>% filter(str_detect(name,"^physenv")) %>% group_by( `Mlstr_harmo::status`) %>% summarise(n())
+# hunt_total %>% select(starts_with("physenv")) %>% ncol()
+# 
+# dd_lasa1$Variables %>% filter(str_detect(name,"^physenv")) %>% group_by( `Mlstr_harmo::status`) %>% summarise(n())
+# lasa1_total %>% select(starts_with("physenv")) %>% ncol()
+# 
+# dd_lasa2$Variables %>% filter(str_detect(name,"^physenv")) %>% group_by( `Mlstr_harmo::status`) %>% summarise(n())
+# lasa2_total %>% select(starts_with("physenv")) %>% ncol()
+# 
+# dd_lucas$Variables %>% filter(str_detect(name,"^physenv")) %>% group_by( `Mlstr_harmo::status`) %>% summarise(n())
+# lucas_total %>% select(starts_with("physenv")) %>% ncol()
+# 
+# dd_record$Variables %>% filter(str_detect(name,"^physenv")) %>% group_by( `Mlstr_harmo::status`) %>% summarise(n())
+# record_total %>% select(starts_with("physenv")) %>% ncol()
