@@ -73,14 +73,14 @@ change_class <- function(tbl, dd, name_stdy){
   # name_stdy <- "GLOBE"
   class_dd <- dd$Variables %>% select(variable = name, class_dd = valueType)
   class_tbl <- tbl %>% 
-    dplyr::summarise_all(class) %>% 
+    dplyr::summarise_all(typeof) %>% 
     tidyr::gather(variable, class_tbl) %>% select(variable, class_tbl)
   
   # test_same_class   
   odd_classes <- inner_join(class_tbl,class_dd) %>%
-    filter(class_tbl != class_dd) %>%
-    filter(!(class_tbl == 'numeric' & class_dd == 'decimal')) %>% 
-    #  filter(!(class_tbl == 'integer' & class_dd == 'decimal')) %>% 
+    # filter(class_tbl != class_dd) %>%
+    # filter(!(class_tbl == 'numeric' & class_dd == 'decimal')) %>% 
+    # filter(!(class_tbl == 'integer' & class_dd == 'decimal')) %>% 
     add_column(study = rep(name_stdy))
   write_csv(odd_classes, paste0("csv_files/odd_",name_stdy,".csv"))
   
@@ -93,7 +93,7 @@ change_class <- function(tbl, dd, name_stdy){
   # get classes :
   message("before: \n")
   print(tbl %>% 
-          dplyr::summarise_all(class) %>% 
+          dplyr::summarise_all(typeof) %>% 
           tidyr::gather(variable, class) %>% select(class) %>% select(class) %>%
           group_by(class) %>% summarise(count = n()))
   
@@ -105,7 +105,7 @@ change_class <- function(tbl, dd, name_stdy){
   # get classes :
   message("after: \n")
   print(tbl %>% 
-          dplyr::summarise_all(class) %>% 
+          dplyr::summarise_all(typeof) %>% 
           tidyr::gather(variable, class) %>% select(class) %>%
           group_by(class) %>% summarise(count = n()))
   return(tbl)}
@@ -223,44 +223,30 @@ var_not_in_dd <- function(tbl,dd){
 
 
 
-# for (i in 1:length(path_list)) {
-#   try(ksource(path_list[i]))}
-# source("Recoding data in R_physenv.r")
+for (i in 1:length(path_list)) {
+  try(ksource(path_list[i]))}
+source("Recoding data in R_physenv.r")
 
+rm(list = ls())
 # if(!file.exists("rdata_files/")){dir.create("rdata_files")}
-# save.image(file="rdata_files/all_data_from_sourcing_0.RData")
- load("rdata_files/0_all_data_from_sourcing.RData")
-
-rm(erasmus_opal, smk_table, MyMerge2, med_table,
-   GLOBE1991,
-    GLOBE1997,GLOBE2004,GLOBE2011,GLOBE2014,
-   HAPIEE_postal2009,
-    HAPIEE_postal2012,HAPIEE_postal2013,
-    HAPIEE_postal2015,HAPIEE_postal201718,
-    HAPIEE_W1,HAPIEE_W1_hl,HAPIEE_W2,HAPIEE_W2_hl,
-    HAPIEE_Corine_0,HAPIEE_Corine_1,HAPIEE_UA_1,
-   HUNT1,HUNT2,HUNT3,
-    med_table_hunt,
-    table_hunt_all,
-   LASA_extravar_PA, LASA1B,LASA1C,LASA1D,
-    LASA1E,LASA1F,LASA1G,LASA1H,med_table_lasa1, lasa1_lsb_table,
-    LASA2B,LASA2F,LASA2G,LASA2H,med_table_lasa2, lasa2_lsb_table,
-   LUCAS_Wave2, lucas_w2,
-   RECORD_w1_1, RECORD_w1_2, RECORD_w2,
-    RECORD_W2_2,  alc_table_record, med_table_record,
-   physenv_GLOBE_1997, physenv_GLOBE_2004, physenv_GLOBE_2011,
-   physenv_GLOBE_2014, physenv_HUNT3_2000, physenv_HUNT3_2006,
-   physenv_HUNT3_2012, physenv_LASA2_2006, physenv_LASA2_2012,
-   physenv_RECORD_2006, physenv_RECORD_2012,
-   physenv_LASA1_2006, physenv_LASA1_2012
-   )
-
-
-
+# save.image(file="rdata_files/0_all_data_from_sourcing.RData")
+load("rdata_files/0_all_data_from_sourcing.RData")
+# data_to_save <- c(
+#   ls(pattern = "^[sdc_|_|lsb_|oth_|bio_|mho_|soc_|env_|socenv_|physenv_].*_[0|1-6]$"),
+#   "join_data",
+#   "change_class",
+#   "var_not_in_dd",
+#   "path_list",
+#   "filter",
+#   "ksource",
+#   "MyMerge",
+#   "parceval",
+#   "recode",
+#   "select")
 # if(!file.exists("rdata_files/")){dir.create("rdata_files")}
-# save.image(file="rdata_files/1_all_dom_data.RData")
+# save(list = data_to_save, file="rdata_files/1_all_dom_data.RData")
+# rm(list = ls())
 load("rdata_files/1_all_dom_data.RData")
-
 
 # try({clsa_total <- join_data("CLSA"); base::rm(list=ls(pattern = "CLSA", envir = .GlobalEnv))})
 try({globe_total <- join_data("GLOBE"); base::rm(list=ls(pattern = "GLOBE", envir = .GlobalEnv))})
@@ -273,14 +259,12 @@ try({lasa2_total <- join_data("LASA2"); base::rm(list=ls(pattern = "LASA2", envi
 try({lucas_total <- join_data("LUCAS"); base::rm(list=ls(pattern = "LUCAS", envir = .GlobalEnv))})
 try({record_total <- join_data("RECORD"); base::rm(list=ls(pattern = "RECORD", envir = .GlobalEnv))})
 
-
 source("Get_data_dictionnary.R")
 
+# rm(list = ls(pattern = "^path_"))
 # if(!file.exists("rdata_files/")){dir.create("rdata_files")}
 # save.image(file="rdata_files/2_all_total_data.RData")
 load("rdata_files/2_all_total_data.RData")
-
-
 
 # clsa_total <- change_class(clsa_total,clsa_globe)
 globe_total     <- change_class(globe_total,dd_globe, "GLOBE")
@@ -294,24 +278,15 @@ hunt_total      <- change_class(hunt_total,dd_hunt, "HUNT")
 record_total    <- change_class(record_total,dd_record, "RECORD")
 
 # test var not in DD
-# var_not_in_dd(globe_total, dd_globe$Variables) #physenv_cn_bf_facil300_1
+# var_not_in_dd(globe_total, dd_globe$Variables)
 # var_not_in_dd(hapiee_cz_total, dd_hapiee_cz$Variables)
 # var_not_in_dd(hapiee_lt_total, dd_hapiee_lt$Variables)
 # var_not_in_dd(hapiee_ru_total, dd_hapiee_ru$Variables)
-# var_not_in_dd(hunt_total, dd_hunt$Variables) #physenv_cn_bf_lu3000_facil_2
+# var_not_in_dd(hunt_total, dd_hunt$Variables)
 # var_not_in_dd(lasa1_total, dd_lasa1$Variables)
 # var_not_in_dd(lasa2_total, dd_lasa2$Variables)
 # var_not_in_dd(lucas_total, dd_lucas$Variables)
 # var_not_in_dd(record_total, dd_record$Variables)
-# "physenv_cn_ne_facil_as_0"     "physenv._cn_ne_facil_0"
-# "physenv._cn_bf_ttbsgr800_0"   "physenv_cn_lu100_agri_0"
-# "physenv_cn_bf_lu100_infra_0"  "physenv._cn_bf_lu100_on_0"
-# "physenv_cn_bf_lu3000_facil_0" "physenv_ua_bf_forests100_0"
-# "physenv_ua_bf_lu3000_facil_0" "physenv_ua_ne_facil_as_0"
-# "physenv_ua_ne_facil_0"        "phenv_ua_ne_water_as_1"
-# "phenv_ua_ne_water_1"          "commune"
-# "codepostal"                   "pays"
-# "IN_PARIS"                     "area"
 
 
 # clsa_total =  clsa_total %>% 
@@ -375,7 +350,6 @@ dd_hapiee_ru$Variables <- dd_hapiee_ru$Variables %>%
       ifelse(name %in% c("followup2_yr","followup3_yr","followup4_yr","followup5_yr","followup6_yr","t2","t3","t4","t5","t6"),NA,script),
     `Mlstr_harmo::status` = 
       ifelse(name %in% c("followup2_yr","followup3_yr","followup4_yr","followup5_yr","followup6_yr","t2","t3","t4","t5","t6"),"impossible",`Mlstr_harmo::status`))
-
 # a = tibble(name = hapiee_ru_total %>% select(-id) %>%names)
 # b = dd_hapiee_ru$Variables %>% filter(`Mlstr_harmo::status` == "complete") %>% select(name)
 # anti_join(b,a)
@@ -498,7 +472,6 @@ dd_record$Variables <- dd_record$Variables %>%
 # anti_join(b,a)
 # anti_join(a,b)
 
-
 # if(!file.exists("rdata_files/")){dir.create("rdata_files")}
 # save.image(file="rdata_files/3_all_final_data.RData")
 load("rdata_files/3_all_final_data.RData")
@@ -532,22 +505,12 @@ names_opal_proj = c(
 # last release file
 total_release <- readLines("~/Harmonized-Datasets/version_release.info")
 last_release <- total_release[length(total_release)]
-
-
 for(i in 1:length(names_short)){
   try(write_csv(
     parceval(paste0(names_short[i],"_total")),
     paste0("csv_files/",names_short[i],"_Harmo_Table_",last_release,".csv"),
     col_names = TRUE, na=""))
 }
-
-
-rm(i,path_clsa,path_globe, path_env, path_hapiee_cz, 
-   path_hapiee_lt, path_hapiee_ru, path_hunt, path_lasa1,
-   path_lasa2, path_lucas,path_record)
-
-
-
 
 # Opal upload files
 # library(opalr)
@@ -571,27 +534,27 @@ rm(i,path_clsa,path_globe, path_env, path_hapiee_cz,
 
 
 # DD xls creation
-save_xls(dd_globe$Variables     , "xls_files/", dd_globe$Categories     , 'GLOBE' )
-save_xls(dd_hapiee_cz$Variables , "xls_files/", dd_hapiee_cz$Categories , 'HAPIEE_CZ' )
-save_xls(dd_hapiee_lt$Variables , "xls_files/", dd_hapiee_lt$Categories , 'HAPIEE_LT' )
-save_xls(dd_hapiee_ru$Variables , "xls_files/", dd_hapiee_ru$Categories , 'HAPIEE_RU' )
-save_xls(dd_hunt$Variables      , "xls_files/", dd_hunt$Categories      , 'HUNT' )
-save_xls(dd_lasa1$Variables     , "xls_files/", dd_lasa1$Categories     , 'LASA1' ) 
-save_xls(dd_lasa2$Variables     , "xls_files/", dd_lasa2$Categories     , 'LASA2' )
-save_xls(dd_lucas$Variables     , "xls_files/", dd_lucas$Categories     , 'LUCAS' )
-save_xls(dd_record$Variables    , "xls_files/", dd_record$Categories    , 'RECORD' )
+save_xls(dd_globe$Variables     , "xls_files/", dd_globe$Categories     , 'GLOBE')
+save_xls(dd_hapiee_cz$Variables , "xls_files/", dd_hapiee_cz$Categories , 'HAPIEE_CZ')
+save_xls(dd_hapiee_lt$Variables , "xls_files/", dd_hapiee_lt$Categories , 'HAPIEE_LT')
+save_xls(dd_hapiee_ru$Variables , "xls_files/", dd_hapiee_ru$Categories , 'HAPIEE_RU')
+save_xls(dd_hunt$Variables      , "xls_files/", dd_hunt$Categories      , 'HUNT')
+save_xls(dd_lasa1$Variables     , "xls_files/", dd_lasa1$Categories     , 'LASA1') 
+save_xls(dd_lasa2$Variables     , "xls_files/", dd_lasa2$Categories     , 'LASA2')
+save_xls(dd_lucas$Variables     , "xls_files/", dd_lucas$Categories     , 'LUCAS')
+save_xls(dd_record$Variables    , "xls_files/", dd_record$Categories    , 'RECORD')
 
-
-
-
+# dd_globe$Variables %>% group_by(`Mlstr_harmo::status`) %>% summarise(n())
+# dd_hapiee_cz$Variables %>% group_by(`Mlstr_harmo::status`) %>% summarise(n())
+# dd_hapiee_lt$Variables %>% group_by(`Mlstr_harmo::status`) %>% summarise(n())
+# dd_hapiee_ru$Variables %>% group_by(`Mlstr_harmo::status`) %>% summarise(n())
+# dd_hunt$Variables %>% group_by(`Mlstr_harmo::status`) %>% summarise(n())
+# dd_lasa1$Variables %>% group_by(`Mlstr_harmo::status`) %>% summarise(n())
+# dd_lasa2$Variables %>% group_by(`Mlstr_harmo::status`) %>% summarise(n())
+# dd_lucas$Variables %>% group_by(`Mlstr_harmo::status`) %>% summarise(n())
+# dd_record$Variables %>% group_by(`Mlstr_harmo::status`) %>% summarise(n())
 # try with create table opal
-#try(opal.file_upload(erasmus_opal,"DD_HUNT.xlsx",paste0("/projects/",names_opal_proj[5])))
-
-
-
-
-message("hunt has multiple id entry")
-
-
-
-
+# try(opal.file_upload(erasmus_opal,"DD_HUNT.xlsx",paste0("/projects/",names_opal_proj[5])))
+message("[ERR]: globe_total$soc_ss_Zscore_perceived_emo_0, globe_total$soc_ss_Zscore_perceived_emo_0")
+message("[ERR]: c'est quoi :physenv_HUNT3_2000 - physenv_HUNT3_2012")
+message("[ERR]: physenv_RECORD_1$physenv_cn_bf_facil3000_1")
