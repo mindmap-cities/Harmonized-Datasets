@@ -3,6 +3,12 @@ library(epiDisplay)
 library(tidyverse)
 library(stringr)
 library(lubridate)
+source("functions/annotate.R")
+source("functions/annotations.R")
+source("functions/getOpalTable.R")
+source("functions/saveOpalTable.R")
+source("functions/utils.R")
+
 
 filter <- dplyr::filter
 select <- dplyr::select
@@ -503,28 +509,48 @@ names_opal_proj = c(
 # csv creation
 
 # last release file
-total_release <- readLines("~/Harmonized-Datasets/version_release.info")
-last_release <- total_release[length(total_release)]
-for(i in 1:length(names_short)){
-  try(write_csv(
-    parceval(paste0(names_short[i],"_total")),
-    paste0("csv_files/",names_short[i],"_Harmo_Table_",last_release,".csv"),
-    col_names = TRUE, na=""))
-}
 
-# Opal upload files
-# library(opalr)
-# erasmus_opal = opal.login()
+# for(i in 1:length(names_short)){
+#   try(write_csv(
+#     parceval(paste0(names_short[i],"_total")),
+#     paste0("csv_files/",names_short[i],"_Harmo_Table_",last_release,".csv"),
+#     col_names = TRUE, na=""))
+# }
+# 
+# # DD xls creation
+# save_xls(
+#   tbl_var = dd_globe$Variables, 
+#   tbl_cat =  dd_globe$Categories, 
+#   folder = "xls_files/", 
+#   name = 'GLOBE')
+# save_xls(dd_hapiee_cz$Variables , "xls_files/", dd_hapiee_cz$Categories , 'HAPIEE_CZ')
+# save_xls(dd_hapiee_lt$Variables , "xls_files/", dd_hapiee_lt$Categories , 'HAPIEE_LT')
+# save_xls(dd_hapiee_ru$Variables , "xls_files/", dd_hapiee_ru$Categories , 'HAPIEE_RU')
+# save_xls(dd_hunt$Variables      , "xls_files/", dd_hunt$Categories      , 'HUNT')
+# save_xls(dd_lasa1$Variables     , "xls_files/", dd_lasa1$Categories     , 'LASA1') 
+# save_xls(dd_lasa2$Variables     , "xls_files/", dd_lasa2$Categories     , 'LASA2')
+# save_xls(dd_lucas$Variables     , "xls_files/", dd_lucas$Categories     , 'LUCAS')
+# save_xls(dd_record$Variables    , "xls_files/", dd_record$Categories    , 'RECORD')
 
+# 
 # for(i in 1:length(names_short)){
 #   try(opal.file_upload(erasmus_opal,
 #     paste0("csv_files/",names_short[i],"_Harmo_Table_",
 #            str_replace_all(today(),"-",""),".csv"),
-#     paste0("/projects/",names_opal_proj[i])))
-# }
+#     paste0("/projects/",names_opal_proj[i])))}
 
-
-# TRY 
+# a = 0
+# a = a + globe_total %>% select(id) %>% unique %>% nrow()
+# a = a + hapiee_cz_total %>% select(id) %>% unique %>% nrow()
+# a = a + hapiee_lt_total %>% select(id) %>% unique %>% nrow()
+# a = a + hapiee_ru_total %>% select(id) %>% unique %>% nrow()
+# a = a + hunt_total %>% select(id) %>% unique %>% nrow()
+# a = a + lasa1_total %>% select(id) %>% unique %>% nrow()
+# a = a + lasa2_total %>% select(id) %>% unique %>% nrow()
+# a = a + lucas_total %>% select(id) %>% unique %>% nrow()
+# a = a + record_total %>% select(id) %>% unique %>% nrow()
+# 
+# TRY
 # csv creation (to trash?)
 # for(i in 1:length(name_tbl)){
 #   try(write_csv(
@@ -533,16 +559,6 @@ for(i in 1:length(names_short)){
 #     col_names = TRUE, na=""))}
 
 
-# DD xls creation
-save_xls(dd_globe$Variables     , "xls_files/", dd_globe$Categories     , 'GLOBE')
-save_xls(dd_hapiee_cz$Variables , "xls_files/", dd_hapiee_cz$Categories , 'HAPIEE_CZ')
-save_xls(dd_hapiee_lt$Variables , "xls_files/", dd_hapiee_lt$Categories , 'HAPIEE_LT')
-save_xls(dd_hapiee_ru$Variables , "xls_files/", dd_hapiee_ru$Categories , 'HAPIEE_RU')
-save_xls(dd_hunt$Variables      , "xls_files/", dd_hunt$Categories      , 'HUNT')
-save_xls(dd_lasa1$Variables     , "xls_files/", dd_lasa1$Categories     , 'LASA1') 
-save_xls(dd_lasa2$Variables     , "xls_files/", dd_lasa2$Categories     , 'LASA2')
-save_xls(dd_lucas$Variables     , "xls_files/", dd_lucas$Categories     , 'LUCAS')
-save_xls(dd_record$Variables    , "xls_files/", dd_record$Categories    , 'RECORD')
 
 # dd_globe$Variables %>% group_by(`Mlstr_harmo::status`) %>% summarise(n())
 # dd_hapiee_cz$Variables %>% group_by(`Mlstr_harmo::status`) %>% summarise(n())
@@ -558,3 +574,37 @@ save_xls(dd_record$Variables    , "xls_files/", dd_record$Categories    , 'RECOR
 message("[ERR]: globe_total$soc_ss_Zscore_perceived_emo_0, globe_total$soc_ss_Zscore_perceived_emo_0")
 message("[ERR]: c'est quoi :physenv_HUNT3_2000 - physenv_HUNT3_2012")
 message("[ERR]: physenv_RECORD_1$physenv_cn_bf_facil3000_1")
+
+
+total_release <- readLines("~/Harmonized-Datasets/version_release.info")
+last_release <- total_release[length(total_release)]
+# Opal upload files
+library(opalr)
+erasmus_opal = opal.login()
+save_tables <- function(opal_connection, tbl_total, dd_tbl, name_folder, name_file, version){
+  saveOpalTable(
+    opal = opal_connection,
+    tibble = tbl_total,
+    project = name_folder, 
+    table = name_file,
+    variables = dd_tbl$Variables,
+    categories = dd_tbl$Categories,
+    force = TRUE)}
+
+
+try(save_tables(erasmus_opal, globe_total,    dd_globe,    "GLOBE_Harmonized",  paste0("globe_DS_",    last_release)))
+try(save_tables(erasmus_opal, hapiee_cz_total,dd_hapiee_cz,"HAPIEE_Harmonized", paste0("hapiee_cz_DS_",last_release)))
+try(save_tables(erasmus_opal, hapiee_lt_total,dd_hapiee_lt,"HAPIEE_Harmonized", paste0("hapiee_lt_DS_",last_release)))
+try(save_tables(erasmus_opal, hapiee_ru_total,dd_hapiee_ru,"HAPIEE_Harmonized", paste0("hapiee_ru_DS_",last_release)))
+try(save_tables(erasmus_opal, hunt_total,     dd_hunt,     "HUNT_Harmonized",   paste0("hunt_DS_",     last_release)))
+try(save_tables(erasmus_opal, lasa1_total,    dd_lasa1,    "LASA_Harmonized",   paste0("lasa2_DS_",    last_release)))
+try(save_tables(erasmus_opal, lasa2_total,    dd_lasa2,    "LASA_Harmonized",   paste0("lasa1_DS_",    last_release)))
+try(save_tables(erasmus_opal, lucas_total,    dd_lucas,    "LUCAS_Harmonized",  paste0("lucas_DS_",    last_release)))
+try(save_tables(erasmus_opal, record_total,   dd_record,   "RECORD_Harmonized", paste0("record_DS_",   last_release)))
+
+opal.logout(erasmus_opal)
+
+hunt_total %>% select
+
+
+
