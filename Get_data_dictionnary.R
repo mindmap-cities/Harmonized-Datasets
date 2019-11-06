@@ -22,28 +22,25 @@ library(lubridate)
 #   load("all_total.RData")
 # }
 
-
 ###########################
 ###### FUNCTIONS ##########
 ###########################
 
 create_dd <- function(path_study,name_study){
-  #run variables
+  # run variables
   # 
-  # path_study = path_hunt
-  # name_study = 'HUNT'
+  # path_study = path_globe
+  # name_study = 'GLOBE'
   
   {
     dd_allvar = list()
     for(i in 1:length(path_study)){
-      dd_allvar_i = fread(path_study[i],colClasses = 'characters',na.strings = '', fill = TRUE, sep ='')
+      dd_allvar_i = fread(path_study[i],colClasses = 'character',na.strings = '', fill = TRUE, sep ='')
       detection_of_first_variable_i = which(str_detect(string = t(dd_allvar_i), pattern="Variable label"))[1]
       dd_allvar[[i]] = dd_allvar_i[detection_of_first_variable_i:dim(dd_allvar_i)[1]]}
     dd_allvar = Reduce(rbind,dd_allvar)
     names(dd_allvar) = "Text"
     
-    
-    #dd_allvar = tibble("Text" = dd_allvar) %>% select(Text = contains("Text"))
     dd_allvar[172:195]
     
     ####__2__ FROM ALL_VAR, SEPARATE EACH ROW BY ITS CHUNK - CREATE VARIABLE PART OF DD ########
@@ -72,10 +69,10 @@ create_dd <- function(path_study,name_study){
   study.variable <- tibble(label$Text,name$Text,description$Text,type$Text,unit$Text,comment$Text,status$Text) 
   study.variable <- study.variable %>%
     add_column(
-      table =  paste("DS",name_study,gsub("-","",today()), sep = "_"), 
+      repeatable = 0,
       script_r = ifelse(status$Text=="complete", paste("$('",name$Text[], "')", sep = "" ),  NA)) %>%
     select(
-      `table`                = table,
+      `repeatable`           = repeatable,
       `name`                 = `name$Text`,	
       `label:en`             = `label$Text`,
       `description:en`       = `description$Text`,	
@@ -101,10 +98,10 @@ create_dd <- function(path_study,name_study){
       name = str_trim(name),
       label = str_trim(label)) %>%
     add_column(
-      table = paste("DS",name_study,gsub("-","",today()), sep = "_"),
+      # table = paste(name_study, "harmo_table",gsub("-","",last_release), sep = "_"),
       missing = 0) %>%
     select(
-      `table` = table,
+      # `table` = table,
       `variable` = variable,	
       `name` = name,
       `missing` = missing,
@@ -149,9 +146,12 @@ order_dd <- function(dd){
 
 add_row_in_dd <-function(dd,name_var,name_study,label_var, harmo_data_set){
   
+  total_release <- readLines("~/Harmonized-Datasets/version_release.info")
+  last_release <- total_release[length(total_release)]
+  
   temp <- dd$Variable %>%
     add_row(.,
-            table = paste("DS",name_study,gsub("-","",today()), sep = "_"),            
+            repeatable = 0,
             name =  name_var,  
             `label:en` =  label_var,
             `description:en` = label_var,
@@ -178,6 +178,8 @@ complete_dd <- function(dd, harmo_data_set,name_study){
   #   dd = dd_hunt
   #   harmo_data_set = hunt_total
   #   name_study = 'HUNT'
+  total_release <- readLines("~/Harmonized-Datasets/version_release.info")
+  last_release <- total_release[length(total_release)]
   
   to_complete = dd$Variables %>%
     filter(str_detect(name,"physenv_")) %>% .$name %>% tibble() %>%
@@ -187,15 +189,13 @@ complete_dd <- function(dd, harmo_data_set,name_study){
   dd$Variables <- dd$Variables %>%
     mutate(
       `Mlstr_harmo::status` = ifelse(str_detect(name,"physenv_"), 
-                                     ifelse(name %in% to_complete[[1]], "complete","impossible"),`Mlstr_harmo::status`)
-      
-      ,
+                                     ifelse(name %in% to_complete[[1]], "complete","impossible"),`Mlstr_harmo::status`),
       script =                ifelse(str_detect(name,"physenv_"),
                                      ifelse(name %in% to_complete[[1]], paste0("$('",name, "')"),NA), script))
   
   
-  dd$Variables$table =  paste("DS",name_study,gsub("-","",today()), sep = "_")
-  dd$Categories$table =  paste("DS",name_study,gsub("-","",today()), sep = "_")
+  dd$Variables$repeatable =  0
+  # dd$Categories$table =  paste(name_study, "harmo_table",gsub("-","",last_release), sep = "_")
   
   dd$Variables <- add_row_in_dd(dd,'baseline_yr',name_study, "Baseline Year",   harmo_data_set)
   dd$Variables <- add_row_in_dd(dd,'followup1_yr',name_study,"Follow-up 1 year",harmo_data_set)
@@ -256,7 +256,7 @@ path_record    = try(path_list_todo[str_detect(string = path_list_todo,pattern="
 #the following code separates each variable from its information, and put them in a opal-compatible format (CSV)
 
 #dd_clsa      <- create_dd(path_clsa , 'CLSA' )
-dd_globe     <- create_dd(path_globe , 'GLOBE' )
+dd_globe     <- create_dd(path_globe , 'globe' )
 dd_hapiee_cz <- create_dd(path_hapiee_cz , 'HAPIEE_CZ' ) #ok
 dd_hapiee_lt <- create_dd(path_hapiee_lt , 'HAPIEE_LT' ) #ok
 dd_hapiee_ru <- create_dd(path_hapiee_ru , 'HAPIEE_RU' ) #ok
@@ -268,7 +268,7 @@ dd_record    <- create_dd(path_record , 'RECORD' ) #ok
 
 
 path_env = "../physical_environmental/PHYSENV_DS.Rmd"
-dd_physenv <- create_dd(path_env, "PHYSENV")
+dd_physenv <- create_dd(path_env, "physenv")
 message("replace m²")
 #dd_physenv <- dd_physenv$Variables %>% mutate (unit = ifelse(unit == "m²", "m2",unit))
 
@@ -311,15 +311,15 @@ dd_record    <- order_dd(dd_record)
 
 
 #dd_clsa     <- complete_dd(dd_clsa ,    clsa_total,      'CLSA' )
-dd_globe     <- complete_dd(dd_globe,     globe_total,     'GLOBE'   )
-dd_hapiee_cz <- complete_dd(dd_hapiee_cz, hapiee_cz_total, 'HAPIEE_CZ' )
-dd_hapiee_lt <- complete_dd(dd_hapiee_lt, hapiee_lt_total, 'HAPIEE_LT' )
-dd_hapiee_ru <- complete_dd(dd_hapiee_ru, hapiee_ru_total, 'HAPIEE_RU')
-dd_hunt      <- complete_dd(dd_hunt,      hunt_total,      'HUNT')
-dd_lasa1     <- complete_dd(dd_lasa1,     lasa1_total,     'LASA1')
-dd_lasa2     <- complete_dd(dd_lasa2,     lasa2_total,     'LASA2')
-dd_lucas     <- complete_dd(dd_lucas,     lucas_total,     'LUCAS')
-dd_record    <- complete_dd(dd_record,    record_total,    'RECORD')
+dd_globe     <- complete_dd(dd_globe,     globe_total,     'globe')
+dd_hapiee_cz <- complete_dd(dd_hapiee_cz, hapiee_cz_total, 'hapiee_cz' )
+dd_hapiee_lt <- complete_dd(dd_hapiee_lt, hapiee_lt_total, 'hapiee_lt' )
+dd_hapiee_ru <- complete_dd(dd_hapiee_ru, hapiee_ru_total, 'hapiee_ru')
+dd_hunt      <- complete_dd(dd_hunt,      hunt_total,      'hunt')
+dd_lasa1     <- complete_dd(dd_lasa1,     lasa1_total,     'lasa1')
+dd_lasa2     <- complete_dd(dd_lasa2,     lasa2_total,     'lasa2')
+dd_lucas     <- complete_dd(dd_lucas,     lucas_total,     'lucas')
+dd_record    <- complete_dd(dd_record,    record_total,    'record')
 
 # SAVE WORK  
 
@@ -383,3 +383,5 @@ dd_lasa2$Variables$valueType <- dd_lasa1$Variables$valueType
 # 
 # dd_record$Variables %>% filter(str_detect(name,"^physenv")) %>% group_by( `Mlstr_harmo::status`) %>% summarise(n())
 # record_total %>% select(starts_with("physenv")) %>% ncol()
+
+
