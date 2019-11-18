@@ -1,13 +1,16 @@
+library("devtools")
+devtools::install_local("harmor-master", dependencies = TRUE, force=TRUE)
+library(harmor)
 library(naniar)
 library(epiDisplay)
 library(tidyverse)
 library(stringr)
 library(lubridate)
-source("functions/annotate.R")
-source("functions/annotations.R")
-source("functions/getOpalTable.R")
-source("functions/saveOpalTable.R")
-source("functions/utils.R")
+library(opalr)
+library(scales)
+library(car)
+library(sjmisc)
+library(magrittr)
 
 
 filter <- dplyr::filter
@@ -233,25 +236,24 @@ for (i in 1:length(path_list)) {
   try(ksource(path_list[i]))}
 source("Recoding data in R_physenv.r")
 
-rm(list = ls())
-# if(!file.exists("rdata_files/")){dir.create("rdata_files")}
-# save.image(file="rdata_files/0_all_data_from_sourcing.RData")
+if(!file.exists("rdata_files/")){dir.create("rdata_files")}
+save.image(file="rdata_files/0_all_data_from_sourcing.RData")
 load("rdata_files/0_all_data_from_sourcing.RData")
-# data_to_save <- c(
-#   ls(pattern = "^[sdc_|_|lsb_|oth_|bio_|mho_|soc_|env_|socenv_|physenv_].*_[0|1-6]$"),
-#   "join_data",
-#   "change_class",
-#   "var_not_in_dd",
-#   "path_list",
-#   "filter",
-#   "ksource",
-#   "MyMerge",
-#   "parceval",
-#   "recode",
-#   "select")
-# if(!file.exists("rdata_files/")){dir.create("rdata_files")}
-# save(list = data_to_save, file="rdata_files/1_all_dom_data.RData")
-# rm(list = ls())
+data_to_save <- c(
+  ls(pattern = "^[sdc_|_|lsb_|oth_|bio_|mho_|soc_|env_|socenv_|physenv_].*_[0|1-6]$"),
+  "join_data",
+  "change_class",
+  "var_not_in_dd",
+  "path_list",
+  "filter",
+  "ksource",
+  "MyMerge",
+  "parceval",
+  "recode",
+  "select")
+if(!file.exists("rdata_files/")){dir.create("rdata_files")}
+save(list = data_to_save, file="rdata_files/1_all_dom_data.RData")
+rm(list = ls())
 load("rdata_files/1_all_dom_data.RData")
 
 # try({clsa_total <- join_data("CLSA"); base::rm(list=ls(pattern = "CLSA", envir = .GlobalEnv))})
@@ -267,9 +269,9 @@ try({record_total <- join_data("RECORD"); base::rm(list=ls(pattern = "RECORD", e
 
 source("Get_data_dictionnary.R")
 
-# rm(list = ls(pattern = "^path_"))
-# if(!file.exists("rdata_files/")){dir.create("rdata_files")}
-# save.image(file="rdata_files/2_all_total_data.RData")
+rm(list = ls(pattern = "^path_"))
+if(!file.exists("rdata_files/")){dir.create("rdata_files")}
+save.image(file="rdata_files/2_all_total_data.RData")
 load("rdata_files/2_all_total_data.RData")
 
 # clsa_total <- change_class(clsa_total,clsa_globe)
@@ -478,33 +480,32 @@ dd_record$Variables <- dd_record$Variables %>%
 # anti_join(b,a)
 # anti_join(a,b)
 
-# if(!file.exists("rdata_files/")){dir.create("rdata_files")}
-# save.image(file="rdata_files/3_all_final_data.RData")
+globe_total %<>% select(-starts_with("physenv_cn_bf_facil3000_"))
+hapiee_cz_total %<>% select(-starts_with("physenv_cn_bf_facil3000_"))
+hapiee_lt_total %<>% select(-starts_with("physenv_cn_bf_facil3000_"))
+hapiee_ru_total %<>% select(-starts_with("physenv_cn_bf_facil3000_"))
+hunt_total %<>% select(-starts_with("physenv_cn_bf_facil3000_"))
+lasa1_total %<>% select(-starts_with("physenv_cn_bf_facil3000_"))
+lasa2_total %<>% select(-starts_with("physenv_cn_bf_facil3000_"))
+lucas_total %<>% select(-starts_with("physenv_cn_bf_facil3000_"))
+record_total %<>% select(-starts_with("physenv_cn_bf_facil3000_"))
+
+dd_globe$Variables %<>% filter(!str_detect(name,"physenv_cn_bf_facil3000_"))
+dd_hapiee_cz$Variables %<>% filter(!str_detect(name,"physenv_cn_bf_facil3000_"))
+dd_hapiee_lt$Variables %<>% filter(!str_detect(name,"physenv_cn_bf_facil3000_"))
+dd_hapiee_ru$Variables %<>% filter(!str_detect(name,"physenv_cn_bf_facil3000_"))
+dd_hunt$Variables %<>% filter(!str_detect(name,"physenv_cn_bf_facil3000_"))
+dd_lasa1$Variables %<>% filter(!str_detect(name,"physenv_cn_bf_facil3000_"))
+dd_lasa2$Variables %<>% filter(!str_detect(name,"physenv_cn_bf_facil3000_"))
+dd_lucas$Variables %<>% filter(!str_detect(name,"physenv_cn_bf_facil3000_"))
+dd_record$Variables %<>% filter(!str_detect(name,"physenv_cn_bf_facil3000_"))
+
+
+
+
+if(!file.exists("rdata_files/")){dir.create("rdata_files")}
+save.image(file="rdata_files/3_all_final_data.RData")
 load("rdata_files/3_all_final_data.RData")
-
-names_short = c(
-  #'clsa',
-  'globe',
-  'hapiee_cz',
-  'hapiee_lt',
-  'hapiee_ru',
-  'hunt',
-  'lasa1',
-  'lasa2',
-  'lucas',
-  'record')
-
-names_opal_proj = c(
-  # 'CLSA',
-  'GLOBE',
-  'HAPIEE',
-  'HAPIEE',
-  'HAPIEE',
-  'HUNT',
-  'LASA',
-  'LASA',
-  'LUCAS',
-  'RECORD')
 
 # csv creation
 
@@ -558,7 +559,7 @@ names_opal_proj = c(
 #     paste0("csv_files/",name_tbl[i],"_Harmo_Table_",str_replace_all(today(),"-",""),".csv"),
 #     col_names = TRUE, na=""))}
 
-
+--------------------------------------------------------------------------------
 
 # dd_globe$Variables %>% group_by(`Mlstr_harmo::status`) %>% summarise(n())
 # dd_hapiee_cz$Variables %>% group_by(`Mlstr_harmo::status`) %>% summarise(n())
@@ -571,40 +572,72 @@ names_opal_proj = c(
 # dd_record$Variables %>% group_by(`Mlstr_harmo::status`) %>% summarise(n())
 # try with create table opal
 # try(opal.file_upload(erasmus_opal,"DD_HUNT.xlsx",paste0("/projects/",names_opal_proj[5])))
-message("[ERR]: globe_total$soc_ss_Zscore_perceived_emo_0, globe_total$soc_ss_Zscore_perceived_emo_0")
-message("[ERR]: c'est quoi :physenv_HUNT3_2000 - physenv_HUNT3_2012")
-message("[ERR]: physenv_RECORD_1$physenv_cn_bf_facil3000_1")
+
+#message("[ERR]: globe_total$soc_ss_Zscore_perceived_emo_0, globe_total$soc_ss_Zscore_perceived_emo_0")
+#message("[ERR]: c'est quoi :physenv_HUNT3_2000 - physenv_HUNT3_2012")
+#message("[ERR]: physenv_RECORD_1$physenv_cn_bf_facil3000_1")
 
 
 total_release <- readLines("~/Harmonized-Datasets/version_release.info")
 last_release <- total_release[length(total_release)]
+
 # Opal upload files
+# library(opalr)
+# erasmus_opal = opal.login()
+# save_tables <- function(opal_connection, tbl_total, dd_tbl, name_folder, name_file, version){
+#   saveOpalTable(
+#     opal = opal_connection,
+#     tibble = tbl_total,
+#     project = name_folder, 
+#     table = name_file,
+#     variables = dd_tbl$Variables,
+#     categories = dd_tbl$Categories,
+#     force = TRUE)}
+
+
+# try(save_tables(erasmus_opal, globe_total,"GLOBE_Harmonized", paste0("globe_DS_", last_release)))
+# try(save_tables(erasmus_opal, hapiee_cz_total,dd_hapiee_cz,"HAPIEE_Harmonized", paste0("hapiee_cz_DS_",last_release)))
+# try(save_tables(erasmus_opal, hapiee_lt_total,dd_hapiee_lt,"HAPIEE_Harmonized", paste0("hapiee_lt_DS_",last_release)))
+# try(save_tables(erasmus_opal, hapiee_ru_total,dd_hapiee_ru,"HAPIEE_Harmonized", paste0("hapiee_ru_DS_",last_release)))
+# try(save_tables(erasmus_opal, hunt_total,     dd_hunt,     "HUNT_Harmonized",   paste0("hunt_DS_",     last_release)))
+# try(save_tables(erasmus_opal, lasa1_total,    dd_lasa1,    "LASA_Harmonized",   paste0("lasa2_DS_",    last_release)))
+# try(save_tables(erasmus_opal, lasa2_total,    dd_lasa2,    "LASA_Harmonized",   paste0("lasa1_DS_",    last_release)))
+# try(save_tables(erasmus_opal, lucas_total,    dd_lucas,    "LUCAS_Harmonized",  paste0("lucas_DS_",    last_release)))
+# try(save_tables(erasmus_opal, record_total,   dd_record,   "RECORD_Harmonized", paste0("record_DS_",   last_release)))
+
+
+# hunt_total %>% select not sure what this line is for
+
+# upload to opal step:
+devtools::install_local(path = "harmor", dependencies = TRUE, force = TRUE)
 library(opalr)
-erasmus_opal = opal.login()
-save_tables <- function(opal_connection, tbl_total, dd_tbl, name_folder, name_file, version){
-  saveOpalTable(
-    opal = opal_connection,
-    tibble = tbl_total,
-    project = name_folder, 
-    table = name_file,
-    variables = dd_tbl$Variables,
-    categories = dd_tbl$Categories,
-    force = TRUE)}
+library(harmor)
+o <- opal.login()
+globe_total     <- applyDictionary(globe_total,     variables=dd_globe$Variables,     categories=dd_globe$Categories)
+hapiee_cz_total <- applyDictionary(hapiee_cz_total, variables=dd_hapiee_cz$Variables, categories=dd_hapiee_cz$Categories)
+hapiee_lt_total <- applyDictionary(hapiee_lt_total, variables=dd_hapiee_lt$Variables, categories=dd_hapiee_lt$Categories)
+hapiee_ru_total <- applyDictionary(hapiee_ru_total, variables=dd_hapiee_ru$Variables, categories=dd_hapiee_ru$Categories)
+hunt_total      <- applyDictionary(hunt_total,      variables=dd_hunt$Variables,      categories=dd_hunt$Categories)
+lasa1_total     <- applyDictionary(lasa1_total,     variables=dd_lasa1$Variables,     categories=dd_lasa1$Categories)
+lasa2_total     <- applyDictionary(lasa2_total,     variables=dd_lasa2$Variables,     categories=dd_lasa2$Categories)
+lucas_total     <- applyDictionary(lucas_total,     variables=dd_lucas$Variables,     categories=dd_lucas$Categories)
+record_total    <- applyDictionary(record_total,    variables=dd_record$Variables,    categories=dd_record$Categories)
+
+summary(as.factor(dd_hunt$Variables$repeatable))
+
+saveOpalTable(o, globe_total,     "GLOBE_Harmonized",  "globe_DS_1_01",     force = TRUE)
+saveOpalTable(o, hapiee_cz_total, "HAPIEE_Harmonized", "hapiee_cz_DS_1_01", force = TRUE)
+saveOpalTable(o, hapiee_lt_total, "HAPIEE_Harmonized", "hapiee_lt_DS_1_01", force = TRUE)
+saveOpalTable(o, hapiee_ru_total, "HAPIEE_Harmonized", "hapiee_ru_DS_1_01", force = TRUE)
+saveOpalTable(o, hunt_total,      "HUNT_Harmonized",   "hunt_DS_1_01",      force = TRUE)
+saveOpalTable(o, lasa1_total,     "LASA_Harmonized",   "lasa1_DS_1_01",     force = TRUE)
+saveOpalTable(o, lasa2_total,     "LASA_Harmonized",   "lasa2_DS_1_01",     force = TRUE)
+saveOpalTable(o, lucas_total,     "LUCAS_Harmonized",  "lucas_DS_1_01",     force = TRUE)
+saveOpalTable(o, record_total,    "RECORD_Harmonized", "record_DS_1_01",    force = TRUE)
 
 
-try(save_tables(erasmus_opal, globe_total,    dd_globe,    "GLOBE_Harmonized",  paste0("globe_DS_",    last_release)))
-try(save_tables(erasmus_opal, hapiee_cz_total,dd_hapiee_cz,"HAPIEE_Harmonized", paste0("hapiee_cz_DS_",last_release)))
-try(save_tables(erasmus_opal, hapiee_lt_total,dd_hapiee_lt,"HAPIEE_Harmonized", paste0("hapiee_lt_DS_",last_release)))
-try(save_tables(erasmus_opal, hapiee_ru_total,dd_hapiee_ru,"HAPIEE_Harmonized", paste0("hapiee_ru_DS_",last_release)))
-try(save_tables(erasmus_opal, hunt_total,     dd_hunt,     "HUNT_Harmonized",   paste0("hunt_DS_",     last_release)))
-try(save_tables(erasmus_opal, lasa1_total,    dd_lasa1,    "LASA_Harmonized",   paste0("lasa2_DS_",    last_release)))
-try(save_tables(erasmus_opal, lasa2_total,    dd_lasa2,    "LASA_Harmonized",   paste0("lasa1_DS_",    last_release)))
-try(save_tables(erasmus_opal, lucas_total,    dd_lucas,    "LUCAS_Harmonized",  paste0("lucas_DS_",    last_release)))
-try(save_tables(erasmus_opal, record_total,   dd_record,   "RECORD_Harmonized", paste0("record_DS_",   last_release)))
-
-opal.logout(erasmus_opal)
-
-hunt_total %>% select
+opal.logout(o)
 
 
+save.image(file="dd_globe/dd_globe.RData")
 
