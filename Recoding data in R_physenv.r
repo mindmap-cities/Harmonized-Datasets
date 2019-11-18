@@ -23,10 +23,10 @@ colnames(physenv_RECORD_2012)
 
 
 # Recode all _06 into _0
-# names(physenv_RECORD_2006) <- gsub("_06", "_0", names(physenv_RECORD_2006))
+names(physenv_RECORD_2006) <- gsub("_06", "_0", names(physenv_RECORD_2006))
 
 # Recode all _2012 into _1
-# names(physenv_RECORD_2012) <- gsub("_2012", "_1", names(physenv_RECORD_2012))
+names(physenv_RECORD_2012) <- gsub("_2012", "_1", names(physenv_RECORD_2012))
 
 
 # Rename data files
@@ -41,8 +41,8 @@ colnames(physenv_RECORD_0)
 colnames(physenv_RECORD_1)
 
 # remove and rename variables 
-physenv_RECORD_0 <- rename(physenv_RECORD_0, 'physenv_cn_be_facil_as_0' = inphysenv_cn_ne_facil_as_0) 
-physenv_RECORD_0 <- rename(physenv_RECORD_0, 'physenv_cn_be_facil_0' = inphysenv._cn_ne_facil_0) 
+physenv_RECORD_0 <- rename(physenv_RECORD_0, 'physenv_cn_be_facil_as_0' = physenv_cn_ne_facil_as_0)
+physenv_RECORD_0 <- rename(physenv_RECORD_0, 'physenv_cn_be_facil_0' = physenv._cn_ne_facil_0) 
 physenv_RECORD_0 <- rename(physenv_RECORD_0, 'physenv_cn_bf_ttbsgr800_0' = physenv._cn_bf_ttbsgr800_0) 
 physenv_RECORD_0 <- rename(physenv_RECORD_0, 'physenv_cn_bf_lu100_agri_0' = physenv_cn_lu100_agri_0) 
 physenv_RECORD_0 <- rename(physenv_RECORD_0, 'physenv_cn_bf_lu100_in_0' = physenv_cn_bf_lu100_infra_0) 
