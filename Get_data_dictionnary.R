@@ -69,10 +69,10 @@ create_dd <- function(path_study,name_study){
   study.variable <- tibble(label$Text,name$Text,description$Text,type$Text,unit$Text,comment$Text,status$Text) 
   study.variable <- study.variable %>%
     add_column(
-      repeatable = 0,
+      # repeatable = 0,
       script_r = ifelse(status$Text=="complete", paste("$('",name$Text[], "')", sep = "" ),  NA)) %>%
     select(
-      `repeatable`           = repeatable,
+      # `repeatable`           = repeatable,
       `name`                 = `name$Text`,	
       `label:en`             = `label$Text`,
       `description:en`       = `description$Text`,	
@@ -151,7 +151,7 @@ add_row_in_dd <-function(dd,name_var,name_study,label_var, harmo_data_set){
   
   temp <- dd$Variable %>%
     add_row(.,
-            repeatable = 0,
+            # repeatable = 0,
             name =  name_var,  
             `label:en` =  label_var,
             `description:en` = label_var,
@@ -194,7 +194,7 @@ complete_dd <- function(dd, harmo_data_set,name_study){
                                      ifelse(name %in% to_complete[[1]], paste0("$('",name, "')"),NA), script))
   
   
-  dd$Variables$repeatable =  0
+  # dd$Variables$repeatable =  0
   # dd$Categories$table =  paste(name_study, "harmo_table",gsub("-","",last_release), sep = "_")
   
   dd$Variables <- add_row_in_dd(dd,'baseline_yr',name_study, "Baseline Year",   harmo_data_set)
