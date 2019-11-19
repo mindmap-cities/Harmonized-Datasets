@@ -641,3 +641,63 @@ opal.logout(o)
 
 save.image(file="dd_globe/dd_globe.RData")
 
+
+
+
+##################################################################################################
+##################################################################################################
+######################           Unique IDs in Harmonized DS           ########################### 
+##################################################################################################
+##################################################################################################
+
+#studies
+# globe
+# hapiee_cz
+# hapiee_t
+# hapiee_ru
+# hunt
+# lasa1
+# lasa2
+# lucas
+# record
+
+temp_tot <- globe_total %>% add_column(study= "GLOBE") %>%
+  bind_rows(hapiee_cz_total %>% add_column(study = "HAPIEE_CZ")) %>%
+  bind_rows(hapiee_lt_total %>% add_column(study = "HAPIEE_LT")) %>%
+  bind_rows(hapiee_ru_total %>% add_column(study = "HAPIEE_RU")) %>% 
+  bind_rows(hunt_total %>% add_column(study = "HUNT")) %>% 
+  bind_rows(lucas_total %>% add_column(study = "LUCAS")) %>% 
+  bind_rows(record_total %>% add_column(study = "RECORD")) %>% 
+  mutate(
+    new_id = paste0(study,id)) %>% 
+  select(new_id,everything(),-id)
+
+temp_tot <- temp_tot %>% rename(.,id=new_id)
+
+globe_total <- temp_tot %>% filter(study == "GLOBE")
+hapiee_cz_total <- temp_tot %>% filter(study == "HAPIEE_CZ")
+hapiee_lt_total <- temp_tot %>% filter(study == "HAPIEE_LT")
+hapiee_ru_total <- temp_tot %>% filter(study == "HAPIEE_RU")
+hunt_total <- temp_tot %>% filter(study == "HUNT")
+lucas_total <- temp_tot %>% filter(study == "LUCAS")
+record_total <- temp_tot %>% filter(study == "RECORD")
+
+
+temp_tot2 <- lasa1_total %>% add_column(study = "LASA1") %>%
+  bind_rows(lasa2_total %>% add_column(study = "LASA2")) %>%
+  mutate(
+    new_id = paste0(study,id)) %>% 
+  select(new_id,everything(),-id)
+
+temp_tot2<- temp_tot2 %>% rename(., id = new_id)
+
+lasa1_total <- temp_tot2 %>% filter(study == "LASA1")
+lasa2_total <- temp_tot2 %>% filter(study == "LASA2")
+
+save(list = ls(pattern = "_total"), file = "rdata_files/5_all_data_new_id.RData")
+rm(nrow_tempTot,temp_tot,temp_tot2)
+
+
+
+
+
