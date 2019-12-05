@@ -1,5 +1,5 @@
 library("devtools")
-devtools::install_local("harmor-master", dependencies = TRUE, force=TRUE)
+devtools::install_local("harmor", dependencies = TRUE, force=TRUE)
 library(harmor)
 library(naniar)
 library(epiDisplay)
@@ -16,6 +16,7 @@ library(magrittr)
 filter <- dplyr::filter
 select <- dplyr::select
 recode <- dplyr::recode
+
 
 #################   FUNCTIONS    ###############################################
 #################                ###############################################
@@ -207,16 +208,16 @@ var_not_in_dd <- function(tbl,dd){
     "../perceptions_urban_env/ENV_DS_LASA1.Rmd",
     "../perceptions_urban_env/ENV_DS_LASA2.Rmd",
     "../perceptions_urban_env/ENV_DS_LUCAS.Rmd",
-    "../perceptions_urban_env/ENV_DS_RECORD.Rmd"
+    "../perceptions_urban_env/ENV_DS_RECORD.Rmd",
     
     ### SOCENV ###    
-    #NOT READY YET "../social_environmental/SOCENV_DS_GLOBE.Rmd",
+     "../social_environmental/SOCENV_DS_GLOBE.Rmd",
     #NOT READY YET "../social_environmental/SOCENV_DS_HAPIEE_CZ.Rmd",
     #NOT READY YET "../social_environmental/SOCENV_DS_HAPIEE_LT.Rmd",
     #NOT READY YET "../social_environmental/SOCENV_DS_HAPIEE_RU.Rmd",
     #NOT READY YET "../social_environmental/SOCENV_DS_HUNT.Rmd",
-    #NOT READY YET "../social_environmental/SOCENV_DS_LASA1.Rmd",
-    #NOT READY YET "../social_environmental/SOCENV_DS_LASA2.Rmd",
+    "../social_environmental/SOCENV_DS_LASA1.Rmd",
+    "../social_environmental/SOCENV_DS_LASA2.Rmd"
     #NOT READY YET "../social_environmental/SOCENV_DS_LUCAS.Rmd",
     #NOT READY YET "../social_environmental/SOCENV_DS_RECORD.Rmd",
     
@@ -232,9 +233,9 @@ var_not_in_dd <- function(tbl,dd){
 
 
 
-for (i in 1:length(path_list)) {
-  try(ksource(path_list[i]))}
-source("Recoding data in R_physenv.r")
+# for (i in 1:length(path_list)) {
+#   try(ksource(path_list[i]))}
+# source("Recoding data in R_physenv.r")
 
 if(!file.exists("rdata_files/")){dir.create("rdata_files")}
 save.image(file="rdata_files/0_all_data_from_sourcing.RData")
@@ -253,7 +254,7 @@ data_to_save <- c(
   "select")
 if(!file.exists("rdata_files/")){dir.create("rdata_files")}
 save(list = data_to_save, file="rdata_files/1_all_dom_data.RData")
-rm(list = ls())
+#rm(list = ls())
 load("rdata_files/1_all_dom_data.RData")
 
 # try({clsa_total <- join_data("CLSA"); base::rm(list=ls(pattern = "CLSA", envir = .GlobalEnv))})
@@ -500,6 +501,21 @@ dd_lasa2$Variables %<>% filter(!str_detect(name,"physenv_cn_bf_facil3000_"))
 dd_lucas$Variables %<>% filter(!str_detect(name,"physenv_cn_bf_facil3000_"))
 dd_record$Variables %<>% filter(!str_detect(name,"physenv_cn_bf_facil3000_"))
 
+dd$Variables <-  dd$Variables %>% add_column(`index` = 1:nrow(dd$Variables))
+
+
+## add the index at the end of the tibble
+dd_globe$Variables %<>% add_column(`index` = 1:nrow(dd_globe$Variables))
+dd_hapiee_cz$Variables %<>% add_column(`index` = 1:nrow(dd_hapiee_cz$Variables))
+dd_hapiee_lt$Variables %<>% add_column(`index` = 1:nrow(dd_hapiee_lt$Variables))
+dd_hapiee_ru$Variables %<>% add_column(`index` = 1:nrow(dd_hapiee_ru$Variables))
+dd_hunt$Variables %<>% add_column(`index` = 1:nrow(dd_hunt$Variables))
+dd_lasa1$Variables %<>% add_column(`index` = 1:nrow(dd_lasa1$Variables))
+dd_lasa2$Variables %<>% add_column(`index` = 1:nrow(dd_lasa2$Variables))
+dd_lucas$Variables %<>% add_column(`index` = 1:nrow(dd_lucas$Variables))
+dd_record$Variables %<>% add_column(`index` = 1:nrow(dd_record$Variables))
+
+
 
 
 
@@ -578,7 +594,7 @@ load("rdata_files/3_all_final_data.RData")
 #message("[ERR]: physenv_RECORD_1$physenv_cn_bf_facil3000_1")
 
 
-total_release <- readLines("~/Harmonized-Datasets/version_release.info")
+total_release <- readLines("version_release.info")
 last_release <- total_release[length(total_release)]
 
 # Opal upload files
@@ -606,10 +622,9 @@ last_release <- total_release[length(total_release)]
 # try(save_tables(erasmus_opal, record_total,   dd_record,   "RECORD_Harmonized", paste0("record_DS_",   last_release)))
 
 
-# hunt_total %>% select not sure what this line is for
-
 # upload to opal step:
 devtools::install_local(path = "harmor", dependencies = TRUE, force = TRUE)
+
 library(opalr)
 library(harmor)
 o <- opal.login()
@@ -625,15 +640,15 @@ record_total    <- applyDictionary(record_total,    variables=dd_record$Variable
 
 summary(as.factor(dd_hunt$Variables$repeatable))
 
-saveOpalTable(o, globe_total,     "GLOBE_Harmonized",  "globe_DS_1_01",     force = TRUE)
-saveOpalTable(o, hapiee_cz_total, "HAPIEE_Harmonized", "hapiee_cz_DS_1_01", force = TRUE)
-saveOpalTable(o, hapiee_lt_total, "HAPIEE_Harmonized", "hapiee_lt_DS_1_01", force = TRUE)
-saveOpalTable(o, hapiee_ru_total, "HAPIEE_Harmonized", "hapiee_ru_DS_1_01", force = TRUE)
-saveOpalTable(o, hunt_total,      "HUNT_Harmonized",   "hunt_DS_1_01",      force = TRUE)
-saveOpalTable(o, lasa1_total,     "LASA_Harmonized",   "lasa1_DS_1_01",     force = TRUE)
-saveOpalTable(o, lasa2_total,     "LASA_Harmonized",   "lasa2_DS_1_01",     force = TRUE)
-saveOpalTable(o, lucas_total,     "LUCAS_Harmonized",  "lucas_DS_1_01",     force = TRUE)
-saveOpalTable(o, record_total,    "RECORD_Harmonized", "record_DS_1_01",    force = TRUE)
+saveOpalTable(o, globe_total,     "GLOBE_Harmonized",  paste0("globe_DS_", last_release),     force = TRUE)
+saveOpalTable(o, hapiee_cz_total, "HAPIEE_Harmonized", paste0("hapiee_cz_DS_1_", last_release), force = TRUE)
+saveOpalTable(o, hapiee_lt_total, "HAPIEE_Harmonized", paste0("hapiee_lt_DS_1_", last_release), force = TRUE)
+saveOpalTable(o, hapiee_ru_total, "HAPIEE_Harmonized", paste0("hapiee_ru_DS_1_", last_release), force = TRUE)
+saveOpalTable(o, hunt_total,      "HUNT_Harmonized",   paste0("hunt_DS_1_", last_release),      force = TRUE)
+saveOpalTable(o, lasa1_total,     "LASA_Harmonized",   paste0("lasa1_DS_1_", last_release),     force = TRUE)
+saveOpalTable(o, lasa2_total,     "LASA_Harmonized",   paste0("lasa2_DS_1_", last_release),     force = TRUE)
+saveOpalTable(o, lucas_total,     "LUCAS_Harmonized",  paste0("lucas_DS_1_", last_release),     force = TRUE)
+saveOpalTable(o, record_total,    "RECORD_Harmonized", paste0("record_DS_1_", last_release),    force = TRUE)
 
 
 opal.logout(o)
