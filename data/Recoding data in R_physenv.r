@@ -1,6 +1,3 @@
-#Load Opal R library
-library(opalr) 
-
 # Create an opal object with the login information
 erasmus_opal <- opal.login()
 
@@ -417,3 +414,4 @@ physenv_HAPIEE_CZ_1 <- merge(HAPIEE_Corine_1, HAPIEE_UA_1, by = 'id')
 # IN_PARIS à see above
 # area à see above
 
+opal.logout(erasmus_opal)
