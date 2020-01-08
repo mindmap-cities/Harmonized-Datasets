@@ -5,7 +5,7 @@ message("    [5.1]: application of the dictionary to data sets")
 #Reading the last line from the sheet version_release.info (eg. _01_1, _01_2, _02_1) 
 #to later assign the name of the latest release to the harmonized tables in Opal
 
-total_release <- readLines("Harmonized_dataset_new/export/version_release.info")
+total_release <- readLines("export/version_release.info")
 last_release <- total_release[length(total_release)]
 
 
@@ -41,5 +41,5 @@ try({saveOpalTable(o, lucas_total,     "LUCAS_Harmonized",  paste0("lucas_DS_1_"
 try({saveOpalTable(o, record_total,    "RECORD_Harmonized", paste0("record_DS_1_", last_release),    force = TRUE)})
 
 try({opal.logout(o)})
-save.image(file="Harmonized_dataset_new/src/4_data_with_dd.RData.RData")
+save.image(file="src/4_data_with_dd.RData.RData")
 message("    [5]: all data have been exported to Opal and saved in src/4_")

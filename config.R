@@ -13,7 +13,7 @@ if(!require(devtools)){
   library(devtools)}else{library(devtools)}
 
 if(!require(harmor)){
-  install_local("Harmonized_dataset_new/harmor", dependencies = TRUE, force=TRUE)
+  install_local("harmor", dependencies = TRUE, force=TRUE)
   library(harmor)}else{library(harmor)}
 
 if(!require(opalr)){
