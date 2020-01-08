@@ -7,15 +7,15 @@ message("[3 - init]: get the data from RData or Opal, and physenv")
 answer_dd = menu(c("Yes", "No"), title="Do you want to load all_total.Rdata?")
 
 if(answer_dd == 1){
-       load("Harmonized_dataset_new/src/0_all_data_from_sourcing.RData")}else{
+       load("src/0_all_data_from_sourcing.RData")}else{
          
          for (i in 1:length(path_list)) {
            try(ksource(path_list[i]))}
          message("    [3.1 - init]: physenv")
-         try({source("Harmonized_dataset_new/data/Recoding data in R_physenv.r")})
+         try({source("data/Recoding data in R_physenv.r")})
          message("    [3.1 - end]: physenv")
-         file.remove("Harmonized_dataset_new/src/0_all_data_from_sourcing.RData")
-         save.image(file="Harmonized_dataset_new/src/0_all_data_from_sourcing.RData")
+         file.remove("src/0_all_data_from_sourcing.RData")
+         save.image(file="src/0_all_data_from_sourcing.RData")
          message("    [3.2]: all raw data saved in src/0_")}
        
 
@@ -41,8 +41,8 @@ data_to_save <- c(
   "parceval",
   "recode",
   "select")
-save(list = data_to_save, file="Harmonized_dataset_new/src/1_all_dom_data.RData")
+save(list = data_to_save, file="src/1_all_dom_data.RData")
 rm(list = ls())
-load("Harmonized_dataset_new/src/1_all_dom_data.RData")
+load("src/1_all_dom_data.RData")
 
 message("[3 - end]: all raw data created. Only used are saved in src/1_")
