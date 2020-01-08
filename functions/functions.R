@@ -226,9 +226,10 @@ order_dd <- function(dd){
   return(dd)
 }
 
+
 add_row_in_dd <-function(dd,name_var,name_study,label_var, harmo_data_set){
   
-  total_release <- readLines("~/Harmonized-Datasets/version_release.info")
+  total_release <- readLines("~/Harmonized-Datasets/export/version_release.info")
   last_release <- total_release[length(total_release)]
   
   temp <- dd$Variable %>%
@@ -260,7 +261,7 @@ complete_dd <- function(dd, harmo_data_set,name_study){
   #   dd = dd_hunt
   #   harmo_data_set = hunt_total
   #   name_study = 'HUNT'
-  total_release <- readLines("~/Harmonized-Datasets/version_release.info")
+  total_release <- readLines("~/Harmonized-Datasets/export/version_release.info")
   last_release <- total_release[length(total_release)]
   
   to_complete = dd$Variables %>%
