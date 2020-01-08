@@ -108,7 +108,7 @@ try({dd_lucas     <- complete_dd(dd_lucas,     lucas_total,     'lucas')})
 try({dd_record    <- complete_dd(dd_record,    record_total,    'record')})
 
 message("    [4.3]: repair datasests by renaming and retyping")
-source("Harmonized_dataset_new/diagnostics/repair_data.R")
+source("diagnostics/repair_data.R")
 
 
 #Adding proper time variables (data collection years and t1, t2, etc) to the merged tables for each study
@@ -272,7 +272,7 @@ dd_lucas$Variables %<>% add_column(`index` = 1:nrow(dd_lucas$Variables))
 dd_record$Variables %<>% add_column(`index` = 1:nrow(dd_record$Variables))
 
 
-save.image(file="Harmonized_dataset_new/src/2_all_final_data.RData")
+save.image(file="src/2_all_final_data.RData")
 message("    [4.5]: all data munged are saved in src/2_")
 
 ##################################################################################################
@@ -334,7 +334,7 @@ try({record_total %<>% mutate(study= "RECORD_") %>%
   rename(.,id=new_id)})
 
 
-save(list = ls(pattern = "_total"), file = "Harmonized_dataset_new/src/3_all_data_new_id.RData")
+save(list = ls(pattern = "_total"), file = "src/3_all_data_new_id.RData")
 message("    [4.7]: all data munged are saved in src/3_")
 
 
