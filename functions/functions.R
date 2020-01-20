@@ -1,7 +1,8 @@
 message("[1 - init]: creating all functions")
 
-################################  COMMON FUNCTIONS #############################
+recode<-dplyr::recode
 
+################################  COMMON FUNCTIONS #############################
 ksource <- function(x, ...) {
   library(knitr)
   source(purl(x, output = tempfile()), ...)}
@@ -19,6 +20,7 @@ MyMerge <- function(x,y){
 
 join_data <- function(pattrn){
   
+ #pattrn = "HAPIEE_CZ"
   domain_short <- c(
     'sdc_',
     'lsb_',
@@ -50,17 +52,49 @@ join_data <- function(pattrn){
     bind_rows(listed %>% filter(str_detect(nvar, paste0("^",domain_short[8])))) %>%
     bind_rows(listed %>% filter(str_detect(nvar, paste0("^",domain_short[9]))))
   
+  
   jointure <- parceval(listed[1,1]) %>% 
-    as_tibble() %>%  
-    mutate_at("id",funs(as.character))
+    as_tibble() %>%
+    mutate_at("id",funs(as.character)) %>% 
+    add_column(
+      temp = str_sub(listed[1,1],-1,-1)) %>% 
+    select(id, temp,everything()) %>%
+    rename(!!paste0("wave_",str_sub(listed[1,1],-1,-1)) := temp)
+  
   for(i in 2:nrow(listed)){
     print(paste0(pattrn,": ",i,"/",nrow(listed)))
-    jointure <- full_join(jointure ,
-                          parceval(listed[i,1]) %>% 
-                            as_tibble() %>%  
-                            mutate_at("id",funs(as.character)), 
-                          by = "id")}
-  return(jointure)}
+    jointure <- full_join(jointure,
+                  parceval(listed[i,1]) %>% 
+                    as_tibble() %>%
+                    mutate_at("id",funs(as.character)) %>% 
+                    add_column(!!paste0("wave_",str_sub(listed[i,1],-1,-1)) := str_sub(listed[i,1],-1,-1)) %>% 
+                    select(id, !!paste0("wave_",str_sub(listed[i,1],-1,-1)),everything()), 
+                  by = "id")}
+  jointure_order <- jointure %>% 
+    select(id,
+          baseline_yr = ends_with("_0.x"),
+          followup1_yr =  ends_with("_1.x"),
+          followup2_yr =  ends_with("_2.x"),
+          followup3_yr =  ends_with("_3.x"),
+          followup4_yr =  ends_with("_4.x"),
+          followup5_yr =  ends_with("_5.x"),
+          followup6_yr =  ends_with("_6.x"),
+          t1= ends_with("_1.y"), 
+          t2= ends_with("_2.y"), 
+          t3= ends_with("_3.y"), 
+          t4= ends_with("_4.y"), 
+          t5= ends_with("_5.y"), 
+          t6= ends_with("_6.y"),
+           ends_with("_0"),
+           ends_with("_1"),
+           ends_with("_2"),
+           ends_with("_3"),
+           ends_with("_4"),
+           ends_with("_5"),
+           ends_with("_6"))
+  
+  return(jointure_order)
+  }
 
 change_class <- function(tbl, dd, name_stdy){
   # tbl <- globe_total
@@ -225,7 +259,6 @@ order_dd <- function(dd){
   print(dd)
   return(dd)
 }
-
 
 add_row_in_dd <-function(dd,name_var,name_study,label_var, harmo_data_set){
   
