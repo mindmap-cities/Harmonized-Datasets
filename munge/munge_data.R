@@ -129,7 +129,7 @@ mutate(
   baseline_yr	   = recode(baseline_yr,"0"="2008"),
   followup1_yr	 = recode(followup1_yr,"1"="2015"),
   t1	 = rep(2015 - 2008) %>% as.character) %>%
-  select(-one_of(var_not_in_dd(dd_clsa_tra, dd_clsa_tra$Variables)))})
+  select(-one_of(var_not_in_dd(clsa_tra_total, dd_clsa_tra$Variables)))})
 try({dd_clsa_tra$Variables <- dd_clsa_tra$Variables %>%
   mutate(
     script = 
@@ -142,7 +142,7 @@ try({clsa_cop_total =  clsa_cop_total %>%
     baseline_yr	   = recode(baseline_yr,"0"="2012"),
     followup1_yr	 = recode(followup1_yr,"1"="2015"),
     t1	 = rep(2015 - 2012) %>% as.character) %>%
-  select(-one_of(var_not_in_dd(clsa_cop_total, clsa_cop_total$Variables)))})
+  select(-one_of(var_not_in_dd(clsa_cop_total, dd_clsa_cop$Variables)))})
 try({dd_clsa_cop$Variables <- dd_clsa_cop$Variables %>%
   mutate(
     script = 

@@ -185,10 +185,10 @@ create_dd <- function(path_study,name_study){
   study.variable <- tibble(label$Text,name$Text,description$Text,type$Text,unit$Text,comment$Text,status$Text) 
   study.variable <- study.variable %>%
     add_column(
-      # repeatable = 0,
+       repeatable = 0,
       script_r = ifelse(status$Text=="complete", paste("$('",name$Text[], "')", sep = "" ),  NA)) %>%
     select(
-      # `repeatable`           = repeatable,
+       `repeatable`           = repeatable,
       `name`                 = `name$Text`,	
       `label:en`             = `label$Text`,
       `description:en`       = `description$Text`,	
