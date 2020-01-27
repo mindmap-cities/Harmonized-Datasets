@@ -2,9 +2,9 @@
 # Fixing the variable classes by
 # Changing classes of the variables into the Value Types in the data dictionary, in case they are different in the dataset itself
 
-#try({rotterdam_total <- change_class(clsa_total, dd_clasa, "ROTTERDAM")})
-try({clsa_cop_total  <- change_class(clsa_cop_total, dd_clasa, "CLSA_COP")})
-try({clsa_tra_total  <- change_class(clsa_tra_total, dd_clasa, "CLSA_TRA")})
+#try({rotterdam_total <- change_class(clsa_total, dd_clsa, "ROTTERDAM")})
+try({clsa_cop_total  <- change_class(clsa_cop_total, dd_clsa_cop, "CLSA_COP")})
+try({clsa_tra_total  <- change_class(clsa_tra_total, dd_clsa_tra, "CLSA_TRA")})
 try({globe_total     <- change_class(globe_total,dd_globe, "GLOBE")})
 try({hapiee_lt_total <- change_class(hapiee_lt_total,dd_hapiee_lt, "HAPIEE_LT")})
 try({hapiee_cz_total <- change_class(hapiee_cz_total,dd_hapiee_cz, "HAPIEE_CZ")})
