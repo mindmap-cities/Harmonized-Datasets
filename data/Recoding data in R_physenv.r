@@ -63,17 +63,17 @@ physenv_RECORD_1 <- subset(physenv_RECORD_1, select = -c(area))
 ### GLOBE ###
 
 # Assign GLOBE data 1997, 2004, 2011, 2014
-opal.assign.table.tibble(erasmus_opal, '1997_physenv_globe_total', 'GLOBE.1997_physenv_globe_total')
-physenv_GLOBE_1997 <- opal.execute(erasmus_opal,'1997_physenv_globe_total')
+opal.assign.table.tibble(erasmus_opal, 'physenv_globe_1997_total', 'GLOBE.physenv_globe_1997_total')
+physenv_GLOBE_1997 <- opal.execute(erasmus_opal,'physenv_globe_1997_total')
 
-opal.assign.table.tibble(erasmus_opal, '2004_physenv_globe_total_Final', 'GLOBE.2004_physenv_globe_total_Final')
-physenv_GLOBE_2004 <- opal.execute(erasmus_opal,'2004_physenv_globe_total_Final')
+opal.assign.table.tibble(erasmus_opal, 'physenv_globe_2004_total_Final', 'GLOBE.physenv_globe_2004_total_Final')
+physenv_GLOBE_2004 <- opal.execute(erasmus_opal,'physenv_globe_2004_total_Final')
 
-opal.assign.table.tibble(erasmus_opal, '2011_physenv_globe_total_Final', 'GLOBE.2011_physenv_globe_total_Final')
-physenv_GLOBE_2011 <- opal.execute(erasmus_opal,'2011_physenv_globe_total_Final')
+opal.assign.table.tibble(erasmus_opal, 'physenv_globe_2011_total_Final', 'GLOBE.physenv_globe_2011_total_Final')
+physenv_GLOBE_2011 <- opal.execute(erasmus_opal,'physenv_globe_2011_total_Final')
 
-opal.assign.table.tibble(erasmus_opal, '2014_physenv_globe_total_Final', 'GLOBE.2014_physenv_globe_total_Final')
-physenv_GLOBE_2014 <- opal.execute(erasmus_opal,'2014_physenv_globe_total_Final')
+opal.assign.table.tibble(erasmus_opal, 'physenv_globe_2014_total_Final', 'GLOBE.physenv_globe_2014_total_Final')
+physenv_GLOBE_2014 <- opal.execute(erasmus_opal,'physenv_globe_2014_total_Final')
 
 
 # Explore data
