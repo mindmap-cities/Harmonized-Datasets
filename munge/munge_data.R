@@ -83,6 +83,7 @@ try({dd_lasa2     <- order_dd(dd_lasa2)})
 try({dd_lucas     <- order_dd(dd_lucas)})
 try({dd_record    <- order_dd(dd_record)})
 
+source("diagnostics/repair_hapiee_ids.R")
 
 ###################################  DATA ######################################
 
@@ -100,6 +101,7 @@ try({lasa1_total <- join_data("LASA1"); base::rm(list=ls(pattern = "LASA1", envi
 try({lasa2_total <- join_data("LASA2"); base::rm(list=ls(pattern = "LASA2", envir = .GlobalEnv))})
 try({lucas_total <- join_data("LUCAS"); base::rm(list=ls(pattern = "LUCAS", envir = .GlobalEnv))})
 try({record_total <- join_data("RECORD"); base::rm(list=ls(pattern = "RECORD", envir = .GlobalEnv))})
+
 
 ##### BOTH DATA AND DD #####
 
