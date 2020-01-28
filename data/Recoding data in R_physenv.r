@@ -39,11 +39,9 @@ colnames(physenv_RECORD_1)
 
 # remove and rename variables 
 physenv_RECORD_0 <- rename(physenv_RECORD_0, 'physenv_cn_be_facil_as_0' = physenv_cn_ne_facil_as_0)
-physenv_RECORD_0 <- rename(physenv_RECORD_0, 'physenv_cn_be_facil_0' = physenv._cn_ne_facil_0) 
-physenv_RECORD_0 <- rename(physenv_RECORD_0, 'physenv_cn_bf_ttbsgr800_0' = physenv._cn_bf_ttbsgr800_0) 
+physenv_RECORD_0 <- rename(physenv_RECORD_0, 'physenv_cn_be_facil_0' = physenv_cn_ne_facil_0) 
 physenv_RECORD_0 <- rename(physenv_RECORD_0, 'physenv_cn_bf_lu100_agri_0' = physenv_cn_lu100_agri_0) 
 physenv_RECORD_0 <- rename(physenv_RECORD_0, 'physenv_cn_bf_lu100_in_0' = physenv_cn_bf_lu100_infra_0) 
-physenv_RECORD_0 <- rename(physenv_RECORD_0, 'physenv_cn_bf_lu100_on_0' = physenv._cn_bf_lu100_on_0) 
 physenv_RECORD_0 <- subset(physenv_RECORD_0, select = -c(physenv_cn_bf_lu3000_facil_0)) 
 physenv_RECORD_0 <- rename(physenv_RECORD_0, 'physenv_ua_bf_forest100_0' = physenv_ua_bf_forests100_0) 
 physenv_RECORD_0 <- subset(physenv_RECORD_0, select = -c(physenv_ua_bf_lu3000_facil_0))
