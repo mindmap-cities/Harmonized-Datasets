@@ -356,7 +356,7 @@ HAPIEE_Corine_0 <- opal.execute(erasmus_opal,'HAPIEE_Corine_0')
 opal.assign.table.tibble(erasmus_opal, 'HAPIEE_Corine_1', 'HAPIEE.corine_1_Final_inorder_withid_noadd')
 HAPIEE_Corine_1 <- opal.execute(erasmus_opal,'HAPIEE_Corine_1')
 
-opal.assign.table.tibble(erasmus_opal, 'HAPIEE_UA_0', 'HAPIEE.UrbanAtlas_1_Final_inorder_withid_noadd')
+opal.assign.table.tibble(erasmus_opal, 'HAPIEE_UA_0', 'HAPIEE.UrbanAtlas_1_Final_FIXED_withid_noadd')
 HAPIEE_UA_1 <- opal.execute(erasmus_opal,'HAPIEE_UA_0')
 
 
