@@ -271,7 +271,7 @@ rm(level_key)
 
 ## HUNT 2006 --> HUNT_2 ##
 # Assign HUNT data 2006 
-opal.assign.table.tibble(erasmus_opal, 'HUNT3_2006', 'HUNT.physenv_hunt_2006_PID108058')
+opal.assign.table.tibble(erasmus_opal, 'HUNT3_2006', 'HUNT.physenv_hunt_2006_PID108058_N_39618_(25_11_2019)')
 physenv_HUNT3_2006 <- opal.execute(erasmus_opal,'HUNT3_2006')
 
 
@@ -288,7 +288,7 @@ physenv_HUNT_2 <- data.frame(physenv_HUNT3_2006)
 
 ## Correct all naming 
 # Change _hu_lu to _cn_bf_lu for all HUNT_2
-names(physenv_HUNT_2) <- gsub("_hu_lu", "_cn_bf_lu", names(physenv_HUNTinconsistencies_2))
+names(physenv_HUNT_2) <- gsub("_hu_lu", "_cn_bf_lu", names(physenv_HUNT_2))
 
 # Change _hu_ to _cn_ for all HUNT_2, 
 names(physenv_HUNT_2) <- gsub("_hu_", "_cn_", names(physenv_HUNT_2))
