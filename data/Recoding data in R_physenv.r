@@ -274,14 +274,6 @@ rm(level_key)
 opal.assign.table.tibble(erasmus_opal, 'HUNT3_2006', 'HUNT.physenv_hunt_2006_PID108058')
 physenv_HUNT3_2006 <- opal.execute(erasmus_opal,'HUNT3_2006')
 
-# Explore data
-# colnames(physenv_HUNT3_2006)
-
-# Recode all _06 into _2 for HUNT3
-names(physenv_HUNT3_2006) <- gsub("_06", "_2", names(physenv_HUNT3_2006))
-
-# Explore data
-# colnames(physenv_HUNT3_2006)
 
 # Rename data files
 physenv_HUNT_2 <- data.frame(physenv_HUNT3_2006)
@@ -289,54 +281,30 @@ physenv_HUNT_2 <- data.frame(physenv_HUNT3_2006)
 
 ## HUNT 3 (HUNT_2) environmental data 2000 and 2012 ##
 # Assign HUNT data 2000 2000
-opal.assign.table.tibble(erasmus_opal, 'HUNT3_2000', 'HUNT.physenv_hunt_2000_PID108058')
-physenv_HUNT3_2000 <- opal.execute(erasmus_opal,'HUNT3_2000')
-
-opal.assign.table.tibble(erasmus_opal, 'HUNT3_2012', 'HUNT.physenv_hunt_2012_PID108058')
-physenv_HUNT3_2012 <- opal.execute(erasmus_opal,'HUNT3_2012')
 
 # Explore data
 # colnames(physenv_HUNT3_2000)
 # colnames(physenv_HUNT3_2012)
 
-## Correct all naming inconsistencies
-# Change _hu_lu to _cn_bf_lu for all HUNT_2, HUNT3_2000 and HUNT3_2012
-names(physenv_HUNT_2) <- gsub("_hu_lu", "_cn_bf_lu", names(physenv_HUNT_2))
-names(physenv_HUNT3_2000) <- gsub("_hu_lu", "_cn_bf_lu", names(physenv_HUNT3_2000))
-names(physenv_HUNT3_2012) <- gsub("_hu_lu", "_cn_bf_lu", names(physenv_HUNT3_2012))
+## Correct all naming 
+# Change _hu_lu to _cn_bf_lu for all HUNT_2
+names(physenv_HUNT_2) <- gsub("_hu_lu", "_cn_bf_lu", names(physenv_HUNTinconsistencies_2))
 
-# Change _hu_ to _cn_ for all HUNT_2, HUNT3_2000 and HUNT3_2012
+# Change _hu_ to _cn_ for all HUNT_2, 
 names(physenv_HUNT_2) <- gsub("_hu_", "_cn_", names(physenv_HUNT_2))
-names(physenv_HUNT3_2000) <- gsub("_hu_", "_cn_", names(physenv_HUNT3_2000))
-names(physenv_HUNT3_2012) <- gsub("_hu_", "_cn_", names(physenv_HUNT3_2012))
 
 # Change _bf_ne_ to _bf_ for all HUNT_2, HUNT3_2000 and HUNT3_2012
 names(physenv_HUNT_2) <- gsub("_bf_ne_", "_bf_", names(physenv_HUNT_2))
-names(physenv_HUNT3_2000) <- gsub("_bf_ne_", "_bf_", names(physenv_HUNT3_2000))
-names(physenv_HUNT3_2012) <- gsub("_bf_ne_", "_bf_", names(physenv_HUNT3_2012))
-
-# Change ttbsgr_AREA_C to physenv_cn_ne_ttbsgr_as_12 for physenv_HUNT3_2012
-colnames(physenv_HUNT3_2012)[colnames(physenv_HUNT3_2012)=="ttbsgr_AREA_C"] <- "physenv_cn_ne_ttbsgr_as_12"
 
 # Change _uf_ne_ to _bu_ for all HUNT_2, HUNT3_2000 and HUNT3_2012
 names(physenv_HUNT_2) <- gsub("_uf_", "_bu_", names(physenv_HUNT_2))
-names(physenv_HUNT3_2000) <- gsub("_uf_", "_bu_", names(physenv_HUNT3_2000))
-names(physenv_HUNT3_2012) <- gsub("_uf_", "_bu_", names(physenv_HUNT3_2012))
 
 # Change physenv_cn_bf_totalgreen400 to physenv_cn_bf_ttgr400_2 for physenv_HUNT_2
 colnames(physenv_HUNT_2)[colnames(physenv_HUNT_2)=="physenv_cn_bf_totalgreen400"] <- "physenv_cn_bf_ttgr400_2"
 
-# Change physenv_cn_bf_ttbs1600_XX to physenv_cn_bf_ttbs1600_12 for physenv_HUNT3_2012
-colnames(physenv_HUNT3_2012)[colnames(physenv_HUNT3_2012)=="physenv_cn_bf_ttbs1600_XX"] <- "physenv_cn_bf_ttbs1600_12"
-
 
 # Check changes in column names
 # colnames(physenv_HUNT_2)
-# colnames(physenv_HUNT3_2000)
-# colnames(physenv_HUNT3_2012)
-
-# drop 'PrimaryLast'
-physenv_HUNT3_2012 = subset(physenv_HUNT3_2012, select = -c(PrimaryLast)) 
 
 # remove unwanted variables 
 physenv_HUNT_2 = subset(physenv_HUNT_2, select = -c(physenv_cn_bf_lu3000_facil_2)) 
