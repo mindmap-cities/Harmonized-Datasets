@@ -275,6 +275,10 @@ opal.assign.table.tibble(erasmus_opal, 'HUNT3_2006', 'HUNT.physenv_hunt_2006_PID
 physenv_HUNT3_2006 <- opal.execute(erasmus_opal,'HUNT3_2006')
 
 
+# Recode all _06 into _2 for HUNT3
+names(physenv_HUNT3_2006) <- gsub("_06", "_2", names(physenv_HUNT3_2006))
+
+
 # Rename data files
 physenv_HUNT_2 <- data.frame(physenv_HUNT3_2006)
 
@@ -307,7 +311,7 @@ colnames(physenv_HUNT_2)[colnames(physenv_HUNT_2)=="physenv_cn_bf_totalgreen400"
 # colnames(physenv_HUNT_2)
 
 # remove unwanted variables 
-physenv_HUNT_2 = subset(physenv_HUNT_2, select = -c(physenv_cn_bf_lu3000_facil_2)) 
+# physenv_HUNT_2 = subset(physenv_HUNT_2, select = -c(physenv_cn_bf_lu3000_facil_2)) 
 
 
 ### HUNT FINISHED ###
