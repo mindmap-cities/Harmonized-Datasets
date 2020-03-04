@@ -50,4 +50,6 @@ file.remove("src/3_all_data_new_id_backup.RData")
 file.remove("src/4_data_with_dd.RData_backup.RData")
 
 
+source("Rdata_control.R")
+               
 
