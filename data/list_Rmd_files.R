@@ -52,7 +52,7 @@ message("[2 - init]: creation of file paths")
     
     ### BIO ### .
     # NOT READY YET 
-    #    "../biomarkers_genetics/BIO_DS_LASA1.Rmd",
+    #   "../biomarkers_genetics/BIO_DS_LASA1.Rmd",
     #   "../biomarkers_genetics/BIO_DS_LASA2.Rmd", 
     
     ### MHO ### 
@@ -71,22 +71,22 @@ message("[2 - init]: creation of file paths")
     
     ### SOC ### 
     #NOT READY YET "../social_factors/SOC_DS_ROTTERDAM.Rmd",
-    #NOT READY YET""../social_factors/SOC_DS_CLSA_COP.Rmd",
-    #NOT READY YET""../social_factors/SOC_DS_CLSA_TRA.Rmd",
+    "../social_factors/SOC_DS_CLSA_COP.Rmd",
+    "../social_factors/SOC_DS_CLSA_TRA.Rmd",
     "../social_factors/SOC_DS_GLOBE.Rmd",
     "../social_factors/SOC_DS_HAPIEE_CZ.Rmd",
     "../social_factors/SOC_DS_HAPIEE_LT.Rmd",
     "../social_factors/SOC_DS_HAPIEE_RU.Rmd",
     "../social_factors/SOC_DS_HUNT.Rmd",
-    #NOT READY YET "../social_factors/SOC_DS_LASA1.Rmd",
-    #NOT READY YET "../social_factors/SOC_DS_LASA2.Rmd",
+    "../social_factors/SOC_DS_LASA1.Rmd",
+    "../social_factors/SOC_DS_LASA2.Rmd",
     "../social_factors/SOC_DS_LUCAS.Rmd",
     "../social_factors/SOC_DS_RECORD.Rmd",
     
     ### ENV ### 
     #NOT READY YET "../perceptions_urban_env/ENV_DS_ROTTERDAM.Rmd",
-    #NOT READY YET""../perceptions_urban_env/ENV_DS_CLSA_COP.Rmd",
-    #NOT READY YET""../perceptions_urban_env/ENV_DS_CLSA_TRA.Rmd",
+    "../perceptions_urban_env/ENV_DS_CLSA_COP.Rmd",
+    "../perceptions_urban_env/ENV_DS_CLSA_TRA.Rmd",
     "../perceptions_urban_env/ENV_DS_GLOBE.Rmd",
     "../perceptions_urban_env/ENV_DS_HAPIEE_CZ.Rmd",
     "../perceptions_urban_env/ENV_DS_HAPIEE_LT.Rmd",
