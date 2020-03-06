@@ -57,8 +57,8 @@ message("[2 - init]: creation of file paths")
     
     ### MHO ### 
     # NOT READY YET "../mental_health_outcomes/MHO_DS_ROTTERDAM.Rmd", 
-    #"../mental_health_outcomes/MHO_DS_CLSA_COP.Rmd", 
-    #"../mental_health_outcomes/MHO_DS_CLSA_TRA.Rmd", 
+    "../mental_health_outcomes/MHO_DS_CLSA_COP.Rmd", 
+    "../mental_health_outcomes/MHO_DS_CLSA_TRA.Rmd", 
     "../mental_health_outcomes/MHO_DS_GLOBE.Rmd", 
     "../mental_health_outcomes/MHO_DS_HAPIEE_CZ.Rmd",
     "../mental_health_outcomes/MHO_DS_HAPIEE_LT.Rmd",
