@@ -12,8 +12,8 @@ last_release <- total_release[length(total_release)]
 library(harmor)
 # Applying data dictionaries to each harmonized dataset using harmor function
 #try({rotterdam_total <- applyDictionary(rotterdam_total,     variables=dd_globe$Variables,     categories=dd_globe$Categories)})
-try({clsa_cop_total  <- applyDictionary(clsa_cop_total,   variables=dd_globe$Variables,   categories=dd_globe$Categories)})
-try({clsa_tra_total  <- applyDictionary(clsa_tra_total,   variables=dd_globe$Variables,   categories=dd_globe$Categories)})
+try({clsa_cop_total  <- applyDictionary(clsa_cop_total,   variables=dd_clsa_cop$Variables,   categories=dd_clsa_cop$Categories)})
+try({clsa_tra_total  <- applyDictionary(clsa_tra_total,   variables=dd_clsa_tra$Variables,   categories=dd_clsa_tra$Categories)})
 try({globe_total     <- applyDictionary(globe_total,     variables=dd_globe$Variables,     categories=dd_globe$Categories)})
 try({hapiee_cz_total <- applyDictionary(hapiee_cz_total, variables=dd_hapiee_cz$Variables, categories=dd_hapiee_cz$Categories)})
 try({hapiee_lt_total <- applyDictionary(hapiee_lt_total, variables=dd_hapiee_lt$Variables, categories=dd_hapiee_lt$Categories)})
