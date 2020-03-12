@@ -99,8 +99,8 @@ message("[2 - init]: creation of file paths")
     
     ### SOCENV ###    
     #NOT READY YET"../social_environmental/SOCENV_DS_ROTTERDAM.Rmd",
-    #NOT READY YET""../social_environmental/SOCENV_DS_CLSA_COP.Rmd",
-    #NOT READY YET""../social_environmental/SOCENV_DS_CLSA_TRA.Rmd",
+    "../social_environmental/SOCENV_DS_CLSA_COP.Rmd",
+    "../social_environmental/SOCENV_DS_CLSA_TRA.Rmd",
     "../social_environmental/SOCENV_DS_GLOBE.Rmd",
     "../social_environmental/SOCENV_DS_HAPIEE_CZ.Rmd",
     "../social_environmental/SOCENV_DS_HAPIEE_LT.Rmd",
