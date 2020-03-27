@@ -128,9 +128,9 @@ message("    [4.3]: addition of time (baseline and followups) in data and data d
 
 try({clsa_tra_total =  clsa_tra_total %>%
 mutate(
-  baseline_yr	   = recode(baseline_yr,"0"="2008"),
+  baseline_yr	   = recode(baseline_yr,"0"="2011"),
   followup1_yr	 = recode(followup1_yr,"1"="2015"),
-  t1	 = rep(2015 - 2008) %>% as.character) %>%
+  t1	 = rep(2015 - 2011) %>% as.character) %>%
   select(-one_of(var_not_in_dd(clsa_tra_total, dd_clsa_tra$Variables)))})
 try({dd_clsa_tra$Variables <- dd_clsa_tra$Variables %>%
   mutate(
