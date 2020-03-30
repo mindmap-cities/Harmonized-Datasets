@@ -40,6 +40,7 @@ source("data/list_Rmd_files.R")
 source("data/get_data.R")
 # make a pause here to answer the choice
 
+source("config.R")
 source("functions/functions.R")
 source("munge/munge_data.R")
 source("export/export_data.R")
