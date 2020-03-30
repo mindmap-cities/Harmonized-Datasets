@@ -1,5 +1,5 @@
 #filtering out the participants in Hapiee_lt with IDs that are in Postal follow-ups but not in the baseline
-hapiee_lt_total<-hapiee_lt_total%>%filter(!id%in%c("35452","35304", "30989","34772" ))
+try({hapiee_lt_total<-hapiee_lt_total%>%filter(!id%in%c("35452","35304", "30989","34772" ))})
 
 # Fixing the variable classes by
 # Changing classes of the variables into the Value Types in the data dictionary, in case they are different in the dataset itself
@@ -48,4 +48,4 @@ try({dd_record$Variables %<>% filter(!str_detect(name,"physenv_cn_bf_facil3000_"
 
 # manual changes: valueType of var in lasa2 is not the good one, 
 # so it is replaced by valueType of lasa1
-dd_lasa2$Variables$valueType <- dd_lasa1$Variables$valueType
+try({dd_lasa2$Variables$valueType <- dd_lasa1$Variables$valueType})
