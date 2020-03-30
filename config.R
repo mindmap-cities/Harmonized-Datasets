@@ -13,7 +13,7 @@ if(!require(devtools)){
   library(devtools)}else{library(devtools)}
 
 if(!require(harmor)){
-  install_local("harmor", dependencies = TRUE, force=TRUE)
+  install_local("functions/harmor", dependencies = TRUE, force=TRUE)
   library(harmor)}else{library(harmor)}
 
 if(!require(opalr)){
@@ -27,6 +27,10 @@ if(!require(magrittr)){
 if(!require(data.table)){
   install.packages("data.table")
   library(data.table)}else{library(data.table)}
+
+if(!require(openxlsx)){
+	install.packages("openxlsx")
+	library(openxlsx)}else{library(openxlsx)}
 
 # library(stringr)
 # library(zoo)
