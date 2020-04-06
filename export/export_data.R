@@ -27,22 +27,54 @@ try({record_total_dd    <- applyDictionary(record_total,    variables = dd_recor
 #to opal directly
 
 options(verbose = FALSE)
-erasmus_opal <- opal.login()
 message("    [5.2]: upload tibbles to Opal")
 
-#try({saveOpalTable(erasmus_opal, rotterdam_total_dd, "ROTTERDAM_Harmonized",  paste0("rotterdam_DS_", last_release),       force = TRUE)})
-try({saveOpalTable(erasmus_opal, clsa_cop_total_dd,  "CLSA_Harmonized",   paste0("clsa_cop_DS_",  last_release), force = TRUE)})
-try({saveOpalTable(erasmus_opal, clsa_tra_total_dd,  "CLSA_Harmonized",   paste0("clsa_tra_DS_",  last_release), force = TRUE)})
-try({saveOpalTable(erasmus_opal, globe_total_dd,     "GLOBE_Harmonized",  paste0("globe_DS_",     last_release), force = TRUE)})
-try({saveOpalTable(erasmus_opal, hapiee_cz_total_dd, "HAPIEE_Harmonized", paste0("hapiee_cz_DS_", last_release), force = TRUE)})
-try({saveOpalTable(erasmus_opal, hapiee_lt_total_dd, "HAPIEE_Harmonized", paste0("hapiee_lt_DS_", last_release), force = TRUE)})
-try({saveOpalTable(erasmus_opal, hapiee_ru_total_dd, "HAPIEE_Harmonized", paste0("hapiee_ru_DS_", last_release), force = TRUE)})
-try({saveOpalTable(erasmus_opal, hunt_total_dd,      "HUNT_Harmonized",   paste0("hunt_DS_",      last_release), force = TRUE)})
-try({saveOpalTable(erasmus_opal, lasa1_total_dd,     "LASA_Harmonized",   paste0("lasa1_DS_",     last_release), force = TRUE)})
-try({saveOpalTable(erasmus_opal, lasa2_total_dd,     "LASA_Harmonized",   paste0("lasa2_DS_",     last_release), force = TRUE)})
-try({saveOpalTable(erasmus_opal, lucas_total_dd,     "LUCAS_Harmonized",  paste0("lucas_DS_",     last_release), force = TRUE)})
-try({saveOpalTable(erasmus_opal, record_total_dd,    "RECORD_Harmonized", paste0("record_DS_",    last_release), force = TRUE)})
+# erasmus_opal <- opal.login()
+# #try({saveOpalTable(erasmus_opal, rotterdam_total_dd, "ROTTERDAM_Harmonized",  paste0("rotterdam_DS_", last_release),       force = TRUE)})
+# try({opal.logout(erasmus_opal)})
 
+erasmus_opal <- opal.login()
+try({saveOpalTable(erasmus_opal, clsa_cop_total_dd,  "CLSA_Harmonized",   paste0("clsa_cop_DS_",  last_release), force = TRUE)})
+try({opal.logout(erasmus_opal)})
+
+erasmus_opal <- opal.login()
+try({saveOpalTable(erasmus_opal, clsa_tra_total_dd,  "CLSA_Harmonized",   paste0("clsa_tra_DS_",  last_release), force = TRUE)})
+ try({opal.logout(erasmus_opal)})
+
+erasmus_opal <- opal.login()
+try({saveOpalTable(erasmus_opal, globe_total_dd,     "GLOBE_Harmonized",  paste0("globe_DS_",     last_release), force = TRUE)})
+try({opal.logout(erasmus_opal)})
+
+erasmus_opal <- opal.login()
+try({saveOpalTable(erasmus_opal, hapiee_cz_total_dd, "HAPIEE_Harmonized", paste0("hapiee_cz_DS_", last_release), force = TRUE)})
+try({opal.logout(erasmus_opal)})
+
+erasmus_opal <- opal.login()
+try({saveOpalTable(erasmus_opal, hapiee_lt_total_dd, "HAPIEE_Harmonized", paste0("hapiee_lt_DS_", last_release), force = TRUE)})
+try({opal.logout(erasmus_opal)})
+
+erasmus_opal <- opal.login()
+try({saveOpalTable(erasmus_opal, hapiee_ru_total_dd, "HAPIEE_Harmonized", paste0("hapiee_ru_DS_", last_release), force = TRUE)})
+try({opal.logout(erasmus_opal)})
+
+erasmus_opal <- opal.login()
+try({saveOpalTable(erasmus_opal, hunt_total_dd,      "HUNT_Harmonized",   paste0("hunt_DS_",      last_release), force = TRUE)})
+try({opal.logout(erasmus_opal)})
+
+erasmus_opal <- opal.login()
+try({saveOpalTable(erasmus_opal, lasa1_total_dd,     "LASA_Harmonized",   paste0("lasa1_DS_",     last_release), force = TRUE)})
+try({opal.logout(erasmus_opal)})
+
+erasmus_opal <- opal.login()
+try({saveOpalTable(erasmus_opal, lasa2_total_dd,     "LASA_Harmonized",   paste0("lasa2_DS_",     last_release), force = TRUE)})
+try({opal.logout(erasmus_opal)})
+
+erasmus_opal <- opal.login()
+try({saveOpalTable(erasmus_opal, lucas_total_dd,     "LUCAS_Harmonized",  paste0("lucas_DS_",     last_release), force = TRUE)})
+try({opal.logout(erasmus_opal)})
+
+erasmus_opal <- opal.login()
+try({saveOpalTable(erasmus_opal, record_total_dd,    "RECORD_Harmonized", paste0("record_DS_",    last_release), force = TRUE)})
 try({opal.logout(erasmus_opal)})
 
 save.image(file="src/4_data_with_dd.RData.RData")
