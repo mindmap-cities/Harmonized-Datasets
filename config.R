@@ -32,6 +32,10 @@ if(!require(openxlsx)){
 	install.packages("openxlsx")
 	library(openxlsx)}else{library(openxlsx)}
 
+if(!require(haven)){
+	install.packages("haven")
+	library(haven)}else{library(haven)}
+
 # library(stringr)
 # library(zoo)
 # library(anchors)
