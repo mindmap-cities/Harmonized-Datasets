@@ -352,39 +352,39 @@ save.image(file="src/2_all_final_data.RData")
 message("    [4.5]: all data munged are saved in src/2_")
 dd_clsa_cop$Variables<-dd_clsa_cop$Variables%>%
 	mutate(`Mlstr_harmo::status`=ifelse(
-		str_detect(name, "_2|_3|_4|_5|_6|followup2_yr|followup3_yr|followup4_yr|followup5_yr|followup6_yr|t2|t3|t4|t5|t6"), "not collected", `Mlstr_harmo::status`))
+		str_detect(name, "_2|_3|_4|_5|_6|followup2_yr|followup3_yr|followup4_yr|followup5_yr|followup6_yr|t2|t3|t4|t5|t6"), "na", `Mlstr_harmo::status`))
 
 dd_clsa_tra$Variables<-dd_clsa_cop$Variables%>%
 	mutate(`Mlstr_harmo::status`=ifelse(
-		str_detect(name, "_2|_3|_4|_5|_6|followup2_yr|followup3_yr|followup4_yr|followup5_yr|followup6_yr|t2|t3|t4|t5|t6"), "not collected", `Mlstr_harmo::status`))
+		str_detect(name, "_2|_3|_4|_5|_6|followup2_yr|followup3_yr|followup4_yr|followup5_yr|followup6_yr|t2|t3|t4|t5|t6"), "na", `Mlstr_harmo::status`))
 
 dd_globe$Variables<-dd_globe$Variables%>%
 	mutate(`Mlstr_harmo::status`=ifelse(
-		str_detect(name, "_5|_6|followup5_yr|followup6_yr|t5|t6"), "not collected", `Mlstr_harmo::status`))
+		str_detect(name, "_5|_6|followup5_yr|followup6_yr|t5|t6"), "na", `Mlstr_harmo::status`))
 
 dd_hapiee_cz$Variables<-dd_hapiee_cz$Variables%>%
 	mutate(`Mlstr_harmo::status`=ifelse(
-		str_detect(name, "_2|_3|_4|_5|_6|followup2_yr|followup3_yr|followup4_yr|followup5_yr|followup6_yr|t2|t3|t4|t5|t6"), "not collected", `Mlstr_harmo::status`))
+		str_detect(name, "_2|_3|_4|_5|_6|followup2_yr|followup3_yr|followup4_yr|followup5_yr|followup6_yr|t2|t3|t4|t5|t6"), "na", `Mlstr_harmo::status`))
 
 dd_hapiee_lt$Variables<-dd_hapiee_lt$Variables%>%
 	mutate(`Mlstr_harmo::status`=ifelse(
-		str_detect(name, "_1|_2|_3|_4|_5|_6|followup1_yr|followup2_yr|followup3_yr|followup4_yr|followup5_yr|followup6_yr|t1|t2|t3|t4|t5|t6"), "not collected", `Mlstr_harmo::status`))
+		str_detect(name, "_1|_2|_3|_4|_5|_6|followup1_yr|followup2_yr|followup3_yr|followup4_yr|followup5_yr|followup6_yr|t1|t2|t3|t4|t5|t6"), "na", `Mlstr_harmo::status`))
 
 dd_hapiee_ru$Variables<-dd_hapiee_ru$Variables%>%
 	mutate(`Mlstr_harmo::status`=ifelse(
-		str_detect(name, "_2|_3|_4|_5|_6|followup2_yr|followup3_yr|followup4_yr|followup5_yr|followup6_yr|t2|t3|t4|t5|t6"), "not collected", `Mlstr_harmo::status`))
+		str_detect(name, "_2|_3|_4|_5|_6|followup2_yr|followup3_yr|followup4_yr|followup5_yr|followup6_yr|t2|t3|t4|t5|t6"), "na", `Mlstr_harmo::status`))
 
 dd_hunt$Variables<-dd_hunt$Variables%>%
 	mutate(`Mlstr_harmo::status`=ifelse(
-		str_detect(name, "_3|_4|_5|_6|followup3_yr|followup4_yr|followup5_yr|followup6_yr|t3|t4|t5|t6"), "not collected", `Mlstr_harmo::status`))
+		str_detect(name, "_3|_4|_5|_6|followup3_yr|followup4_yr|followup5_yr|followup6_yr|t3|t4|t5|t6"), "na", `Mlstr_harmo::status`))
 
 dd_lasa2$Variables<-dd_lasa2$Variables%>%
 	mutate(`Mlstr_harmo::status`=ifelse(
-		str_detect(name, "_4|_5|_6|followup4_yr|followup5_yr|followup6_yr|t4|t5|t6"), "not collected", `Mlstr_harmo::status`))
+		str_detect(name, "_4|_5|_6|followup4_yr|followup5_yr|followup6_yr|t4|t5|t6"), "na", `Mlstr_harmo::status`))
 
 dd_record$Variables<-dd_record$Variables%>%
 	mutate(`Mlstr_harmo::status`=ifelse(
-		str_detect(name, "_2|_3|_4|_5|_6|followup2_yr|followup3_yr|followup4_yr|followup5_yr|followup6_yr|t2|t3|t4|t5|t6"), "not collected", `Mlstr_harmo::status`))
+		str_detect(name, "_2|_3|_4|_5|_6|followup2_yr|followup3_yr|followup4_yr|followup5_yr|followup6_yr|t2|t3|t4|t5|t6"), "na", `Mlstr_harmo::status`))
 
 
 
