@@ -52,8 +52,17 @@ message("[2 - init]: creation of file paths")
     
     ### BIO ### .
     # NOT READY YET 
-    #   "../biomarkers_genetics/BIO_DS_LASA1.Rmd",
-    #   "../biomarkers_genetics/BIO_DS_LASA2.Rmd", 
+    "../biomarkers_genetics/BIO_DS_CLSA_COP.Rmd",
+    "../biomarkers_genetics/BIO_DS_CLSA_TRA.Rmd",
+    "../biomarkers_genetics/BIO_DS_GLOBE.Rmd",
+    "../biomarkers_genetics/BIO_DS_HAPIEE_CZ.Rmd",
+    "../biomarkers_genetics/BIO_DS_HAPIEE_LT.Rmd",
+    "../biomarkers_genetics/BIO_DS_HAPIEE_RU.Rmd",
+    "../biomarkers_genetics/BIO_DS_HUNT.Rmd",
+    "../biomarkers_genetics/BIO_DS_LASA1.Rmd",
+    "../biomarkers_genetics/BIO_DS_LASA2.Rmd",
+    "../biomarkers_genetics/BIO_DS_LUCAS.Rmd",
+    "../biomarkers_genetics/BIO_DS_RECORD.Rmd",
     
     ### MHO ### 
     # NOT READY YET "../mental_health_outcomes/MHO_DS_ROTTERDAM.Rmd", 
