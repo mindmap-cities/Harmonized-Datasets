@@ -10,7 +10,7 @@ last_release <- total_release[length(total_release)]
 
 
 # Applying data dictionaries to each harmonized dataset using harmor function
-#try({rotterdam_total <- applyDictionary(rotterdam_total,     variables=dd_globe$Variables,     categories=dd_globe$Categories)})
+try({rotterdam_total    <- applyDictionary(rotterdam_total, variables=dd_globe$Variables,     categories=dd_globe$Categories)})
 try({clsa_cop_total_dd  <- applyDictionary(clsa_cop_total,  variables = dd_clsa_cop$Variables  %>% mutate(table = paste0("clsa_cop_DS_",  last_release)), categories = dd_clsa_cop$Categories)})
 try({clsa_tra_total_dd  <- applyDictionary(clsa_tra_total,  variables = dd_clsa_tra$Variables  %>% mutate(table = paste0("clsa_tra_DS_",  last_release)), categories = dd_clsa_tra$Categories)})
 try({globe_total_dd     <- applyDictionary(globe_total,     variables = dd_globe$Variables     %>% mutate(table = paste0("globe_DS_",     last_release)), categories = dd_globe$Categories)})
@@ -29,9 +29,9 @@ try({record_total_dd    <- applyDictionary(record_total,    variables = dd_recor
 options(verbose = FALSE)
 message("    [5.2]: upload tibbles to Opal")
 
-# erasmus_opal <- opal.login()
-# #try({saveOpalTable(erasmus_opal, rotterdam_total_dd, "ROTTERDAM_Harmonized",  paste0("rotterdam_DS_", last_release),       force = TRUE)})
-# try({opal.logout(erasmus_opal)})
+erasmus_opal <- opal.login()
+try({saveOpalTable(erasmus_opal, rotterdam_total_dd, "ROTTERDAM_Harmonized",  paste0("rotterdam_DS_", last_release),       force = TRUE)})
+try({opal.logout(erasmus_opal)})
 
 erasmus_opal <- opal.login()
 try({saveOpalTable(erasmus_opal, clsa_cop_total_dd,  "CLSA_Harmonized",   paste0("clsa_cop_DS_",  last_release), force = TRUE)})

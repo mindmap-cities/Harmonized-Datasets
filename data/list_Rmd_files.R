@@ -9,7 +9,7 @@ message("[2 - init]: creation of file paths")
   path_list = c(
     
     ### SDC ### 
-    #NOT READY YET "../sociodem_characteristics/SDC_DS_ROTTERDAM.Rmd",
+    "../sociodem_characteristics/SDC_DS_ROTTERDAM.Rmd",
     "../sociodem_characteristics/SDC_DS_CLSA_COP.Rmd",
     "../sociodem_characteristics/SDC_DS_CLSA_TRA.Rmd",
     "../sociodem_characteristics/SDC_DS_GLOBE.Rmd",
@@ -23,7 +23,7 @@ message("[2 - init]: creation of file paths")
     "../sociodem_characteristics/SDC_DS_RECORD.Rmd",
     
     ### LSB ###
-    #NOT READY YET "../lifestyle_behaviours/LSB_DS_ROTTERDAM.Rmd",
+    "../lifestyle_behaviours/LSB_DS_ROTTERDAM.Rmd",
     "../lifestyle_behaviours/LSB_DS_CLSA_COP.Rmd",
     "../lifestyle_behaviours/LSB_DS_CLSA_TRA.Rmd",
     "../lifestyle_behaviours/LSB_DS_GLOBE.Rmd",
@@ -37,7 +37,7 @@ message("[2 - init]: creation of file paths")
     "../lifestyle_behaviours/LSB_DS_RECORD.Rmd",
     
     ### OTH ### 
-    # NOT READY YET  "../other_outcomes/OTH_DS_ROTTERDAM.Rmd",  
+    "../other_outcomes/OTH_DS_ROTTERDAM.Rmd",  
     "../other_outcomes/OTH_DS_CLSA_COP.Rmd",  
     "../other_outcomes/OTH_DS_CLSA_TRA.Rmd",  
     "../other_outcomes/OTH_DS_GLOBE.Rmd",  
@@ -50,8 +50,8 @@ message("[2 - init]: creation of file paths")
     "../other_outcomes/OTH_DS_LUCAS.Rmd",  
     "../other_outcomes/OTH_DS_RECORD.Rmd",
     
-    ### BIO ### .
-    # NOT READY YET 
+    ### BIO ### 
+     "../biomarkers_genetics/BIO_DS_ROTTERDAM.Rmd",
     "../biomarkers_genetics/BIO_DS_CLSA_COP.Rmd",
     "../biomarkers_genetics/BIO_DS_CLSA_TRA.Rmd",
     "../biomarkers_genetics/BIO_DS_GLOBE.Rmd",
@@ -65,7 +65,7 @@ message("[2 - init]: creation of file paths")
     "../biomarkers_genetics/BIO_DS_RECORD.Rmd",
     
     ### MHO ### 
-    # NOT READY YET "../mental_health_outcomes/MHO_DS_ROTTERDAM.Rmd", 
+    "../mental_health_outcomes/MHO_DS_ROTTERDAM.Rmd", 
     "../mental_health_outcomes/MHO_DS_CLSA_COP.Rmd", 
     "../mental_health_outcomes/MHO_DS_CLSA_TRA.Rmd", 
     "../mental_health_outcomes/MHO_DS_GLOBE.Rmd", 
@@ -79,7 +79,7 @@ message("[2 - init]: creation of file paths")
     "../mental_health_outcomes/MHO_DS_RECORD.Rmd",
     
     ### SOC ### 
-    #NOT READY YET "../social_factors/SOC_DS_ROTTERDAM.Rmd",
+    "../social_factors/SOC_DS_ROTTERDAM.Rmd",
     "../social_factors/SOC_DS_CLSA_COP.Rmd",
     "../social_factors/SOC_DS_CLSA_TRA.Rmd",
     "../social_factors/SOC_DS_GLOBE.Rmd",
@@ -93,7 +93,7 @@ message("[2 - init]: creation of file paths")
     "../social_factors/SOC_DS_RECORD.Rmd",
     
     ### ENV ### 
-    #NOT READY YET "../perceptions_urban_env/ENV_DS_ROTTERDAM.Rmd",
+    "../perceptions_urban_env/ENV_DS_ROTTERDAM.Rmd",
     "../perceptions_urban_env/ENV_DS_CLSA_COP.Rmd",
     "../perceptions_urban_env/ENV_DS_CLSA_TRA.Rmd",
     "../perceptions_urban_env/ENV_DS_GLOBE.Rmd",
@@ -107,7 +107,7 @@ message("[2 - init]: creation of file paths")
     "../perceptions_urban_env/ENV_DS_RECORD.Rmd",
     
     ### SOCENV ###    
-    #NOT READY YET"../social_environmental/SOCENV_DS_ROTTERDAM.Rmd",
+    "../social_environmental/SOCENV_DS_ROTTERDAM.Rmd",
     "../social_environmental/SOCENV_DS_CLSA_COP.Rmd",
     "../social_environmental/SOCENV_DS_CLSA_TRA.Rmd",
     "../social_environmental/SOCENV_DS_GLOBE.Rmd",
