@@ -4,6 +4,7 @@ message("[4 - init]: munging process")
 
 #Creating specific paths for each study seperately by choosing the domains of interest for each
 
+try({path_rotterdam = path_list[str_detect(string = path_list,pattern="ROTTERDAM")]})
 try({path_clsa_cop  = path_list[str_detect(string = path_list,pattern="CLSA_COP")]})
 try({path_clsa_tra  = path_list[str_detect(string = path_list,pattern="CLSA_TRA")]})
 try({path_globe     = path_list[str_detect(string = path_list,pattern="GLOBE")]})
@@ -21,6 +22,7 @@ try({path_record    = path_list[str_detect(string = path_list,pattern="RECORD")]
 #the following code separates each variable from its information, and put them in a opal-compatible format (CSV)
 
 message("    [4.1]: creation of data dictionaries")
+try({dd_rotterdam <- create_dd(path_rotterdam , 'ROTTERDAM' )})
 try({dd_clsa_cop  <- create_dd(path_clsa_cop , 'CLSA_COP' )})
 try({dd_clsa_tra  <- create_dd(path_clsa_tra , 'CLSA_TRA' )})
 try({dd_globe     <- create_dd(path_globe , 'GLOBE' )})
@@ -40,6 +42,7 @@ path_env = "../physical_environmental/PHYSENV_DS.Rmd"
 try({dd_physenv <- create_dd(path_env, "physenv")})
 
 #Adding physenv to the Variables sheet of all data dictionaries
+try({dd_rotterdam$Variables <- dd_rotterdam$Variables %>% bind_rows(dd_physenv$Variables)}) 
 try({dd_clsa_cop$Variables  <- dd_clsa_cop$Variables %>% bind_rows(dd_physenv$Variables)}) 
 try({dd_clsa_tra$Variables  <- dd_clsa_tra$Variables %>% bind_rows(dd_physenv$Variables)}) 
 try({dd_globe$Variables     <- dd_globe$Variables %>% bind_rows(dd_physenv$Variables)}) 
@@ -53,6 +56,7 @@ try({dd_lucas$Variables     <- dd_lucas$Variables %>% bind_rows(dd_physenv$Varia
 try({dd_record$Variables    <- dd_record$Variables %>% bind_rows(dd_physenv$Variables)}) 
 
 #Adding physenv to the Categories sheet of all data dictionaries
+try({dd_rotterdam$Categories <- dd_rotterdam$Categories %>% bind_rows(dd_physenv$Categories)})
 try({dd_clsa_cop$Categories  <- dd_clsa_cop$Categories %>% bind_rows(dd_physenv$Categories)})
 try({dd_clsa_tra$Categories  <- dd_clsa_tra$Categories %>% bind_rows(dd_physenv$Categories)})
 try({dd_globe$Categories     <- dd_globe$Categories %>% bind_rows(dd_physenv$Categories)})
@@ -77,6 +81,7 @@ source("diagnostics/repair_hapiee_ids.R")
 
 # Creating total harmonized datasets including the data from all current domains of interest for each
 message("    [4.2]: merging of all data sets")
+try({rotterdam_total  <- join_data("ROTTERDAM"); base::rm(list=ls(pattern = "ROTTERDAM", envir = .GlobalEnv))})
 try({clsa_cop_total   <- join_data("CLSA_cop");  base::rm(list=ls(pattern = "CLSA_cop", envir = .GlobalEnv))})
 try({clsa_tra_total   <- join_data("CLSA_tra");  base::rm(list=ls(pattern = "CLSA_tra", envir = .GlobalEnv))})
 try({globe_total      <- join_data("GLOBE");     base::rm(list=ls(pattern = "GLOBE", envir = .GlobalEnv))})
@@ -93,6 +98,7 @@ try({record_total     <- join_data("RECORD");    base::rm(list=ls(pattern = "REC
 ##### BOTH DATA AND DD #####
 
 #Adding time related variables (baseline_yr, t1, etc) and the status (complete, impossible) of phsyenv variables to the Data Dictionaries
+try({dd_rotterdam <- complete_dd(dd_rotterdam , rotterdam_total,      'rotterdam' )})
 try({dd_clsa_cop  <- complete_dd(dd_clsa_cop , clsa_cop_total,      'clsa' )})
 try({dd_clsa_tra  <- complete_dd(dd_clsa_tra , clsa_tra_total,      'clsa' )})
 try({dd_globe     <- complete_dd(dd_globe,     globe_total,     'globe')})
@@ -109,7 +115,7 @@ try({dd_record    <- complete_dd(dd_record,    record_total,    'record')})
 
 
 message("    [4.3]: repair datasests by renaming and retyping")
-source("diagnostics/repair_data.R")
+# source("diagnostics/repair_data.R")
 
 
 #Adding proper time variables (data collection years and t1, t2, etc) to the merged tables for each study
@@ -350,6 +356,12 @@ try({dd_record$Variables    <- dd_record$Variables    %>% mutate(`index` = 1:nro
 
 save.image(file="src/2_all_final_data.RData")
 message("    [4.5]: all data munged are saved in src/2_")
+
+dd_rotterdam$Variables<-dd_rotterdam$Variables%>%
+	mutate(`Mlstr_harmo::status`=ifelse(
+		str_detect(name, "_4|_5|_6|followup4_yr|followup5_yr|followup6_yr|t4|t5|t6"), "na", `Mlstr_harmo::status`))
+
+
 dd_clsa_cop$Variables<-dd_clsa_cop$Variables%>%
 	mutate(`Mlstr_harmo::status`=ifelse(
 		str_detect(name, "_2|_3|_4|_5|_6|followup2_yr|followup3_yr|followup4_yr|followup5_yr|followup6_yr|t2|t3|t4|t5|t6"), "na", `Mlstr_harmo::status`))
