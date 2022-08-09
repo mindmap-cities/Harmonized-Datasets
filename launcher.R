@@ -28,12 +28,6 @@ file.remove("src/2_all_final_data.RData")
 file.remove("src/3_all_data_new_id.RData")
 file.remove("src/4_data_with_dd.RData.RData")
 
-
-################### TO REMOVE THIS ABSOLUTELY ##################################
-rm(list = ls())
-################### TO REMOVE THAT ABSOLUTELY ##################################
-
-
 source("config.R")
 source("functions/functions.R")
 source("data/list_Rmd_files.R")
